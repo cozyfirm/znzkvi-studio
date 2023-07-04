@@ -1,0 +1,60 @@
+/* Import libraries */
+
+@import "../libraries/bootstrap.css";
+
+
+html{
+    height: 100%;
+    ::-webkit-scrollbar {
+        width: 8px;
+        height:8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #A0522D;
+        border-radius: 3px;
+    }
+}
+body{
+    // font-family: 'Nunito', sans-serif;
+    src: url("../fonts/Inter-Light.ttf");
+    font-family: 'Inter-Light', sans-serif;
+    hr{
+        background-color: rgba(0,0,0,0.2); height: 1px; border: 0;
+    }
+    a{ text-decoration: none; color:#333; }
+    a:hover{
+        text-decoration: none; color:#333;
+    }
+    position: relative; width: 100%; height: 100%;
+
+    .w-42p{width:42px; }
+    .border-left{border-left: 1px solid rgba(0,0,0,0.1);}
+    select:disabled {
+        background-color: #ffffff !important;
+    }
+}
+
+// ** Import menu stylesheet ** //
+$left-menu-w : 320px;
+$left-menu-w-1200 : 80px;
+$bColor : #333333;
+
+@import "template/top-menu";
+@import "template/left-menu";
+
+// ** Main content ** //
+@import "template/content";
+
+// ** Rest of libraries ** //
+@import "template/filters";
+@import "template/notify-me";
+@import "template/animate.css";
+
+// ** Authentication pages ** //
+@import "pages/auth/auth";
+@import "pages/auth/create-profile";

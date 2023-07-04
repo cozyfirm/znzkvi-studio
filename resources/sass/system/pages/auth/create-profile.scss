@@ -1,0 +1,97 @@
+.loading-gif{
+    position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background: rgba(255,255,255,0.3); z-index: 100;
+    img{
+        position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; margin: auto;
+    }
+}
+.register-form{
+    position: relative; left:0px; top:0px; width: 100%; height: 100%; display: inline-flex; justify-content: space-between;
+    padding: 0px; margin: 0px;
+
+
+    /*
+     *  Auth form image - left part of page
+     */
+
+    .rf-image{
+        position: absolute; left:0px; top:0px; width: 30%; height: 100%; background: $bColor; margin: 0px; padding: 0px; overflow: hidden;
+        img{
+            position: absolute; left:0px; top:0px; right:0px; bottom: 0px; margin:auto; max-height: 80%;
+
+
+        }
+    }
+
+    .rf-form{
+        position: relative; left:30%; top:0px; width: 70%; height: 100%; display: inline-flex; align-items: center;
+
+        .center-element{
+            position: relative; left: 0px; width: 100%;
+            .rf-f-header{
+                position: relative; left: 120px; width: calc(100% - 240px);
+            }
+
+            .rf-f-body{
+                position: relative; left: 120px; width: calc(100% - 240px); min-height: 120px; margin-top: 35px;
+
+                input, select{height: 32px !important;}
+                select{padding-top: 4px !important;}
+
+                .c-bootstrap-field{
+                    position: relative; left: 0px; top:0px; width: 100%; height: 92px; display: inline-flex; flex-wrap: wrap;
+                    .input-elements{
+                        margin-top: 0px; width: 100%; display: inline-flex; justify-content: space-between;
+                    }
+                }
+
+                .button-wrapper{
+                    background: $bColor; color:#ffffff; padding-left: 20px; padding-right: 20px; padding-top: 3px; padding-bottom: 4px; border-radius: 4px; font-size: 15px;
+                }
+                .create-profile-back-btn{ margin-right: 20px; }
+                .button-wrapper:hover{cursor: pointer;}
+
+                .success-icon-wrapper{
+                    position: relative; left: 0px; width: 100%; display: inline-flex; justify-content: center;
+                    .success-icon{
+                        width: 80px; height: 80px; text-align: center; border-radius: 50%; background: #20c997;
+                        i{
+                            font-size: 30px; color: #ffffff; padding-top: 25px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1500px) {
+        .rf-form{
+            .center-element{
+                .rf-f-header, .rf-f-body{
+                    left:50px; width: calc(100% - 100px);
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1300px) {
+        .rf-image{display: none;}
+        .rf-form{
+            left:0px; width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 1000px){
+        .rf-form{
+            align-items: start;
+            .center-element{
+                .rf-f-header{margin-top: 30px;}
+                .rf-f-header, .rf-f-body{
+                    left:20px; width: calc(100% - 40px);
+                }
+                .rf-f-body{
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+}
