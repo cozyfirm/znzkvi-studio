@@ -7,6 +7,12 @@ Important hash:
     - FnJDbEav4pdHmmq
     - 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
 
+To make it work, local system should be synchronised with central system. IP should be kept inside 
+config file (.env) such as (production version will have different IPs):
+
+    - CENTAR_URI="http://127.0.0.1" 
+    - CENTAR_PORT="8000"
+
 ##### Server data
 
     - IP address: IP_ADDR
