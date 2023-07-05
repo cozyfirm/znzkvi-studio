@@ -148,6 +148,12 @@
                                 <p>{{__('Pitanja i odgovori')}}</p>
                             </div>
                         </a>
+                        <a href="{{ route('system.quiz.demo') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{__('Demo version')}}</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </a>

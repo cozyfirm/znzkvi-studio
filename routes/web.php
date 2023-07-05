@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'PublicPart', 'prefix' => '/'], function(){
     Route::get ('/',                                 'HomeController@home')->name('public-part.home');
     Route::get ('/test',                             'HomeController@test')->name('public-part.test');
+
+    /* Quiz */
+    Route::get ('/studio-quiz',                      'StudioQuizController@studioQuiz')->name('public-part.quiz.studio-quiz');
 });
 
 
@@ -64,6 +67,10 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::get ('/create-quiz',                     'QuizController@create')->name('system.quiz.create');
             Route::post('/save-quiz',                       'QuizController@save')->name('system.quiz.save');
             Route::get ('/preview-quiz/{id}',               'QuizController@preview')->name('system.quiz.preview');
+
+            /* Demo quiz */
+            Route::get ('/demo',                            'QuizController@demo')->name('system.quiz.demo');
+            Route::post('/send-demo-message',               'QuizController@sendDemoMsg')->name('system.quiz.send-demo-message');
         });
 
         Route::group(['prefix' => '/questions'], function(){

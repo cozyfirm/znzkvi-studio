@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="bs" > <!-- oncontextmenu="return false" -->
+<html lang="en">
 <head>
-    <title> {{ __('ZNZKVI') }} </title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>{{ __('Studio quiz') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo_black.png')}}"/>
@@ -10,28 +10,21 @@
     <!-- Stylesheet -->
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/system/system.css')}}">
+    <link rel="stylesheet" href="{{asset('css/public/public.css')}}">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     <script src="https://kit.fontawesome.com/cdf2a0a58b.js"></script>
 
     <!-- Javascript scripts -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
     <script src="{{asset('js/system.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {{--<script src="{{asset('js/pusher/base.js')}}"></script>--}}
+    <script src="{{asset('js/public.js')}}"></script>
 </head>
 <body>
-
-<div id="main-div"></div>
-
-<!-- Import MENU -->
-@include("system.templates.menu.menu")
-
-<div class="main-content">
-    <!-- Basic header of every page -->
-    @include("system.templates.page-header")
-
-    <!-- Main content of every page -->
-    @yield('content')
-</div>
-
+    <!-- Require SVG file -->
+    <div class="quiz-wrapper">
+        @include('public-part.quiz.files.svg-file')
+    </div>
 </body>
 </html>

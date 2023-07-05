@@ -19,6 +19,10 @@ $(document).ready(function() {
     } );
 });
 
+// ** MQTT Library ** //
+require('../libraries/mqtt');
+require('../layout/mqtt-init');
+
 // ** Notify.js Library ** //
 require('../libraries/notify-me');
 
@@ -43,3 +47,4 @@ require('../layout/submit');
 
 /* Quiz scripts */
 require('./pages/quiz/questions');
+require('./pages/quiz/demo/send-messages');

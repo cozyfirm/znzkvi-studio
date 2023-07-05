@@ -9,6 +9,7 @@ use App\Models\Quiz\QuizSet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpMqtt\Client\Facades\MQTT;
 
 class QuizController extends Controller{
     protected $_path = 'system.quiz.';
@@ -80,5 +81,31 @@ class QuizController extends Controller{
             'preview' => true,
             'quiz' => Quiz::where('id', $id)->first()
         ]);
+    }
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /*
+     *  Demo version of quiz
+     */
+
+    public function demo(){
+//        $mqtt = MQTT::connection();
+//        $mqtt->subscribe('home/lights', function (string $topic, string $message) {
+//            echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
+//        }, 1);
+//        $mqtt->loop(true);
+
+//        MQTT::publish('home/lights', 'Hello World! ee');
+
+        return view($this->_path.'demo/demo-question');
+    }
+
+    public function sendDemoMsg(Request $request){
+        try{
+            /* Note: json_encode utf-8, pass second param: JSON_UNESCAPED_UNICODE */
+            MQTT::publish('quiz/znzkvi/live-stream', json_encode($request->all(), JSON_UNESCAPED_UNICODE ));
+
+            return $this->jsonSuccess(__('Pitanje uspješno poslano!'));
+        }catch (\Exception $e){ dd($e); return $this->jsonResponse('20300', __('Greška prilikom slanja poruke putem MQTT_a!')); }
     }
 }

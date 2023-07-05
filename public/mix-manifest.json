@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/system/system.css": "/css/system/system.css",
+    "/css/public/public.css": "/css/public/public.css",
+    "/js/public.js": "/js/public.js",
     "/js/system.js": "/js/system.js"
 }
