@@ -14,7 +14,7 @@ class QuizQuestions extends Migration
     public function up()
     {
         Schema::create('quiz__questions', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id');
 
             $table->string('question');
             $table->integer('category');

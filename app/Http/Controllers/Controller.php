@@ -43,7 +43,7 @@ class Controller extends BaseController{
     /*
      *  Sync method
      */
-    protected static function fetchData($method, $uri){
+    protected static function fetchData($method, $uri, $params = []){
         try{
             $client = new \GuzzleHttp\Client(['base_uri' => env('CENTAR_URI') . ':' . env('CENTAR_PORT')]);
             return $client->request($method, $uri, [
@@ -51,7 +51,8 @@ class Controller extends BaseController{
                     'User-Agent' => 'WebApp',
                     'Accept'     => 'application/json',
                     'x-apisports-key' => '00cdc2ab50670b5cee20a42ed29d59e3'
-                ]
+                ],
+                'form_params' => $params
             ]);
         }catch (\Exception $e){  }
     }

@@ -14,13 +14,9 @@ class QuizQuestionAnswers extends Migration
     public function up()
     {
         Schema::create('quiz__question_answers', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id');
 
             $table->unsignedBigInteger('question_id');
-            $table->foreign('question_id')
-                ->references('id')
-                ->on('quiz__questions')
-                ->onDelete('cascade');
 
             $table->string('order', '5')->default("A");
             $table->string('answer');

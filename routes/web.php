@@ -64,9 +64,9 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
     Route::group(['namespace' => 'Quiz', 'prefix' => '/quizzes', 'middleware' => 'isRoot'], function(){
         Route::group(['prefix' => '/quiz'], function(){
             Route::get ('/',                                'QuizController@index')->name('system.quiz');
-            Route::get ('/create-quiz',                     'QuizController@create')->name('system.quiz.create');
-            Route::post('/save-quiz',                       'QuizController@save')->name('system.quiz.save');
             Route::get ('/preview-quiz/{id}',               'QuizController@preview')->name('system.quiz.preview');
+            Route::get ('/sync-quizzes',                    'QuizController@syncQuizzess')->name('system.quiz.sync-quizzes');
+            Route::post('/sync-quizzes-from-center',        'QuizController@syncQuizzesFromCenter')->name('system.quiz.sync-quizzes-from-center');
 
             /* Demo quiz */
             Route::get ('/demo',                            'QuizController@demo')->name('system.quiz.demo');

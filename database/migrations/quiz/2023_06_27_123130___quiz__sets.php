@@ -14,18 +14,10 @@ class QuizSets extends Migration
     public function up()
     {
         Schema::create('quiz__sets', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id');
 
             $table->unsignedBigInteger('quiz_id');
-            $table->foreign('quiz_id')
-                ->references('id')
-                ->on('quiz')
-                ->onDelete('cascade');
             $table->unsignedBigInteger('question_id');
-            $table->foreign('question_id')
-                ->references('id')
-                ->on('quiz__questions')
-                ->onDelete('cascade');
 
             /* Question number: 1, 2, 3, 4, 5, 6, 7 */
             $table->integer('question_no')->default(1);

@@ -6,7 +6,7 @@
 @section('ph-main') {{ __('Pregled setova') }} @endsection
 @section('ph-short')
     {{__('Pregled svih kvizova (setova pitanja) na sistemu - Offline & Online mode')}}
-    | <a href="{{ route('system.quiz.create') }}">{{ __('Novi kviz') }}</a>
+    | <a href="{{ route('system.quiz.sync-quizzes') }}">{{ __('Sinhronizacija kvizova') }}</a>
 @endsection
 
 @section('ph-navigation') / <a href="{{ route('system.quiz') }}"> {{ __('Pregled setova') }} </a> @endsection

@@ -14,7 +14,7 @@ class Quiz extends Migration
     public function up()
     {
         Schema::create('quiz', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id');
 
             $table->date('date');
             $table->integer('user_id')->nullable();                 // Created for user
