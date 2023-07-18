@@ -2,13 +2,14 @@
 
 namespace App\Models\Quiz;
 
+use App\Models\Settings\Keyword;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model{
     protected $table = 'quiz';
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     public function date(){
         return Carbon::parse($this->date)->format('d.m.Y');
@@ -25,5 +26,11 @@ class Quiz extends Model{
     }
     public function setRel(){
         return $this->hasMany(QuizSet::class, 'quiz_id', 'id');
+    }
+    public function onlineRel(){
+        return $this->hasOne(Keyword::class, 'value', 'online')->where('type', 'online');
+    }
+    public function jokerRel(){
+        return $this->hasOne(Keyword::class, 'value', 'joker')->where('type', 'da_ne');
     }
 }

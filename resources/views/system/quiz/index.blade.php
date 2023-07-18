@@ -16,44 +16,43 @@
 
 @section('content')
     <div class="content-wrapper content-wrapper-bs">
-{{--        @include('system.templates.filters.filters', ['var' => $questions])--}}
+        @include('system.templates.filters.filters', ['var' => $quizzes])
 
-{{--        @if(session()->has('success'))--}}
-{{--            <div class="alert alert-success mt-3"> {{ session()->get('success') }} </div>--}}
-{{--        @elseif(session()->has('error'))--}}
-{{--            <div class="alert alert-danger mt-3"> {{ session()->get('error') }} </div>--}}
-{{--        @endif--}}
+        @if(session()->has('success'))
+            <div class="alert alert-success mt-3"> {{ session()->get('success') }} </div>
+        @elseif(session()->has('error'))
+            <div class="alert alert-danger mt-3"> {{ session()->get('error') }} </div>
+        @endif
 
-{{--        <table class="table table-bordered" id="filtering">--}}
-{{--            <thead>--}}
-{{--            <tr>--}}
-{{--                <th scope="col" style="text-align:center;">#</th>--}}
-{{--                @include('system.templates.filters.filters_header')--}}
-{{--                <th width="120p" class="akcije text-center">{{__('Akcije')}}</th>--}}
-{{--            </tr>--}}
-{{--            </thead>--}}
-{{--            <tbody>--}}
-{{--            @php $i = Page::get(); @endphp--}}
-{{--            @foreach($questions as $question)--}}
-{{--                <tr>--}}
-{{--                    <td class="text-center">{{ $i++}}</td>--}}
-{{--                    <td> {{ $question->question ?? ''}} </td>--}}
-{{--                    <td> {{ $question->categoryRel->name ?? ''}} </td>--}}
-{{--                    <td> {{ $question->weight ?? ''}} </td>--}}
-{{--                    <td> {{ $question->correct_answer ?? ''}} </td>--}}
-{{--                    <td> {{ $question->answerARel->answer ?? ''}} </td>--}}
-{{--                    <td> {{ $question->answerBRel->answer ?? ''}} </td>--}}
-{{--                    <td> {{ $question->answerCRel->answer ?? ''}} </td>--}}
-{{--                    <td> {{ $question->answerDRel->answer ?? ''}} </td>--}}
+        <table class="table table-bordered" id="filtering">
+            <thead>
+            <tr>
+                <th scope="col" style="text-align:center;">#</th>
+                @include('system.templates.filters.filters_header')
+                <th width="120p" class="akcije text-center">{{__('Akcije')}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            @php $i = Page::get(); @endphp
+            @foreach($quizzes as $quiz)
+                <tr>
+                    <td class="text-center">{{ $i++}}. </td>
+                    <td> {{ $quiz->date() ?? ''}} </td>
+                    <td> {{ $quiz->userRel->name ?? ''}} </td>
+                    <td> {{ $quiz->onlineRel->name ?? ''}} </td>
+                    <td> {{ $quiz->correct_answers ?? ''}} </td>
+                    <td> {{ $quiz->jokerRel->name ?? ''}} </td>
+                    <td> {{ $quiz->threshold ?? ''}} </td>
+                    <td> {{ $quiz->total_money ?? ''}} BAM </td>
 
-{{--                    <td class="text-center">--}}
-{{--                        <a href="{{ route('system.quiz.questions.preview-question', ['id' => $question->id ]) }}" title="{{ __('Više informacija') }}">--}}
-{{--                            <button class="btn btn-dark btn-sm">{{ __('Pregled') }}</button>--}}
-{{--                        </a>--}}
-{{--                    </td>--}}
-{{--                </tr>--}}
-{{--            @endforeach--}}
-{{--            </tbody>--}}
-{{--        </table>--}}
+                    <td class="text-center">
+                        <a href="{{ route('system.quiz.preview', ['id' => $quiz->id ]) }}" title="{{ __('Više informacija') }}">
+                            <button class="btn btn-dark btn-sm">{{ __('Pregled') }}</button>
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection

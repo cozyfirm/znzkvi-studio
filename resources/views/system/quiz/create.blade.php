@@ -4,20 +4,11 @@
 
 @section('ph-icon') <i class="fas fa-play"></i> @endsection
 @section('ph-main') @if(isset($create)) {{ __('Unos seta') }} @else {{ __('Pregled seta') }} @endif @endsection
-@section('ph-short')
-    {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}}
-    @if(isset($preview))
-        | <a href="{{ route('system.quiz.create') }}">{{ __('Uredi set') }}</a>
-    @endif
-@endsection
+@section('ph-short') {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}} @endsection
 
 @section('ph-navigation')
     / <a href="{{ route('system.quiz') }}"> {{ __('Pregled setova') }} </a>
-    @if(isset($create))
-        / <a href="{{ route('system.quiz.create') }}"> {{ __('Unos seta') }} </a>
-    @else
-
-    @endif
+    / <a href="#"> {{ __('Pregled seta') }} </a>
 @endsection
 
 <!--------------------------------------------------------------------------------------------------------------------->
@@ -27,11 +18,7 @@
     <div class="content-wrapper content-wrapper-bs">
         <div class="row">
             <div class="@if(isset($preview)) col-md-9 @else col-md-12 @endif">
-                @if(isset($create))
-                    {!! Form::open(array('route' => 'system.quiz.save', 'method' => 'post', 'id' => 'js-form')) !!}
-                @else
 
-                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row mt-2">

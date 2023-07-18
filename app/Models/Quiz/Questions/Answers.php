@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answers extends Model{
     protected $table = 'quiz__question_answers';
-    protected $guarded = ['id'];
+    protected $guarded = [];
 }

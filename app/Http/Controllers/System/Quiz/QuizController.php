@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\System\Quiz;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\System\Core\Filters;
+use App\Models\Quiz\Questions\Answers;
 use App\Models\Quiz\Questions\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
@@ -13,10 +15,24 @@ use PhpMqtt\Client\Facades\MQTT;
 
 class QuizController extends Controller{
     protected $_path = 'system.quiz.';
+    protected $_totalInserted = 0;
 
     public function index(){
-        return view($this->_path.'index', [
+        $quizzes = Quiz::orderBy('date', 'DESC');
+        $quizzes = Filters::filter($quizzes);
+        $filters = [
+            'date' => __('Datum'),
+            'userRel.name' => __('Korisničko ime'),
+            'onlineRel.name' => __('Online / Offline'),
+            'correct_answers' => 'Tačnih odgovora',
+            'jokerRel.name' => __('Joker'),
+            'threshold' => __('Prag'),
+            'total_money' => __('Osvojeno novca')
+        ];
 
+        return view($this->_path.'index', [
+            'quizzes' => $quizzes,
+            'filters' => $filters
         ]);
     }
     public function preview($id){
@@ -33,6 +49,14 @@ class QuizController extends Controller{
     public function syncQuizzess(){
         return view($this->_path.'sync');
     }
+    protected function truncateTables(){
+        try{
+            Quiz::truncate();
+            QuizSet::truncate();
+            Question::truncate();
+            Answers::truncate();
+        }catch (\Exception $e){}
+    }
     public function syncQuizzesFromCenter(Request $request){
         try{
             $data = $this::fetchData('POST', 'api/sync/quizzes', ['date' => $request->date]);
@@ -45,24 +69,75 @@ class QuizController extends Controller{
                  *  1. Quiz truncate deletes all from quiz and from quiz__sets
                  *  2. Question truncate deletes all from quiz__questions and quiz__question_answers
                  */
-                Quiz::truncate();
-                Question::truncate();
+                $this->truncateTables();
 
                 /*
                  *  Insert fresh data into database
                  */
                 foreach ($jsonData->data as $quiz){
-                    dd($quiz->set_rel);
+                    $quizObject = Quiz::create([
+                        'id' => $quiz->id,
+                        'date' => $quiz->date,
+                        'user_id' => $quiz->user_id,
+                        'online' => $quiz->online,
+                        'correct_answers' => $quiz->correct_answers,
+                        'joker' => $quiz->joker,
+                        'threshold' => $quiz->threshold,
+                        'total_money' => $quiz->total_money
+                    ]);
+
+                    foreach ($quiz->set_rel as $set){
+                        $setObject = QuizSet::create([
+                            'id' => $set->id,
+                            'quiz_id' => $set->quiz_id,
+                            'question_id' => $set->question_id,
+                            'question_no' => $set->question_no,
+                            'opened' => $set->opened,
+                            'answered' => $set->answered,
+                            'correct' => $set->correct,
+                            'level_question' => $set->level_question,
+                            'level_opened' => $set->level_opened,
+                            'level_answered' => $set->level_answered,
+                            'level_correct' => $set->level_correct,
+                            'joker' => $set->joker,
+                            'replacement' => $set->replacement
+                        ]);
+
+                        $question = Question::create([
+                            'id' => $set->question_rel->id,
+                            'question' => $set->question_rel->question,
+                            'category' => $set->question_rel->category,
+                            'weight' => $set->question_rel->weight,
+                            'correct_answer' => $set->question_rel->correct_answer,
+                            'additional_questions' => $set->question_rel->additional_questions,
+                            'additional_q_answer' => $set->question_rel->additional_q_answer,
+                            'locked' => $set->question_rel->locked,
+                            'in_queue' => $set->question_rel->in_queue,
+                            'created_by' => $set->question_rel->created_by
+                        ]);
+
+                        foreach ($set->question_rel->answers_rel as $answer){
+                            $answerObject = Answers::create([
+                                'id' => $answer->id,
+                                'question_id' => $answer->question_id,
+                                'order' => $answer->order,
+                                'answer' => $answer->answer,
+                                'correct' => $answer->correct
+                            ]);
+                        }
+                    }
+
+                    $this->_totalInserted ++;
                 }
 
-                return back()->with('success', __('Sinhronizacija šifarnika uspješno završena!'));
+                return $this->jsonResponse('0000', __('Sinhronizacija uspješno izvršena. Ukupno sinhronizovano ') . $this->_totalInserted . __(' setova.'));
             }else{
                 /* ToDo -- Log error into local database */
-                return back()->with('error', __('Problem u komunikaciji sa centralnim sistemom. Molimo pokušajte ponovo!'));
+                return $this->jsonResponse('20351', __('Problem u komunikaciji sa centralnim sistemom. Molimo pokušajte ponovo!'));
             }
 
         }catch (\Exception $e){
-            return back()->with('error', __('Desila se greška prilikom sinhronizacije. Error code : ') . $e->getCode());
+            return $this->jsonResponse('20350', __('Desila se greška prilikom sinhronizacije. Error code : ') . $e->getCode());
         }
     }
 
