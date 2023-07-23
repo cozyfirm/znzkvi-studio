@@ -6,6 +6,11 @@ Important hash:
 
     - FnJDbEav4pdHmmq
     - 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
+    
+Useful queries: 
+
+    - UPDATE `quiz__sets` SET `opened`=0, `answered`=0, `correct`=0,`level_opened`=0,`level_answered`=0,`level_correct`=0 where quiz_id = 3
+    - UPDATE `quiz` SET `started` = 0, `threshold` = 1, `total_money` = 0, `correct_answers` = 0 where id = 3
 
 To make it work, local system should be synchronised with central system. IP should be kept inside 
 config file (.env) such as (production version will have different IPs):
