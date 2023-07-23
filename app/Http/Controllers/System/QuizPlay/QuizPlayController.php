@@ -71,8 +71,12 @@ class QuizPlayController extends Controller{
                     $quiz->update(['correct_answers' => ($quiz->correct_answers + 1)]);
 
                     if($set->question_no == 7){
-                        $set->update(['answered' => 1, 'correct' => 1, 'level_opened' => 1]);
+                        $set->update(['answered' => 1, 'correct' => 1]);
                     }else{
+                        if($beforeLastQuestion) {
+                            QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->update(['level_opened' => 1]);
+                        }
+
                         return $this->liveResponse('0000', $responseMsg, [
                             'question' => $quiz->openAndGetNextQuestion(),
                             'sub_code' => $beforeLastQuestion ? '6002' : '6000'
@@ -81,7 +85,7 @@ class QuizPlayController extends Controller{
                 }else{
                     if($set->question_no == 7) {
                         /* Update last question info */
-                        $set->update(['answered' => 1, 'correct' => 0, 'level_opened' => 1]);
+                        $set->update(['answered' => 1, 'correct' => 0]);
                         /* Set total money to 0 BAM */
                         $quiz->update(['threshold' => 4, 'total_money' => $this->_money[1]]);
                     }
