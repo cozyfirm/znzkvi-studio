@@ -82,36 +82,19 @@
         </a>
 
         <div class="subtitle">
-            <h4> {{__('Analitički podaci')}} </h4>
+            <h4> {{__('Zaigrajmo kviz')}} </h4>
             <div class="subtitle-icon">
                 <i class="fas fa-project-diagram"></i>
             </div>
         </div>
 
-        <a href="#" class="menu-a-link">
+        <a href="{{ route('system.quiz-play.users.create-user') }}" class="menu-a-link">
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-play t-green"></i>
                     </div>
-                    <p>{{__('Moj profil')}}</p>
-                    <div class="extra-elements">
-                        <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-                <div class="inside-links active-links">
-                    <a href="{{ route('system.users.my-profile') }}">
-                        <div class="inside-lm-link">
-                            <div class="ilm-l"></div><div class="ilm-c"></div>
-                            <p>{{__('Uredite informacije')}}</p>
-                        </div>
-                    </a>
-                    <a href="#">
-                        <div class="inside-lm-link">
-                            <div class="ilm-l"></div><div class="ilm-c"></div>
-                            <p>{{__('Izmijenite šifru')}}</p>
-                        </div>
-                    </a>
+                    <p>{{__('Započni kviz')}}</p>
                 </div>
             </div>
         </a>
@@ -130,7 +113,7 @@
                         <div class="s-lms-e-img">
                             <i class="fas fa-question"></i>
                         </div>
-                        <p>{{__('Kviz')}}</p>
+                        <p>{{__('Kvizovi')}}</p>
                         <div class="extra-elements">
                             <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
                         </div>

@@ -31,6 +31,8 @@ class Quiz extends Migration
              *  - 7 => 200 BAM or nothing
              */
             $table->string('total_money')->default(0);    // Money as reward
+            $table->tinyInteger('active')->default(0);
+            $table->tinyInteger('started')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

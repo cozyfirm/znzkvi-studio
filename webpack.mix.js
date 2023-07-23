@@ -18,4 +18,5 @@ mix.js('resources/js/app.js', 'public/js')
 
     .js('resources/js/system/system.js', 'public/js/system.js')
     .js('resources/js/public-part/public.js', 'public/js/public.js')
+    .js('resources/js/system/live/live.js', 'public/js/live.js')
 ;

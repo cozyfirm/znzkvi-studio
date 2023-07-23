@@ -32,6 +32,9 @@ require('./pages/auth/auth');
 
 // ** Select 2 ** //
 require('../libraries/select-2');
+$(document).ready(function() {
+    $('.select-2').select2();
+});
 // // ** Filters.js ** //
 // require('./template/filters');
 

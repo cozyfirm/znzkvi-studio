@@ -8,7 +8,6 @@
     {{__('Unos / pregled pitanja koja se nalaze na sistemu www.znzkvi.ba ')}}
     @if(isset($preview))
         | <a href="{{ route('system.quiz.questions.edit-question', ['id' => $question->id ]) }}">{{ __('Uredite pitanje') }}</a>
-        | <a href="{{ route('system.quiz.questions.delete-question', ['id' => $question->id ]) }}">{{ __('Obrišite pitanje') }}</a>
     @endif
 @endsection
 
@@ -23,10 +22,7 @@
 @section('content')
     <div class="content-wrapper p-3">
         <div class="row">
-            <div class="@if(isset($preview)) col-md-9 @else col-md-12 @endif">
-                @if(isset($create))
-                    {!! Form::open(array('route' => 'system.quiz.questions.save-question', 'method' => 'post', 'id' => 'js-form')) !!}
-                @endif
+            <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row mt-2">
@@ -142,17 +138,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        @if(!isset($preview))
-                            <div class="row mt-3 mb-4">
-                                <div class="col-md-12 d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-sm btn-secondary"> <b>{{__('Ažurirajte informacije')}}</b> </button>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
-                {!! Form::close(); !!}
             </div>
 
             @if(isset($preview))

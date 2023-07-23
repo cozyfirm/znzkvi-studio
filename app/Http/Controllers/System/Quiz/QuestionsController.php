@@ -95,42 +95,6 @@ class QuestionsController extends Controller{
             'filters' => $filters
         ]);
     }
-    public function newQuestion(){
-        return view($this->_path.'create', [
-            'create' => true,
-            'categories' => Keyword::getItByVal('question_category'),
-            'weights' => Keyword::getItByVal('question_weight')
-        ]);
-    }
-    public function save(Request $request){
-        try{
-            $answers = json_decode($this->processAnswers($request));
-            if($answers->code != '0000') return $this->jsonResponse($answers->code, $answers->message);
-            $answers = $answers->data;
-            $correctAnswer = $this->getCorrectAnswer($answers);
-
-            $question = Question::create([
-                'question' => $request->question,
-                'category' => $request->category,
-                'weight' => $request->weight,
-                'correct_answer' => $correctAnswer,
-                'additional_questions' => $request->additional_questions,
-                'additional_q_answer' => $request->additional_q_answer,
-                'created_by' => Auth::user()->id
-            ]);
-
-            foreach ($answers as $key => $val){
-                Answers::create([
-                    'question_id' => $question->id,
-                    'order' => $key,
-                    'answer' => $val->question,
-                    'correct' => (int)($val->correct)
-                ]);
-            }
-            return $this->jsonSuccess(__('Pitanje uspješno spremljeno'), route('system.quiz.questions.preview-question', ['id' => $question->id ]));
-
-        }catch (\Exception $e){ return $this->jsonResponse('20103', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!')); }
-    }
     public function previewQuestion($id){
         return view($this->_path.'create', [
             'preview' => true,
@@ -165,15 +129,5 @@ class QuestionsController extends Controller{
 
             return $this->jsonSuccess(__('Pitanje uspješno ažurirano'), route('system.quiz.questions.preview-question', ['id' => $request->id ]));
         }catch (\Exception $e){ return $this->jsonResponse('20104', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!')); }
-    }
-    public function delete($id){
-        try{
-            $question = Question::where('id', $id)->first();
-            $title    = $question->question;
-
-            return redirect()->route('system.quiz.questions')->with('success', __('Uspješno izbrisana pitanje: ') . '"' . $title . '"!');
-        }catch (\Exception $e){
-            return redirect()->route('system.quiz.questions')->with('error', __('Došlo je do greške prilikom brisanja pitanja. Molimo kontaktirajte administratora!'));
-        }
     }
 }

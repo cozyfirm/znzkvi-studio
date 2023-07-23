@@ -4,10 +4,7 @@
 
 @section('ph-icon') <i class="fas fa-question"></i> @endsection
 @section('ph-main') {{ __('Pregled pitanja') }} @endsection
-@section('ph-short')
-    {{__('Pregled svih pitanja koja se nalaze na sistemu www.znzkvi.ba ')}}
-    | <a href="{{ route('system.quiz.questions.new-question') }}">{{ __('Unos pitanja') }}</a>
-@endsection
+@section('ph-short') {{__('Pregled sinhronizovanih pitanja sa centralnog sistema, koji se nalaze unutar setova ')}} @endsection
 
 @section('ph-navigation') / <a href="{{ route('system.quiz.questions') }}"> {{ __('Pregled pitanja') }} </a> @endsection
 

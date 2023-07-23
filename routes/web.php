@@ -75,12 +75,33 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
 
         Route::group(['prefix' => '/questions'], function(){
             Route::get ('/',                            'QuestionsController@index')->name('system.quiz.questions');
-            Route::get ('/new-question',                'QuestionsController@newQuestion')->name('system.quiz.questions.new-question');
-            Route::post('/save',                        'QuestionsController@save')->name('system.quiz.questions.save-question');
             Route::get ('/preview-question/{id}',       'QuestionsController@previewQuestion')->name('system.quiz.questions.preview-question');
             Route::get ('/edit/{id}',                   'QuestionsController@edit')->name('system.quiz.questions.edit-question');
             Route::put ('/update',                      'QuestionsController@update')->name('system.quiz.questions.update-question');
-            Route::get ('/delete/{id}',                 'QuestionsController@delete')->name('system.quiz.questions.delete-question');
+        });
+    });
+
+    /*
+     *  Play a quiz
+     */
+    Route::group(['namespace' => 'QuizPlay', 'prefix' => '/quiz-play', 'middleware' => 'isRoot'], function(){
+        /*
+         *  Work with users
+         */
+        Route::group(['prefix' => '/users'], function(){
+            Route::get ('/create-user',                         'UsersPlayController@create')->name('system.quiz-play.users.create-user');
+            Route::post('/save-user',                           'UsersPlayController@save')->name('system.quiz-play.users.save');
+        });
+
+        /*
+         *  Start with quiz
+         */
+        Route::group(['prefix' => '/live'], function(){
+            Route::get ('/live-stream/{quiz_id}',               'QuizPlayController@live')->name('system.quiz-play.live');
+
+            /* Live stream routes and actions */
+            Route::post('/start-a-quiz',                        'QuizPlayController@startQuiz')->name('system.quiz-play.live.start-quiz');
+            Route::post('/answer-the-question',                 'QuizPlayController@answerTheQuestion')->name('system.quiz-play.live.answer-the-question');
         });
     });
 

@@ -25,6 +25,14 @@ class Controller extends BaseController{
             'data' => $data
         ]);
     }
+    public function liveResponse($code, $message, $data = [], $url = null){
+        return json_encode([
+            'code' => $code,
+            'message' => $message,
+            'data' => $data,
+            'url' => $url
+        ]);
+    }
 
     /* Helper functions */
     function generateRandomString($length = 10) {

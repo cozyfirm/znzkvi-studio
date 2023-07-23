@@ -1,0 +1,7 @@
+.start-quiz{
+    position: absolute; left: 15px; top: 15px; width: calc(75% - 28px); height: calc(100% - 30px); background: #ffffff; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+
+    i{ font-size: 100px; }
+    i:hover{cursor: pointer;}
+}

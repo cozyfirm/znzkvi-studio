@@ -58,3 +58,7 @@ $bColor : #333333;
 // ** Authentication pages ** //
 @import "pages/auth/auth";
 @import "pages/auth/create-profile";
+@import "pages/live/live";
+
+// ** Custom classes ** //
+@import "template/classes";
