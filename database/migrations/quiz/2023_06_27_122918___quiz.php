@@ -33,6 +33,10 @@ class Quiz extends Migration
             $table->string('total_money')->default(0);    // Money as reward
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('started')->default(0);
+            $table->tinyInteger('finished')->default(0);
+
+            $table->integer('current_question')->default(1);
+            $table->tinyInteger('replacement')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

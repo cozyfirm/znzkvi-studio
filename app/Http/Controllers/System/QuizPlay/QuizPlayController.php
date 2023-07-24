@@ -22,13 +22,14 @@ class QuizPlayController extends Controller{
         $quiz = Quiz::where('id', $quiz_id)->first();
         $user = User::where('id', $quiz->user_id)->first();
 
-        $question = $quiz->nextQuestion();
+        $question = $quiz->currentQuestion();
 
         return view($this->_path.'live', [
             'quiz' => $quiz,
             'user' => $user,
             'question' => $question['question'],
-            'additional' => $question['additional']
+            'additional' => $question['additional'],
+            'joker' => $question['joker']
         ]);
     }
 
@@ -60,71 +61,103 @@ class QuizPlayController extends Controller{
             /* Default response message */
             $responseMsg = __("Uspješno unesen tačan odgovor. Otvaramo novo pitanje!");
 
-            if($request->additional){
-                $set->update(['level_answered' => 1, 'level_correct' => ($request->correct == 'Yes') ? 1 : 0]);
-                if($set->question_no == 3) $quiz->update(['threshold' => 2, 'total_money' => $this->_money[2]]);
-                else if($set->question_no == 6) $quiz->update(['threshold' => 3, 'total_money' => $this->_money[3]]);
-                else if($set->question_no == 7) $quiz->update(['threshold' => 4, 'total_money' => $this->_money[4]]);
-
-                if($request->correct == 'Yes'){
-                    /* Increase number of correct answers */
-                    $quiz->update(['correct_answers' => ($quiz->correct_answers + 1)]);
-
-                    if($set->question_no == 7){
-                        $set->update(['answered' => 1, 'correct' => 1]);
+            if(isset($request->joker)){
+                /* Use joker */
+                $currentQuestion = $quiz->currentQuestion();
+                if($set->question_no == 3 or $set->question_no == 6 or $set->question_no == 7){
+                    if($set->level_opened){
+                        /* Cannot use  */
                     }else{
-                        if($beforeLastQuestion) {
-                            QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->update(['level_opened' => 1]);
+                        $set->update(['joker' => 1]);
+                        $quiz->update(['joker' => $set->question_no]);
+
+                        /* Get new sample from set */
+                        $replacementSet = QuizSet::where('quiz_id', $quiz->id)->where('question_no', $set->question_no)->where('replacement', 1)->first();
+                        $replacementSet->update(['opened' => 1]);
+
+                        return $this->liveResponse('0000', $responseMsg, [
+                            'question' => Question::where('id', $replacementSet->question_id)->with('answerARel')
+                                ->with('answerBRel')
+                                ->with('answerCRel')
+                                ->with('answerDRel')
+                                ->first(),
+                            'sub_code' => '6003',
+                            'message' => __('Joker iskorišten !')
+                        ]);
+                    }
+                }else{
+                    /* Regular thing to do; Change the question */
+
+                    dd("Regular !");
+                }
+                dd($set, $currentQuestion);
+            }else{
+                if($request->additional){
+                    $set->update(['level_answered' => 1, 'level_correct' => ($request->correct == 'Yes') ? 1 : 0]);
+                    if($set->question_no == 3) $quiz->update(['threshold' => 2, 'total_money' => $this->_money[2]]);
+                    else if($set->question_no == 6) $quiz->update(['threshold' => 3, 'total_money' => $this->_money[3]]);
+                    else if($set->question_no == 7) $quiz->update(['threshold' => 4, 'total_money' => $this->_money[4]]);
+
+                    if($request->correct == 'Yes'){
+                        /* Increase number of correct answers; Update current question field */
+                        $quiz->update(['correct_answers' => ($quiz->correct_answers + 1), 'current_question' => ($set->question_no + 1)]);
+
+                        if($set->question_no == 7){
+                            $set->update(['answered' => 1, 'correct' => 1]);
+                        }else{
+                            if($beforeLastQuestion) {
+                                QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->update(['level_opened' => 1]);
+                            }
+
+                            return $this->liveResponse('0000', $responseMsg, [
+                                'question' => $quiz->openAndGetNextQuestion(),
+                                'sub_code' => $beforeLastQuestion ? '6002' : '6000'
+                            ]);
+                        }
+                    }else{
+                        if($set->question_no == 7) {
+                            /* Update last question info */
+                            $set->update(['answered' => 1, 'correct' => 0]);
+                            /* Set total money to 0 BAM */
+                            $quiz->update(['threshold' => 4, 'total_money' => $this->_money[1]]);
                         }
 
+                        $responseMsg = __("Set sinhronizovan. Kviz završen!");
                         return $this->liveResponse('0000', $responseMsg, [
-                            'question' => $quiz->openAndGetNextQuestion(),
-                            'sub_code' => $beforeLastQuestion ? '6002' : '6000'
+                            'sub_code' => '6001'
                         ]);
                     }
                 }else{
-                    if($set->question_no == 7) {
-                        /* Update last question info */
-                        $set->update(['answered' => 1, 'correct' => 0]);
-                        /* Set total money to 0 BAM */
-                        $quiz->update(['threshold' => 4, 'total_money' => $this->_money[1]]);
-                    }
+                    /* Determine is it correct or not */
+                    $correct  = ($question->correct_answer == $request->letter) ? true : false;
 
-                    $responseMsg = __("Uspješno unesen netačan odgovor. Kviz završen!");
-                    return $this->liveResponse('0000', $responseMsg, [
-                        'sub_code' => '6001'
-                    ]);
-                }
-            }else{
-                /* Determine is it correct or not */
-                $correct  = ($question->correct_answer == $request->letter) ? true : false;
+                    /* Update answered and correct fields */
+                    $set->update(['answered' => 1, 'correct' => $correct]);
 
-                /* Update answered and correct fields */
-                $set->update(['answered' => 1, 'correct' => $correct]);
+                    if($correct){
+                        /* Increase number of correct answers; Update current question field */
+                        if($set->question_no != 3 and $set->question_no != 6) $quiz->update(['correct_answers' => ($quiz->correct_answers + 1), 'current_question' => ($set->question_no + 1)]);
 
-                if($correct){
-                    /* Increase number of correct answers */
-                    $quiz->update(['correct_answers' => ($quiz->correct_answers + 1)]);
+                        if($set->level_question and !$set->level_opened){
+                            /* Mark level opened as true */
+                            $set->update(['level_opened' => 1]);
 
-                    if($set->level_question and !$set->level_opened){
-                        /* Mark level opened as true */
-                        $set->update(['level_opened' => 1]);
-
-                        return $this->liveResponse('0000', $responseMsg, [
-                            'question' => $question,
-                            'sub_code' => '6002'
-                        ]);
+                            return $this->liveResponse('0000', $responseMsg, [
+                                'question' => $question,
+                                'sub_code' => '6002'
+                            ]);
+                        }else{
+                            return $this->liveResponse('0000', $responseMsg, [
+                                'question' => $quiz->openAndGetNextQuestion(),
+                                'sub_code' => '6000'
+                            ]);
+                        }
                     }else{
+                        $responseMsg = __("Uspješno unesen netačan odgovor. Kviz završen!");
                         return $this->liveResponse('0000', $responseMsg, [
-                            'question' => $quiz->openAndGetNextQuestion(),
-                            'sub_code' => '6000'
+                            'sub_code' => '6001'
                         ]);
                     }
-                }else{
-                    $responseMsg = __("Uspješno unesen netačan odgovor. Kviz završen!");
-                    return $this->liveResponse('0000', $responseMsg, [
-                        'sub_code' => '6001'
-                    ]);
                 }
             }
 

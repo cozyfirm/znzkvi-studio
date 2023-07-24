@@ -1,4 +1,12 @@
 $(document).ready(function () {
+    /*
+     *  Joker info; Joker cannot be used on questions:
+     *  - 3+
+     *  - 6+
+     *  - 7
+     */
+    let jokerActive = true;
+
     /* Set Ajax headers */
     $.ajaxSetup({
         headers: {
@@ -64,6 +72,13 @@ $(document).ready(function () {
                         }else if(response['data']['sub_code'] === '6002'){
                             /* Correct answer, open level question */
                             parseAdditionalQuestion(response['data']['question']);
+                        }else if(response['data']['sub_code'] === '6003'){
+                            /* Joker used */
+                            parseQuestion(response['data']['question']);
+                            /* Disable further joker usage */
+                            jokerActive = false;
+
+                            notify.Me([response['message'], "warn"]);
                         }else{
                             /* Answer is not correct */
                         }
@@ -103,6 +118,14 @@ $(document).ready(function () {
             'question_id' : $("#question_id").val(),
             'correct' : $(this).attr('correct'),
             'additional' : 1
+        });
+    });
+    /* Use joker */
+    $(".joker-wrapper").click(function () {
+        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+            'quiz_id' : $("#quiz_id").val(),
+            'question_id' : $("#question_id").val(),
+            'joker' : true
         });
     });
 });

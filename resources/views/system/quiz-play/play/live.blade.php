@@ -15,7 +15,7 @@
 
     <div class="content-wrapper p-3">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 @if(!$quiz->started)
                     <div class="start-quiz">
                         <i class="fa-regular fa-circle-play start-a-quiz" title="{{ __('Započnite kviz. Otvorite prvo pitanje!') }}"></i>
@@ -25,7 +25,9 @@
                 {!! Form::open(array('route' => 'system.quiz-play.users.save', 'method' => 'post', 'id' => 'js-form')) !!}
 
                     {!! Form::hidden('quiz_id', $quiz->id, ['class' => 'form-control', 'id' => 'quiz_id']) !!}
-                    {!! Form::hidden('question_id', $question->id, ['class' => 'form-control', 'id' => 'question_id']) !!}
+                    {!! Form::hidden('question_id', $question->id ?? '', ['class' => 'form-control', 'id' => 'question_id']) !!}
+                    {!! Form::hidden('joker', $joker ?? '', ['class' => 'form-control', 'id' => 'joker']) !!}
+
                     <div class="row regular-question @if($additional) d-none @endif">
                         <div class="col-md-12">
                             <div class="row">
