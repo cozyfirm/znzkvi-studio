@@ -161,7 +161,7 @@ class QuizController extends Controller{
     public function sendDemoMsg(Request $request){
         try{
             /* Note: json_encode utf-8, pass second param: JSON_UNESCAPED_UNICODE */
-            MQTT::publish('quiz/znzkvi/live-stream', json_encode($request->all(), JSON_UNESCAPED_UNICODE ));
+
 
             return $this->jsonSuccess(__('Pitanje uspješno poslano!'));
         }catch (\Exception $e){ dd($e); return $this->jsonResponse('20300', __('Greška prilikom slanja poruke putem MQTT_a!')); }

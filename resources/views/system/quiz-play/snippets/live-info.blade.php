@@ -1,19 +1,19 @@
 <div class="col-md-4 border-left">
     <div class="row">
         <div class="col-md-12">
-            <div class="card c-pointer joker-wrapper joker-wrapper-used">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-between">
-                            <h2 class="m-0 live-joker-text">JOKER</h2>
-                            <img class="live-joker" src="{{ asset('images/live/joker.png') }}" alt="">
-                        </div>
-                    </div>
+{{--            <div class="card c-pointer joker-wrapper @if($joker) joker-wrapper-used @endif">--}}
+{{--                <div class="card-body">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-12 d-flex justify-content-between">--}}
+{{--                            <h2 class="m-0 live-joker-text">JOKER</h2>--}}
+{{--                            <img class="live-joker" src="{{ asset('images/live/joker.png') }}" alt="">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                </div>
-            </div>
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <div class="card mt-3">
+            <div class="card ">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -30,7 +30,7 @@
 
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> {{ __('Trenutno aktivno') }} <b> 1. </b> {{ __('pitanje.') }} </small> </a>
+                                    <a href="#" class="m-0 ml-3"> <small> {{ __('Ukupno osvojeno') }} <b> BAM 350 </b> ! </small> </a>
                                 </div>
                             </div>
                             <div class="row">

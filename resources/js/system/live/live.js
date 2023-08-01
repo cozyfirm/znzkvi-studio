@@ -60,31 +60,34 @@ $(document).ready(function () {
                 let code = response['code'];
 
                 if(code === '0000'){
-                    if(typeof response['message'] !== 'undefined') notify.Me([response['message'], "success"]);
+                    /* Message type */
+                    let subCode = response['data']['sub_code'];
+
+                    if(typeof response['message'] !== 'undefined' && subCode !== '50004' && subCode !== '50005' && subCode !== '50006') notify.Me([response['message'], "success"]);
+                    else notify.Me([response['message'], "warn"]);
 
                     if(action === "start-a-quiz"){
                         $(".start-quiz").fadeOut(0);
                         parseQuestion(response['data']['question']);
                     }else if(action === 'answer-the-question'){
-                        if(response['data']['sub_code'] === '6000'){
+                        if(subCode === '50002'){
                             /* Correct answer */
                             parseQuestion(response['data']['question']);
-                        }else if(response['data']['sub_code'] === '6002'){
+                        }else if(subCode === '50003'){
                             /* Correct answer, open level question */
                             parseAdditionalQuestion(response['data']['question']);
-                        }else if(response['data']['sub_code'] === '6003'){
+                        }else if(subCode === '50004'){
                             /* Joker used */
                             parseQuestion(response['data']['question']);
                             /* Disable further joker usage */
                             jokerActive = false;
 
-                            notify.Me([response['message'], "warn"]);
+                            /* Mark as red */
+                            $(".joker-wrapper").addClass('joker-wrapper-used');
                         }else{
                             /* Answer is not correct */
                         }
                     }
-
-                    console.log(response['data']);
 
                     setTimeout(function (){
                         if(typeof response['url'] !== 'undefined' && response['url'] !== null) window.location = response['url'];

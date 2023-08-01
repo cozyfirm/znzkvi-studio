@@ -13,7 +13,12 @@
     <!-- Import script for live quiz handling -->
     <script src="{{asset('js/live.js')}}"></script>
 
-    <div class="content-wrapper p-3">
+    <div class="content-wrapper content-wrapper-bs">
+        <!-- Live quiz header information -->
+        @include('system.quiz-play.snippets.live-header')
+
+        <hr>
+
         <div class="row">
             <div class="col-md-8">
                 @if(!$quiz->started)

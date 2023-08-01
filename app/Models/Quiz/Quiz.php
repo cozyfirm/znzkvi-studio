@@ -49,6 +49,18 @@ class Quiz extends Model{
     }
     public function currentQuestion(){
         try{
+            $set = QuizSet::where('quiz_id', $this->id)
+                ->where('question_no', $this->current_question)
+                ->where('replacement', $this->replacement)
+                ->first();
+
+            return [
+                'question' => Question::where('id', $set->question_id)->first(),
+                'additional' => $set->level_opened,
+                'joker' => $this->joker
+            ];
+
+
             /* Is it 3, 6 or 7 question */
             $levelQuestion = false;
             /* Is joker used */
@@ -88,11 +100,7 @@ class Quiz extends Model{
                 }
             }
 
-            return [
-                'question' => $question,
-                'additional' => $levelQuestion,
-                'joker' => $joker
-            ];
+
         }catch (\Exception $e){ return false; }
     }
     public function getQuestion($questionNo = 1, $replacement = 0){
