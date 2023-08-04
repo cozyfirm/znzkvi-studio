@@ -92,9 +92,9 @@
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">
-                        <i class="fas fa-play t-green"></i>
+                        <i class="fa-solid fa-heart-pulse fa-beat" style="color: #06f99c;" ></i>
                     </div>
-                    <p>{{__('Započni kviz')}}</p>
+                    <p>{{__('Live feed')}}</p>
                 </div>
             </div>
         </a>

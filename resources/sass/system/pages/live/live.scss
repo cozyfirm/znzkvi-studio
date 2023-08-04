@@ -1,5 +1,5 @@
 .start-quiz{
-    position: absolute; left: 0px; top: 0px; width: calc(66.6% - 3px); height: calc(100% - 0px); background: #ffffff; z-index: 100;
+    position: absolute; left: 0px; top: 112px; width: calc(66.6% - 3px); height: calc(100% - 112px); background: #ffffff; z-index: 100;
     display: flex; align-items: center; justify-content: center;
 
     i{ font-size: 100px; }
@@ -23,7 +23,7 @@
                         font-weight: bold;
                     }
                     .fa-check{ color:mediumspringgreen; }
-                    .fa-times{ color:#bb2d3b; }
+                    .fa-times{ color:#bb2d3b; display: none; }
                 }
                 p{
                     font-size: 14px; color: grey;
@@ -43,18 +43,46 @@
             }
         }
         .joker-used{
-            background: #C84040;
             .lh-e-data{
                 h2{
-                    color:#ffffff;
-                    i{color:#ffffff;}
+                    .fa-check{ display: none; }
+                    .fa-times{ display: block; }
                 }
-                p{color:#ffffff;}
-            }
-            .lh-e-icon{
-                i{color:#ffffff;}
             }
         }
+    }
+
+    /* Users statistics */
+    .statistics-row{
+        position: relative; left: 0px; top: 0px; width: 100%; min-height: 40px;
+        display: inline-flex; justify-content: space-between; margin-bottom: 10px;
+
+        .sr-no{
+            position: relative; left: 0px; width: 30px; height: 100%;
+            p{font-weight: bold; margin: 0px;}
+        }
+        .sr-user{
+            position: relative; width: calc(100% - 110px);
+            h4{
+                font-size: 16px; margin: 0px; padding-top: 2px; font-weight: bold;
+            }
+            p{font-size: 14px; color: grey; margin: 0px; padding-top: 4px;}
+        }
+        .sr-icons{
+            position: relative; width: 80px; display: inline-flex; justify-content: flex-end;
+            .icon-wrapper{
+                position: relative; width: 30px;
+                i{}
+                .iw-t{
+                    position: absolute; right: 5px; top: -10px; background: #C84040; border-radius: 2px;
+                    padding: 1px 3px;
+                    p{
+                        font-size: 10px; color: #ffffff; font-weight: bold; margin: 0px;
+                    }
+                }
+            }
+        }
+        .sr-icons:hover{cursor: pointer;}
     }
 }
 

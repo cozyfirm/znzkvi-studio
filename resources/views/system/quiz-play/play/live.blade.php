@@ -99,14 +99,14 @@
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_a_l t-green"> <i class="fas fa-check"></i> </b> </div> </div>
-                                        {!! Form::text('answer_a', 'Tačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'answer_a', 'readonly', 'correct' => 'Yes']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="t-green"> <i class="fas fa-check"></i> </b> </div> </div>
+                                        {!! Form::text('correct_answer', 'Tačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'correct_answer', 'readonly', 'correct' => 'Yes']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_b_l"> <i class="fas fa-times"></i> </b> </div> </div>
-                                        {!! Form::text('answer_b', 'Netačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'answer_b', 'readonly', 'correct' => 'No']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b> <i class="fas fa-times"></i> </b> </div> </div>
+                                        {!! Form::text('incorrect_answer', 'Netačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'incorrect_answer', 'readonly', 'correct' => 'No']) !!}
                                     </div>
                                 </div>
                             </div>

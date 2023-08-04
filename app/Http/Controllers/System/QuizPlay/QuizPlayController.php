@@ -17,19 +17,28 @@ class QuizPlayController extends Controller{
         3 => '100',
         4 => '200'
     ];
+    protected $_counter = 1;
 
     public function live($quiz_id){
         $quiz = Quiz::where('id', $quiz_id)->first();
+        if($quiz->finished) return redirect()->route('system.quiz');
+
         $user = User::where('id', $quiz->user_id)->first();
 
         $question = $quiz->currentQuestion();
+        /* All users from current session */
+        $users = Quiz::where('user_id', '!=', null)->get();
 
         return view($this->_path.'live', [
             'quiz' => $quiz,
             'user' => $user,
             'question' => $question['question'],
             'additional' => $question['additional'],
-            'joker' => $question['joker']
+            'joker' => $question['joker'],
+            'users' => $users,
+            'counter' => $this->_counter,
+            'quiz_no' => $users->count(),
+            'total_quizzes' => Quiz::get()->count()
         ]);
     }
 
@@ -67,7 +76,8 @@ class QuizPlayController extends Controller{
                 ->with('answerCRel')
                 ->with('answerDRel')
                 ->first(),
-            'sub_code' => '50004'
+            'sub_code' => '50004',
+            'total_money' => $quiz->total_money
         ]);
     }
 
@@ -131,7 +141,8 @@ class QuizPlayController extends Controller{
 
                             /* Success message */
                             return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), [
-                                'sub_code' => '50007'
+                                'sub_code' => '50007',
+                                'total_money' => $quiz->total_money,
                             ]);
                         }else{
                             if($beforeLastQuestion) {
@@ -140,6 +151,8 @@ class QuizPlayController extends Controller{
 
                             return $this->liveResponse('0000', $responseMsg, [
                                 'question' => $quiz->openAndGetNextQuestion(),
+                                'current_question' => $quiz->current_question,
+                                'total_money' => $quiz->total_money,
                                 'sub_code' => $beforeLastQuestion ? '50003' : '50002'
                             ]);
                         }
@@ -175,12 +188,14 @@ class QuizPlayController extends Controller{
 
                             return $this->liveResponse('0000', $responseMsg, [
                                 'question' => $question,
-                                'sub_code' => '50003'
+                                'sub_code' => '50003',
+                                'current_question' => $quiz->current_question
                             ]);
                         }else{
                             return $this->liveResponse('0000', $responseMsg, [
                                 'question' => $quiz->openAndGetNextQuestion(),
-                                'sub_code' => '50002'
+                                'sub_code' => '50002',
+                                'current_question' => $quiz->current_question
                             ]);
                         }
                     }else{

@@ -49,6 +49,12 @@ $(document).ready(function () {
         $("#question_id").val(question['id']);
     };
 
+    /* Set current active question in GUI */
+    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no); };
+    /* Set total earned money in quiz - GUI */
+    /* Set current active question in GUI */
+    let setTotalMoney = function(total){ $("#lf-total-money").text(total); };
+
     let liveHTTP = function (action, uri, method, data = {}) {
         /* ToDo - Full screen loading bar to prevent multiple clicking */
         $.ajax({
@@ -73,9 +79,15 @@ $(document).ready(function () {
                         if(subCode === '50002'){
                             /* Correct answer */
                             parseQuestion(response['data']['question']);
+
+                            /* Increase current question */
+                            setCurrentQuestion(response['data']['current_question']);
                         }else if(subCode === '50003'){
                             /* Correct answer, open level question */
                             parseAdditionalQuestion(response['data']['question']);
+
+                            /* Increase current question */
+                            setCurrentQuestion(response['data']['current_question']);
                         }else if(subCode === '50004'){
                             /* Joker used */
                             parseQuestion(response['data']['question']);
@@ -83,9 +95,14 @@ $(document).ready(function () {
                             jokerActive = false;
 
                             /* Mark as red */
-                            $(".joker-wrapper").addClass('joker-wrapper-used');
+                            $(".joker-wrapper").addClass('joker-used');
                         }else{
                             /* Answer is not correct */
+                        }
+
+                        /* If info about total earned money is sent */
+                        if(typeof response['data']['total_money'] !== 'undefined' && response['data']['total_money'] !== null){
+                            setTotalMoney(response['data']['total_money']);
                         }
                     }
 
