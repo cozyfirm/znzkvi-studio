@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System\QuizPlay;
 use App\Http\Controllers\Controller;
 use App\Models\Core\Countries;
 use App\Models\Quiz\Quiz;
+use App\Models\Quiz\QuizSet;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,6 +13,17 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersPlayController extends Controller{
     protected $_path = 'system.quiz-play.users.';
+
+    protected function totalMoney(){
+        try{
+            return Quiz::sum('total_money');
+        }catch (\Exception $e){ return 0; }
+    }
+    protected function questionsOpened(){
+        try{
+            return QuizSet::where('opened', 1)->count();
+        }catch (\Exception $e){ return 0; }
+    }
 
     public function getTotalSets(){
         try{
@@ -41,7 +53,10 @@ class UsersPlayController extends Controller{
             $action => true,
             'user' => isset($username) ? User::where('username', $username)->first() : NULL,
             'totalSets' => $this->getTotalSets(),
-            'totalUsedSets' => $this->getUsedSets()
+            'totalUsedSets' => $this->getUsedSets(),
+            'numOfTotalUsedSets' => Quiz::whereNotNull('user_id')->count(),
+            'totalMoney' => $this->totalMoney(),
+            'questionsOpened' => $this->questionsOpened()
         ]);
     }
 

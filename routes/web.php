@@ -102,6 +102,7 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             /* Live stream routes and actions */
             Route::post('/start-a-quiz',                        'QuizPlayController@startQuiz')->name('system.quiz-play.live.start-quiz');
             Route::post('/answer-the-question',                 'QuizPlayController@answerTheQuestion')->name('system.quiz-play.live.answer-the-question');
+            Route::post('/finnish-the-quiz',                    'QuizPlayController@finnishQuiz')->name('system.quiz-play.live.finnish-quiz');
         });
     });
 

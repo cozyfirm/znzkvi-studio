@@ -25,7 +25,6 @@ class QuizController extends Controller{
             'userRel.name' => __('Korisničko ime'),
             'activeRel.name' => __('Aktivan'),
             'correct_answers' => __('Tačnih odgovora'),
-            'jokerRel.name' => __('Joker'),
             'threshold' => __('Prag'),
             'total_money' => __('Osvojeno novca'),
             'startedRel.name' => __('Započeo'),

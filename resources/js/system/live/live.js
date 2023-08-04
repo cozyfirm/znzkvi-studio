@@ -148,4 +148,9 @@ $(document).ready(function () {
             'joker' : true
         });
     });
+    /* Finnish quiz */
+    $(".finnish-quiz-btn").click(function () {
+        liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
+    });
+
 });

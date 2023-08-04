@@ -84,6 +84,16 @@
         }
         .sr-icons:hover{cursor: pointer;}
     }
+
+    /* Finnish quiz button */
+    .finnish-quiz-btn{
+        position: relative; left: 0px; width: 100%; background: #ffc107; padding-top: 4px; padding-bottom: 4px; border-radius: 3px;
+        text-align: center;
+        p{
+            margin: 0px; font-weight: bold; color:#ffffff;
+        }
+    }
+    .finnish-quiz-btn:hover{cursor: pointer;}
 }
 
 /*

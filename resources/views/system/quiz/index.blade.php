@@ -41,7 +41,6 @@
                     <td> {{ $quiz->userRel->name ?? ''}} </td>
                     <td> {{ $quiz->activeRel->name ?? ''}} </td>
                     <td> {{ $quiz->correct_answers ?? ''}} </td>
-                    <td> {{ $quiz->jokerRel->name ?? ''}} </td>
                     <td> {{ $quiz->threshold ?? ''}} </td>
                     <td> {{ $quiz->total_money ?? ''}} BAM </td>
                     <td> {{ $quiz->startedRel->name ?? ''}} </td>

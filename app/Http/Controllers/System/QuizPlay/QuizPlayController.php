@@ -80,7 +80,9 @@ class QuizPlayController extends Controller{
             'total_money' => $quiz->total_money
         ]);
     }
-
+    /*
+     *  All actions from live feed
+     */
     public function answerTheQuestion(Request $request){
         try{
             $quiz = Quiz::where('id', $request->quiz_id)->first();
@@ -211,11 +213,28 @@ class QuizPlayController extends Controller{
                     }
                 }
             }
-
-            dd($request->all());
         }catch (\Exception $e){
-            dd($e);
             return $this->jsonResponse('50000', __('Došlo je do greške prilikom odgovora na pitanje. Molimo kontaktirajte administratora!'));
+        }
+    }
+
+    /*
+     *  Set Quiz state as finnish & inactive; This can be in case of:
+     *
+     *      - user quits
+     *      - phone connection lost
+     *      - Wrong answer
+     * */
+    public function finnishQuiz(Request $request){
+        try{
+            Quiz::where('id', $request->id)->update(['finished' => 1, 'active' => 0]);
+
+            return $this->liveResponse('0000', __('Kviz završen!'), [
+                'sub_code' => '50001',
+                'uri' => route('system.quiz')
+            ]);
+        }catch (\Exception $e){
+            return $this->jsonResponse('50000', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
         }
     }
 }
