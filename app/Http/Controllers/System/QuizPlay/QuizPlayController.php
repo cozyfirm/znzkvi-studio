@@ -143,6 +143,7 @@ class QuizPlayController extends Controller{
                             return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), [
                                 'sub_code' => '50007',
                                 'total_money' => $quiz->total_money,
+                                'uri' => route('system.quiz')
                             ]);
                         }else{
                             if($beforeLastQuestion) {
@@ -167,8 +168,9 @@ class QuizPlayController extends Controller{
                         /* Mark quiz as finished */
                         $quiz->update(['finished' => 1]);
 
-                        return $this->liveResponse('0000', __("Set sinhronizovan. Kviz završen!"), [
-                            'sub_code' => '50004'
+                        return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
+                            'sub_code' => '50001',
+                            'uri' => route('system.quiz')
                         ]);
                     }
                 }else{
@@ -203,7 +205,8 @@ class QuizPlayController extends Controller{
                         $quiz->update(['finished' => 1]);
 
                         return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
-                            'sub_code' => '50001'
+                            'sub_code' => '50001',
+                            'uri' => route('system.quiz')
                         ]);
                     }
                 }

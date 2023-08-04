@@ -39,11 +39,13 @@
                     <td class="text-center">{{ $i++}}. </td>
                     <td> {{ $quiz->date() ?? ''}} </td>
                     <td> {{ $quiz->userRel->name ?? ''}} </td>
-                    <td> {{ $quiz->onlineRel->name ?? ''}} </td>
+                    <td> {{ $quiz->activeRel->name ?? ''}} </td>
                     <td> {{ $quiz->correct_answers ?? ''}} </td>
                     <td> {{ $quiz->jokerRel->name ?? ''}} </td>
                     <td> {{ $quiz->threshold ?? ''}} </td>
                     <td> {{ $quiz->total_money ?? ''}} BAM </td>
+                    <td> {{ $quiz->startedRel->name ?? ''}} </td>
+                    <td> {{ $quiz->finishedRel->name ?? ''}} </td>
 
                     <td class="text-center">
                         <a href="{{ route('system.quiz.preview', ['id' => $quiz->id ]) }}" title="{{ __('Više informacija') }}">

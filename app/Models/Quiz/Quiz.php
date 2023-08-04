@@ -34,6 +34,16 @@ class Quiz extends Model{
     public function jokerRel(){
         return $this->hasOne(Keyword::class, 'value', 'joker')->where('type', 'da_ne');
     }
+    public function activeRel(){
+        return $this->hasOne(Keyword::class, 'value', 'active')->where('type', 'da_ne');
+    }
+    public function startedRel(){
+        return $this->hasOne(Keyword::class, 'value', 'started')->where('type', 'da_ne');
+    }
+    public function finishedRel(){
+        return $this->hasOne(Keyword::class, 'value', 'finished')->where('type', 'da_ne');
+    }
+
     public function openAndGetNextQuestion(){
         try{
             $set = QuizSet::where('quiz_id', $this->id)->where('opened', 0)->where('answered', 0)->where('replacement', 0)->orderBy('question_no')->first();

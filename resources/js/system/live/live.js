@@ -107,7 +107,7 @@ $(document).ready(function () {
                     }
 
                     setTimeout(function (){
-                        if(typeof response['url'] !== 'undefined' && response['url'] !== null) window.location = response['url'];
+                        if(typeof response['data']['uri'] !== 'undefined' && response['data']['uri'] !== null) window.location = response['data']['uri'];
                         else console.log("Do not redirect! " + response['message']);
                     }, 2000);
                 }else{

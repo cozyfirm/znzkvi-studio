@@ -23,11 +23,13 @@ class QuizController extends Controller{
         $filters = [
             'date' => __('Datum'),
             'userRel.name' => __('Korisničko ime'),
-            'onlineRel.name' => __('Online / Offline'),
-            'correct_answers' => 'Tačnih odgovora',
+            'activeRel.name' => __('Aktivan'),
+            'correct_answers' => __('Tačnih odgovora'),
             'jokerRel.name' => __('Joker'),
             'threshold' => __('Prag'),
-            'total_money' => __('Osvojeno novca')
+            'total_money' => __('Osvojeno novca'),
+            'startedRel.name' => __('Započeo'),
+            'finishedRel.name' => __('Završio'),
         ];
 
         return view($this->_path.'index', [

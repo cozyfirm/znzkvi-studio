@@ -49,6 +49,10 @@ class UsersPlayController extends Controller{
      *  Create new user for Quiz
      */
     public function create(){
+        /* First, let's check if there is currently any active quiz */
+        $activeQuiz = Quiz::where('active', 1)->where('finished', 0)->first();
+        if($activeQuiz) return redirect()-> route('system.quiz-play.live', ['quiz_id' => $activeQuiz->id ]);
+
         return $this->getData('create');
     }
     public function save(Request $request){
