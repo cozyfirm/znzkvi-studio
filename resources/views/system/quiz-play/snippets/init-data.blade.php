@@ -37,7 +37,7 @@
 
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> <i class="fa-solid fa-sack-dollar"></i> {{ __('Osvojeno') }} <b>{{ $totalMoney }} BAM </b> u {{ ($numOfTotalUsedSets / $totalSets) * 100 }} % {{ __('otvorenih setova') }} ! </small> </a>
+                                    <a href="#" class="m-0 ml-3"> <small> <i class="fa-solid fa-sack-dollar"></i> {{ __('Osvojeno') }} <b>{{ $totalMoney }} BAM </b> u @if($totalSets) {{ ($numOfTotalUsedSets / $totalSets) * 100 }} @else 0 @endif % {{ __('otvorenih setova') }} ! </small> </a>
                                 </div>
                             </div>
                             <div class="row">

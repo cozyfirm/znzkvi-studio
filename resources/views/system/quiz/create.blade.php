@@ -2,8 +2,8 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-play"></i> @endsection
-@section('ph-main') @if(isset($create)) {{ __('Unos seta') }} @else {{ __('Pregled seta') }} @endif @endsection
+@section('ph-icon') <i class="fa-solid fa-clipboard-question"></i> @endsection
+@section('ph-main') {{ __('Pregled seta') }} @endsection
 @section('ph-short')
     {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}}
     | <a href="{{route('system.quiz.delete', ['id' => $quiz->id])}}" class="delete-item" d-title="{{ __('KVIZ') }}" }}> {{__('Obrišite kviz')}} </a>

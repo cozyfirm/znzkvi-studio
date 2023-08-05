@@ -29,6 +29,7 @@ class QuizPlayController extends Controller{
         /* All users from current session */
         $users = Quiz::where('user_id', '!=', null)->get();
 
+
         return view($this->_path.'live', [
             'quiz' => $quiz,
             'user' => $user,

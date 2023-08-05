@@ -11,6 +11,10 @@
 
 @section('content')
     <div class="content-wrapper p-3">
+        @if(!$totalSets or 1)
+            <div class="alert alert-danger"> {{ __('Trenutno nema dostupan ni jedan set za igranje !') }} </div>
+        @endif
+
         <div class="row">
             <div class="col-md-9">
                 {!! Form::open(array('route' => 'system.quiz-play.users.save', 'method' => 'post', 'id' => 'js-form')) !!}
