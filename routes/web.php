@@ -65,12 +65,16 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
         Route::group(['prefix' => '/quiz'], function(){
             Route::get ('/',                                'QuizController@index')->name('system.quiz');
             Route::get ('/preview-quiz/{id}',               'QuizController@preview')->name('system.quiz.preview');
+            Route::get ('/delete-quiz/{id}',                'QuizController@delete')->name('system.quiz.delete');
             Route::get ('/sync-quizzes',                    'QuizController@syncQuizzess')->name('system.quiz.sync-quizzes');
             Route::post('/sync-quizzes-from-center',        'QuizController@syncQuizzesFromCenter')->name('system.quiz.sync-quizzes-from-center');
 
             /* Demo quiz */
             Route::get ('/demo',                            'QuizController@demo')->name('system.quiz.demo');
             Route::post('/send-demo-message',               'QuizController@sendDemoMsg')->name('system.quiz.send-demo-message');
+
+            /* Push data back to central server */
+            Route::get ('/sync-quizzes-to-center',          'QuizController@syncQuizzesToCenter')->name('system.quiz.sync-quizzes-to-center');
         });
 
         Route::group(['prefix' => '/questions'], function(){

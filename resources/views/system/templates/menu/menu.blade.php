@@ -111,9 +111,9 @@
                 <div class="s-lm-wrapper">
                     <div class="s-lm-s-elements">
                         <div class="s-lms-e-img">
-                            <i class="fas fa-question"></i>
+                            <i class="fa-solid fa-clipboard-question"></i>
                         </div>
-                        <p>{{__('Kvizovi')}}</p>
+                        <p>{{__('Kviz')}}</p>
                         <div class="extra-elements">
                             <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
                         </div>
@@ -123,6 +123,18 @@
                             <div class="inside-lm-link">
                                 <div class="ilm-l"></div><div class="ilm-c"></div>
                                 <p>{{__('Pregled svih kvizova')}}</p>
+                            </div>
+                        </a>
+                        <a href="{{ route('system.quiz.sync-quizzes') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{ __('Sync from center') }}</p>
+                            </div>
+                        </a>
+                        <a href="{{ route('system.quiz.sync-quizzes-to-center') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{ __('Push data to center') }}</p>
                             </div>
                         </a>
                         <a href="{{ route('system.quiz.questions') }}">

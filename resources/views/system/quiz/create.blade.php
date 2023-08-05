@@ -4,7 +4,10 @@
 
 @section('ph-icon') <i class="fas fa-play"></i> @endsection
 @section('ph-main') @if(isset($create)) {{ __('Unos seta') }} @else {{ __('Pregled seta') }} @endif @endsection
-@section('ph-short') {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}} @endsection
+@section('ph-short')
+    {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}}
+    | <a href="{{route('system.quiz.delete', ['id' => $quiz->id])}}" class="delete-item" d-title="{{ __('KVIZ') }}" }}> {{__('Obrišite kviz')}} </a>
+@endsection
 
 @section('ph-navigation')
     / <a href="{{ route('system.quiz') }}"> {{ __('Pregled setova') }} </a>
@@ -12,7 +15,6 @@
 @endsection
 
 <!--------------------------------------------------------------------------------------------------------------------->
-
 
 @section('content')
     <div class="content-wrapper content-wrapper-bs">

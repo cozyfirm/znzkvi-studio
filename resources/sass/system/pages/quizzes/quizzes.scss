@@ -1,0 +1,27 @@
+.sync-response-row{
+    position: relative; left: 0px; width: 100%; display: inline-flex; justify-content: space-between; margin-bottom: 12px;
+    .srr-text{
+        position: relative; left: 0px; width: calc(100% - 100px); display: inline-flex; justify-content: flex-start;
+
+        i{
+            font-size: 14px; padding-top:3px;
+        }
+        p{
+            margin-left: 10px; margin-top: 0px; margin-bottom: 0px; margin-top: -0px;
+        }
+
+        .srr-t-sets{ margin-left: 10px !important; padding-left: 5px; }
+        .fa-clipboard-question{margin-left: 3px;}
+        .fa-circle-question{margin-left: 2px;}
+        .srr-t-questions{padding-left: 3px;}
+    }
+    .srr-values{
+        position: relative; left: 0px; width: 100px; display: inline-flex; justify-content: flex-end;
+        p{
+            margin: 0px; display: inline-flex; width: 30px; justify-content: center;
+            span{
+
+            }
+        }
+    }
+}

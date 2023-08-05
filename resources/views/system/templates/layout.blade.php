@@ -24,6 +24,7 @@
 
 <!-- Import MENU -->
 @include("system.templates.menu.menu")
+@include('system.templates.snippets.pop-up')
 
 <div class="main-content">
     <!-- Basic header of every page -->

@@ -5,6 +5,9 @@ require('../bootstrap');
 window.$ = window.jQuery = require('jquery'); // Include jQuery
 /* Require filters scripts */
 require('../libraries/filters');
+/* Delete item with pop-up */
+require('../libraries/delete');
+
 
 $(document).ready(function() {
     /*

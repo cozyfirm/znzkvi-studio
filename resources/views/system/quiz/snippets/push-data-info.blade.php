@@ -1,40 +1,90 @@
-<div class="col-md-3 border-left">
+<div class="col-md-3">
     <div class="row">
         <div class="col-md-12">
 
-            <div class="card" title=" {{ __('Ostale informacije') }} ">
+            <div class="card" title=" {{ __('') }} ">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12 d-flex justify-content-between">
-                                    <h6 class="pt-1"> <b> {{ __('Ostale informacije') }} </b> </h6>
+                                    <h6 class="pt-1"> <b> {{ __('Sync response') }} </b> </h6>
                                     <a href="#" title="{{ __('Ostali statistički podaci vezani za pitanje') }}">
                                         <small><i class="fas fa-question"></i></small>
                                     </a>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Broj pitanja koja su iskorištena') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> {{ __('Igrač: ') }} <b> {{ $quiz->userRel->name ?? '' }} </b> </small> </a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md 12 d-flex justify-content-start" title="{{ __('Broj pitanja koja su iskorištena') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> {{ __('Na ovom setu je otvoreno ukupno ') }} {{ $quiz->totalOpened() }} {{ __('pitanja') }} ! </small> </a>
-                                </div>
-                            </div>
                             <hr>
                             <div class="row">
-                                <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-check"></i> 18 tačnih odgovora </small> </a>
+                                <div class="sync-response-row">
+                                    <div class="srr-text">
+                                        <i class="fas fa-users"></i>
+                                        <p> {{ __('Korisnici') }} </p>
+                                    </div>
+                                    <div class="srr-values">
+                                        <b>
+                                            <p title="{{ __('Broj spremljenih korisnika u centralni sistem') }}"> {{ session()->get('api-success')['data']->newUsers }}  </p>
+                                            <span>|</span>
+                                            <p title="{{ __('Ukupan broj korisnika poslan sa lokalnog sistema') }}"> {{ session()->get('api-success')['data']->receivedUsers }}  </p>
+                                        </b>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-wallet"></i> {{ __('Osvojeno') }} 50 BAM </small> </a>
+
+                                <hr>
+
+                                <div class="sync-response-row">
+                                    <div class="srr-text">
+                                        <i class="fa-solid fa-clipboard-question"></i>
+                                        <p class="srr-t-sets"> {{ __('Setovi pitanja') }} </p>
+                                    </div>
+                                    <div class="srr-values">
+                                        <b>
+                                            <p title="{{ __('Uspješno ažuriranih setova') }}"> {{ session()->get('api-success')['data']->updatedSets }}  </p>
+                                            <span>|</span>
+                                            <p title="{{ __('Ukupan broj setova poslanih za ažuriranja') }}"> {{ session()->get('api-success')['data']->receivedSets }}  </p>
+                                        </b>
+                                    </div>
                                 </div>
+
+                                <hr>
+
+                                <div class="sync-response-row">
+                                    <div class="srr-text">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                        <p class="srr-t-questions"> {{ __('Pitanja') }} </p>
+                                    </div>
+                                    <div class="srr-values">
+                                        <b>
+                                            <p title="{{ __('Broj otključanih pitanja za javnost') }}"> {{ session()->get('api-success')['data']->publishedQuestions }}  </p>
+                                            <span>|</span>
+                                            <p title="{{ __('Ukupan broj pitanja sa seta') }}"> {{ session()->get('api-success')['data']->receivedQuestions }}  </p>
+                                        </b>
+                                    </div>
+                                </div>
+
+                                <hr>
                             </div>
+
+                            @if(count(session()->get('api-success')['data']->failedUsers))
+                                <div class="row">
+                                    <div class="col-md-12 d-flex justify-content-between">
+                                        <h6 class="pt-1"> <b> {{ __('Nesinhronizovani korisnici') }} </b> </h6>
+                                        <a href="#" title="#">
+                                            <small><i class="fas fa-question"></i></small>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <ol>
+                                            @foreach(session()->get('api-success')['data']->failedUsers as $user)
+                                                <li>{{ $user->name }}</li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
 

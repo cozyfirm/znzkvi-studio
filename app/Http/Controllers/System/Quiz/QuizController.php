@@ -79,7 +79,6 @@ class QuizController extends Controller{
                     $quizObject = Quiz::create([
                         'id' => $quiz->id,
                         'date' => $quiz->date,
-                        'user_id' => $quiz->user_id,
                         'online' => $quiz->online,
                         'correct_answers' => $quiz->correct_answers,
                         'joker' => $quiz->joker,
@@ -139,6 +138,62 @@ class QuizController extends Controller{
 
         }catch (\Exception $e){
             return $this->jsonResponse('20350', __('Desila se greška prilikom sinhronizacije. Error code : ') . $e->getCode());
+        }
+    }
+    protected function deleteSample($id){
+        try{
+            $quiz = Quiz::where('id', $id)->first();
+            $sets = QuizSet::where('quiz_id', $id)->get();
+
+            foreach ($sets as $set){
+                $set->questionRel->answerARel->delete();
+                $set->questionRel->answerBRel->delete();
+                $set->questionRel->answerCRel->delete();
+                $set->questionRel->answerDRel->delete();
+
+                $set->questionRel->delete();
+                $set->delete();
+            }
+
+            $quiz->delete();
+
+            return true;
+        }catch (\Exception $e){ return false; }
+    }
+    public function syncQuizzesToCenter(){
+        try{
+            $quizzes = Quiz::with('setRel')->with('userRel')->get()->toArray();
+
+            $sendData = $this::fetchData('POST', 'api/sync/update-quizzes/sync-from-local-app', ['quizzes' => $quizzes]);
+            $jsonData = json_decode($sendData->getBody()->getContents());
+
+
+            foreach ($jsonData->data->successQuizzes as $qID){
+                $this->deleteSample($qID);
+            }
+
+
+            if($jsonData->code != '0000'){
+                return back()->with('api-success', [
+                    'message' => __('Došlo je do greške prilikom sinhronizacije, neki od setova nisu sinhronizovani !'),
+                    'data' => $jsonData->data
+                ]);
+            }else{
+                return back()->with('api-success', [
+                    'message' => __('Svi setovi pitanja su uspješno sinhronizovani prema centralnom sistemu!'),
+                    'data' => $jsonData->data
+                ]);
+            }
+        }catch (\Exception $e){dd($e);}
+    }
+
+    public function delete($id){
+        try{
+            $this->deleteSample($id);
+
+            return redirect()->route('system.quiz')->with('success', __('Kviz uspješno izbrisan !'));
+        }catch (\Exception $e){
+            return redirect()->route('system.quiz')->with('error', __('Desila se greška prilikom brisanja kviza, molimo kontaktirajte administratora!'));
         }
     }
 

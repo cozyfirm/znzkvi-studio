@@ -50,7 +50,7 @@ $(document).ready(function () {
     };
 
     /* Set current active question in GUI */
-    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no); };
+    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no + "."); };
     /* Set total earned money in quiz - GUI */
     /* Set current active question in GUI */
     let setTotalMoney = function(total){ $("#lf-total-money").text(total); };

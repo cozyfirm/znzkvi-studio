@@ -62,6 +62,6 @@ class Controller extends BaseController{
                 ],
                 'form_params' => $params
             ]);
-        }catch (\Exception $e){  }
+        }catch (\Exception $e){ dd($e); }
     }
 }
