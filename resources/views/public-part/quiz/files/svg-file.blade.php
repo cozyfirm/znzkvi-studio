@@ -19,7 +19,7 @@
 	c15.655,0,28.347,12.69,28.347,28.347v272.055c0,9.522,3.028,18.796,8.647,26.483l29.573,40.456
 	c3.55,4.854,5.462,10.714,5.462,16.728v92.747c0,46.965-38.072,85.038-85.037,85.039l-865.063,0.021
 	C364.283,889.327,357.937,882.981,357.937,875.153"/>
-    <g id="StarGroup">
+    <g id="StarGroup" class="questions-group d-none">
         <g id="StarGroup3">
             <path id="Star3Stroke" fill="#2F2C2F" d="M358.454,331.59c-1.71,0-3.423-0.426-4.955-1.23l-2.622-1.378l-2.622,1.378
 			c-1.532,0.805-3.245,1.23-4.955,1.23c-3.143-0.001-6.115-1.387-8.154-3.805c-2.019-2.394-2.872-5.548-2.34-8.648l0.501-2.922
@@ -34,7 +34,7 @@
 				c1.807-3.66,5.465-5.934,9.548-5.934c4.082,0,7.741,2.273,9.548,5.934l1.311,2.657l2.931,0.426
 				c4.038,0.586,7.332,3.362,8.594,7.245c1.262,3.882,0.231,8.064-2.693,10.916l-2.121,2.066l0.5,2.921
 				c0.532,3.103-0.321,6.256-2.34,8.649C364.569,330.203,361.597,331.59,358.454,331.59"/>
-                <path fill="#5899B5" d="M348.771,318.868l5.919,3.111c2.613,1.374,5.665-0.844,5.167-3.753l-1.131-6.591l4.789-4.668
+                <path class="star-1" fill="#5899B5" d="M348.771,318.868l5.919,3.111c2.613,1.374,5.665-0.844,5.167-3.753l-1.131-6.591l4.789-4.668
 				c2.113-2.061,0.947-5.649-1.973-6.074l-6.618-0.962l-2.96-5.997c-1.306-2.646-5.08-2.646-6.386,0l-2.96,5.997l-6.618,0.962
 				c-2.92,0.425-4.086,4.014-1.973,6.074l4.789,4.668l-1.131,6.591c-0.498,2.909,2.554,5.127,5.167,3.753L348.771,318.868z"/>
             </g>
@@ -46,7 +46,7 @@
 			c1.807-3.66,5.465-5.934,9.548-5.934c4.082,0,7.741,2.273,9.548,5.934l1.311,2.657l2.931,0.426
 			c4.038,0.586,7.332,3.362,8.594,7.245c1.262,3.882,0.231,8.064-2.693,10.916l-2.121,2.066l0.5,2.921
 			c0.532,3.103-0.321,6.256-2.34,8.649C365.622,263.212,362.65,264.599,359.507,264.599"/>
-            <path id="Star2" fill="#5899B5" d="M349.823,251.876l5.919,3.112c2.613,1.373,5.665-0.844,5.167-3.753l-1.131-6.591l4.789-4.668
+            <path class="star-2" id="Star2" fill="#5899B5" d="M349.823,251.876l5.919,3.112c2.613,1.373,5.665-0.844,5.167-3.753l-1.131-6.591l4.789-4.668
 			c2.113-2.062,0.947-5.65-1.973-6.074l-6.618-0.962l-2.96-5.997c-1.306-2.646-5.08-2.646-6.386,0l-2.96,5.997l-6.618,0.962
 			c-2.92,0.424-4.086,4.013-1.973,6.074l4.789,4.668l-1.131,6.591c-0.498,2.909,2.554,5.126,5.167,3.753L349.823,251.876z"/>
         </g>
@@ -57,13 +57,13 @@
 			c1.807-3.66,5.465-5.934,9.548-5.934c4.082,0,7.741,2.273,9.548,5.934l1.311,2.657l2.931,0.426
 			c4.038,0.586,7.332,3.362,8.594,7.245c1.262,3.882,0.231,8.064-2.693,10.916l-2.121,2.066l0.5,2.921
 			c0.532,3.103-0.321,6.256-2.34,8.649C366.675,194.321,363.703,195.708,360.561,195.708"/>
-            <path id="Star1" fill="#5899B5" d="M350.877,182.985l5.919,3.112c2.613,1.373,5.665-0.844,5.167-3.754l-1.131-6.59l4.789-4.668
+            <path class="star-3" id="Star1" fill="#5899B5" d="M350.877,182.985l5.919,3.112c2.613,1.373,5.665-0.844,5.167-3.754l-1.131-6.59l4.789-4.668
 			c2.113-2.062,0.947-5.65-1.973-6.074l-6.618-0.962l-2.96-5.997c-1.306-2.646-5.08-2.646-6.386,0l-2.96,5.997l-6.618,0.962
 			c-2.92,0.424-4.086,4.013-1.973,6.074l4.789,4.668l-1.13,6.59c-0.499,2.91,2.553,5.127,5.166,3.754L350.877,182.985z"/>
         </g>
     </g>
 
-    <g id="JockerGroup">
+    <g id="JockerGroup" class="questions-group d-none">
         <path id="Stroke" fill="#2F2C2F" d="M1095.459,202.569c-0.258-0.277-0.525-0.547-0.805-0.805c-0.258-0.277-0.525-0.546-0.804-0.803
 		c-0.258-0.28-0.526-0.547-0.805-0.805c-0.257-0.278-0.525-0.547-0.804-0.805c-0.259-0.278-0.526-0.547-0.805-0.804
 		c-0.258-0.279-0.525-0.546-0.804-0.804c-0.258-0.279-0.526-0.547-0.806-0.806c-0.256-0.277-0.524-0.546-0.804-0.804
@@ -75,7 +75,7 @@
         <path id="Available" fill="#8BCA89" d="M1075.36,314.076h-63.737c-6.236,0-11.339-5.103-11.339-11.339v-93.739
 		c0-6.236,5.103-11.34,11.339-11.34h63.737c6.235,0,11.338,5.104,11.338,11.34v93.739
 		C1086.698,308.974,1081.596,314.076,1075.36,314.076"/>
-        <path id="Used" fill="#F06B6C" d="M1075.359,314.076h-63.736c-6.236,0-11.34-5.103-11.34-11.339v-93.741
+        <path id="jokerUsed" class="d-none" fill="#F06B6C" d="M1075.359,314.076h-63.736c-6.236,0-11.34-5.103-11.34-11.339v-93.741
 		c0-6.235,5.104-11.338,11.34-11.338h63.736c6.236,0,11.34,5.103,11.34,11.338v93.741
 		C1086.699,308.974,1081.596,314.076,1075.359,314.076"/>
         <g id="JockerCard">
@@ -187,7 +187,7 @@
         </g>
     </g>
 
-    <g id="TimerGroup">
+    <g id="TimerGroup" class="questions-group d-none">
         <path id="TimerScaleStroke" fill="#2F2C2F" d="M1232.435,377.909l-4.319-7.493c-2.418-4.556-7.203-7.659-12.72-7.659h-29.438
 		c-7.952,0-14.398,6.446-14.398,14.396v399.985c0,1.399,0.406,2.701,1.098,3.806c0.088,0.172,0.186,0.337,0.287,0.5
 		c0.09,0.171,0.187,0.337,0.289,0.499c0.088,0.172,0.186,0.337,0.287,0.5c0.09,0.172,0.187,0.337,0.288,0.5
@@ -198,16 +198,18 @@
 		c3.977,0,7.199-3.225,7.199-7.199V385.147C1234.4,382.506,1233.677,380.038,1232.435,377.909"/>
         <path id="TimerCategoryColor" fill="#5899B5" d="M1217.842,768.625h-38.461V379.254c0-4.696,3.807-8.504,8.504-8.504h21.452
 		c4.697,0,8.505,3.808,8.505,8.504V768.625z"/>
+
         <path id="TimerScale1" fill="#F6F7F8" d="M1217.842,766.146h-38.461V643.888c0-3.933,3.188-7.121,7.121-7.121h24.219
 		c3.933,0,7.121,3.188,7.121,7.121V766.146z"/>
         <path id="TimerScale2" fill="#F6F7F8" d="M1217.842,766.146h-38.461V576.068c0-3.933,3.188-7.121,7.121-7.121h24.219
 		c3.933,0,7.121,3.188,7.121,7.121V766.146z"/>
         <path id="TimerScale3" fill="#F6F7F8" d="M1217.842,766.146h-38.461V508.808c0-3.934,3.188-7.121,7.121-7.121h24.219
 		c3.934,0,7.121,3.188,7.121,7.121V766.146z"/>
-        <path id="TimerScale4" fill="#F6F7F8" d="M1217.842,766.146h-38.461V442.071c0-3.933,3.188-7.121,7.12-7.121h24.22
+        <path id="TimerScale4" display="none" fill="#F6F7F8" d="M1217.842,766.146h-38.461V442.071c0-3.933,3.188-7.121,7.12-7.121h24.22
 		c3.933,0,7.121,3.188,7.121,7.121V766.146z"/>
-        <path id="TimerScale5" fill="#F6F7F8" d="M1217.842,712.146h-38.883V379.253c0-4.696,3.808-8.503,8.504-8.503h21.875
+        <path id="TimerScale5" display="none" fill="#F6F7F8" d="M1217.842,712.146h-38.883V379.253c0-4.696,3.808-8.503,8.504-8.503h21.875
 		c4.695,0,8.504,3.807,8.504,8.503V712.146z"/>
+
         <path id="TimerStroke" fill="#2F2C2F" d="M1250.962,709.318c-13.108-13.295-31.311-21.555-51.412-21.555
 		c-39.833,0-72.241,32.408-72.241,72.241c0,20.101,8.261,38.303,21.556,51.412c15.414,15.65,31.168,32.446,62.304,32.446
 		c39.834,0,72.241-32.406,72.241-72.24C1283.409,740.533,1266.633,724.734,1250.962,709.318"/>
@@ -219,7 +221,7 @@
         <text id="TimerNumber" transform="matrix(1 0 0 1 1181.8262 788.5771)" fill="#77CEF4" font-family="'QuirelTypeface'" font-size="84">5</text>
     </g>
 
-    <g id="IconGroup">
+    <g id="IconGroup" class="questions-group d-none">
         <g id="PitanjeZaNobela" class="category-wrapper d-none category-wrapper-7">
             <g id="CategoryName7" display="inline">
                 <g>
@@ -2522,7 +2524,7 @@
 				c-0.06-2.066,1.676-3.785,3.878-3.838S457.97,222.368,458.03,224.436"/>
             </g>
         </g>
-        <g id="MentalnoRazgibavanje" class="category-wrapper d-none category-wrapper-1">
+        <g id="MentalnoRazgibavanje" class="category-wrapper category-wrapper-1">
             <g id="CategoryName1">
                 <g>
                     <path fill="#2F2C2F" d="M602.426,224.598c0.033,0.634,0.066,1.25,0.1,1.85c0.033,0.6,0.066,1.217,0.1,1.85
@@ -3001,10 +3003,10 @@
         </g>
     </g>
 
-    <g id="QuestionGroup">
+    <g id="QuestionGroup" class="questions-group normal-question d-none">
         <g id="MultipleAnswersGroup">
             <g id="AnswareGroupD">
-                <path id="AnswerSecondaryColorD" fill="#5899B5" d="M1083.918,841.849H424.274c-7.827,0-14.173-6.346-14.173-14.174v-18.76
+                <path id="AnswerSecondaryColorD" class="answer-wrapper answer-D-wrapper" fill="#5899B5" d="M1083.918,841.849H424.274c-7.827,0-14.173-6.346-14.173-14.174v-18.76
 				c0-7.827,6.346-14.172,14.173-14.172h659.644c7.828,0,14.173,6.345,14.173,14.172v18.76
 				C1098.091,835.503,1091.746,841.849,1083.918,841.849"/>
                 <path id="AnswerStrokeD" fill="#2F2C2F" d="M1083.918,843.849H424.275c-8.918,0-16.173-7.254-16.173-16.172v-18.76
@@ -3013,7 +3015,7 @@
 				c0,6.712,5.461,12.172,12.173,12.172h659.643c6.712,0,12.174-5.46,12.174-12.172v-18.76c0-6.713-5.462-12.175-12.174-12.175
 				H424.275z"/>
 
-                <text id="AnswerTextD" transform="matrix(1 0 0 1 456.2075 826.2793)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">Text D</text>
+                <text id="AnswerTextD" transform="matrix(1 0 0 1 456.2075 826.2793)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"></text>
                 <path id="D" fill="#2F2C2F" d="M441.325,824.511c-0.255,0.945-0.619,1.93-1.202,2.768c-0.947,1.31-2.366,2.257-3.859,2.838
 				c-2.149,0.802-4.37,1.166-6.664,0.875c-0.364-0.036-0.838-0.073-1.056,0.219c-0.073,0.11-0.145,0.22-0.219,0.291
 				c-0.108,0.147-0.291,0.147-0.437,0.183c-0.218,0.037-2.621,0.255-2.621,0.219c0-3.824,0.254-7.648,0.254-11.436
@@ -3026,7 +3028,7 @@
 				c0.146,0.108,0.364,0.108,0.546,0.144c1.347,0.075,2.695-0.363,3.751-1.237C437.355,822.436,437.355,818.756,436.3,815.843"/>
             </g>
             <g id="AnswareGroupC">
-                <path id="AnswerSecondaryColorC" fill="#5899B5" d="M1083.918,774.736H424.274c-7.827,0-14.173-6.346-14.173-14.173v-18.76
+                <path id="AnswerSecondaryColorC" class="answer-wrapper answer-C-wrapper" fill="#5899B5" d="M1083.918,774.736H424.274c-7.827,0-14.173-6.346-14.173-14.173v-18.76
 				c0-7.828,6.346-14.173,14.173-14.173h659.644c7.828,0,14.173,6.345,14.173,14.173v18.76
 				C1098.091,768.391,1091.746,774.736,1083.918,774.736"/>
                 <path id="AnswerStrokeC" fill="#2F2C2F" d="M1083.918,776.736H424.275c-8.918,0-16.173-7.254-16.173-16.172v-18.76
@@ -3034,7 +3036,7 @@
 				C1100.092,769.482,1092.836,776.736,1083.918,776.736 M424.275,729.63c-6.712,0-12.173,5.462-12.173,12.175v18.76
 				c0,6.712,5.461,12.172,12.173,12.172h659.643c6.712,0,12.174-5.46,12.174-12.172v-18.76c0-6.713-5.462-12.175-12.174-12.175
 				H424.275z"/>
-                <text id="AnswerTextC" transform="matrix(1 0 0 1 456.2075 759.168)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">Text C</text>
+                <text id="AnswerTextC" transform="matrix(1 0 0 1 456.2075 759.168)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"></text>
                 <path id="C" fill="#2F2C2F" d="M437.863,746.638c-0.292-0.218-0.437-0.838-0.655-1.164c-0.583-0.874-1.566-1.748-2.731-1.748
 				c-2.003,0-2.95,2.04-3.314,3.678c-0.474,2.112-0.838,4.297-0.51,6.445c0.146,0.765,0.364,1.528,0.765,2.146
 				c0.619,0.949,1.675,1.604,2.803,1.749c1.093,0.146,2.294-0.217,3.132-0.982c0.218-0.22,0.474-0.474,0.765-0.583
@@ -3046,7 +3048,7 @@
 				c-0.765,0.618-2.44,1.855-3.496,1.563C437.973,746.674,437.899,746.638,437.863,746.638"/>
             </g>
             <g id="AnswareGroupB">
-                <path id="AnswerSecondaryColorB" fill="#5899B5" d="M1083.918,707.614H424.274c-7.827,0-14.173-6.346-14.173-14.173v-18.761
+                <path id="AnswerSecondaryColorB" class="answer-wrapper answer-B-wrapper" fill="#5899B5" d="M1083.918,707.614H424.274c-7.827,0-14.173-6.346-14.173-14.173v-18.761
 				c0-7.827,6.346-14.172,14.173-14.172h659.644c7.828,0,14.173,6.345,14.173,14.172v18.761
 				C1098.091,701.269,1091.746,707.614,1083.918,707.614"/>
                 <path id="AnswerStrokeB" fill="#2F2C2F" d="M1083.918,709.614H424.275c-8.918,0-16.173-7.254-16.173-16.172v-18.761
@@ -3055,7 +3057,7 @@
 				c0,6.712,5.461,12.172,12.173,12.172h659.643c6.712,0,12.174-5.46,12.174-12.172v-18.761c0-6.712-5.462-12.174-12.174-12.174
 				H424.275z"/>
 
-                <text id="AnswerTextB" transform="matrix(1 0 0 1 456.2075 692.0449)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">Text B</text>
+                <text id="AnswerTextB" transform="matrix(1 0 0 1 456.2075 692.0449)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"></text>
                 <path id="B" fill="#2F2C2F" d="M440.776,691.524c-0.764,1.384-2.258,2.186-3.714,2.804c-2.295,0.983-4.697,1.675-7.174,2.04
 				c-0.982,0.145-2.039,0.218-2.949-0.22c-1.53-0.691-0.91-2.948-0.874-4.297c0.073-1.82,0.073-3.64,0.073-5.462
 				c0.036-3.641-0.073-7.282-0.219-10.96c-0.036-0.546-0.036-1.092-0.073-1.639c-0.036-0.656,0.184-1.02,0.546-1.312
@@ -3071,7 +3073,7 @@
 				C435.569,689.34,435.678,688.247,435.095,687.737"/>
             </g>
             <g id="AnswareGroupA">
-                <path id="AnswerSecondaryColorA" fill="#5899B5" d="M1083.918,640.507H424.274c-7.827,0-14.173-6.346-14.173-14.174v-18.76
+                <path id="AnswerSecondaryColorA" class="answer-wrapper answer-A-wrapper" fill="#5899B5" d="M1083.918,640.507H424.274c-7.827,0-14.173-6.346-14.173-14.174v-18.76
 				c0-7.827,6.346-14.172,14.173-14.172h659.644c7.828,0,14.173,6.345,14.173,14.172v18.76
 				C1098.091,634.161,1091.746,640.507,1083.918,640.507"/>
                 <path id="AnswerStrokeA" fill="#2F2C2F" d="M1083.918,642.507H424.275c-8.918,0-16.173-7.255-16.173-16.173v-18.76
@@ -3080,7 +3082,7 @@
 				c0,6.713,5.461,12.173,12.173,12.173h659.643c6.712,0,12.174-5.46,12.174-12.173v-18.76c0-6.712-5.462-12.174-12.174-12.174
 				H424.275z"/>
 
-                <text id="AnswerTextA" transform="matrix(1 0 0 1 456.2075 624.9375)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">Text A</text>
+                <text id="AnswerTextA" transform="matrix(1 0 0 1 456.2075 624.9375)" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"></text>
                 <path id="A" fill="#2F2C2F" d="M441.803,623.096c-0.036,0.619,0.073,1.202,0.073,1.785c-0.036,0.473-0.036,0.947-0.073,1.419
 				c0,0.583-0.036,1.203-0.4,1.64c-0.692,0.837-2.258,0.766-3.205,0.581c-0.727-0.107-1.456-0.472-1.856-1.055
 				c-0.838-1.202-0.256-2.986-1.093-4.152c-0.399-0.546-1.056-0.873-1.711-0.837c-0.692,0-1.311,0.401-1.675,0.947
@@ -3104,11 +3106,13 @@
 			C1100.092,554.348,1092.836,561.604,1083.918,561.604 M424.275,366.802c-6.712,0-12.173,5.462-12.173,12.174V545.43
 			c0,6.713,5.461,12.174,12.173,12.174h659.643c6.712,0,12.174-5.461,12.174-12.174V378.976c0-6.712-5.462-12.174-12.174-12.174
 			H424.275z"/>
-            <text transform="matrix(1 0 0 1 434.0488 404.4531)"><tspan id="questionText" x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">Text</tspan></text>
+            <text transform="matrix(1 0 0 1 434.0488 404.4531)" id="questionText" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">
+
+            </text>
         </g>
     </g>
 
-    <g id="DirektnoPitanjGroupBaraz" display="none">
+    <g id="DirektnoPitanjGroupBaraz" class="questions-group direct-question d-none">
         <path display="inline" fill="#5899B5" d="M1097.091,637.278V470.824c0-7.827-6.346-14.173-14.173-14.173H423.275
 		c-7.828,0-14.173,6.346-14.173,14.173v166.455c0,7.828,6.345,14.173,14.173,14.173h659.643
 		C1090.745,651.451,1097.091,645.106,1097.091,637.278"/>
@@ -3117,12 +3121,9 @@
 		C1099.092,646.196,1091.836,653.452,1082.918,653.452 M423.275,458.651c-6.712,0-12.173,5.461-12.173,12.173v166.454
 		c0,6.713,5.461,12.174,12.173,12.174h659.643c6.712,0,12.174-5.461,12.174-12.174V470.824c0-6.712-5.462-12.173-12.174-12.173
 		H423.275z"/>
-        <text transform="matrix(1 0 0 1 433.0488 496.3022)" display="inline"><tspan x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">B</tspan><tspan x="14.605" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="27.951" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="40.31" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="53.163" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">na</tspan><tspan x="79.608" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="92.068" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">,</tspan><tspan x="98.732" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="113.271" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">k</tspan><tspan x="125.848" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="138.636" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">da</tspan><tspan x="165.377" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="179.895" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="192.166" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="205.314" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="219.832" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="233.178" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="245.559" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="251.543" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="264.802" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ć</tspan><tspan x="277.812" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="290.577" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="305.116" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ne</tspan><tspan x="331.944" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="345.668" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">g</tspan><tspan x="359.598" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="373.075" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="387.096" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">no</tspan><tspan x="414.275" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="428.814" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">na</tspan><tspan x="455.26" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="469.799" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">n</tspan><tspan x="483.479" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="496.693" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">k</tspan><tspan x="508.939" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">om</tspan><tspan x="542.502" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="9"> </tspan><tspan x="557.02" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="565.989" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="578.755" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="592.775" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">nom </tspan></text>
-        <text transform="matrix(1 0 0 1 433.0488 526.3105)" display="inline"><tspan x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m</tspan><tspan x="20.106" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="26.09" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">es</tspan><tspan x="51.466" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="59.815" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="73.561" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">.</tspan><tspan x="80.107" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="91.236" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">R</tspan><tspan x="105.586" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="118.845" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ć</tspan><tspan x="131.898" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="137.882" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="149.012" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ć</tspan><tspan x="161.956" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="175.104" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="186.234" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">da</tspan><tspan x="212.976" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="224.105" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="236.376" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="249.524" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="260.654" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="274" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="286.381" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="292.365" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="305.624" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ć</tspan><tspan x="318.634" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="331.399" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="342.528" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">k</tspan><tspan x="355.105" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ao</tspan><tspan x="381.371" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="392.5" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">k</tspan><tspan x="404.746" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="418.181" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="424.187" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="436.952" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="448.082" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ži</tspan><tspan x="466.512" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">v</tspan><tspan x="478.853" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="492.088" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="500.613" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="506.663" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">n</tspan><tspan x="520.387" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="526.393" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="539.158" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="550.287" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="563.967" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="6"> </tspan><tspan x="575.097" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">k</tspan><tspan x="587.344" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="600.777" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">j</tspan><tspan x="606.762" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="619.976" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m </tspan></text>
-        <text transform="matrix(1 0 0 1 433.0488 556.3184)" display="inline"><tspan x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">g</tspan><tspan x="13.996" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="22.966" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ad</tspan><tspan x="49.707" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="63.232" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">?</tspan><tspan x="75.607" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="81.963" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">L</tspan><tspan x="94.228" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="107.728" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="116.631" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="129.846" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m</tspan><tspan x="149.908" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="156.285" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="162.335" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">p</tspan><tspan x="176.14" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="188.477" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="202.222" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m</tspan><tspan x="222.284" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="228.662" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="242.616" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ol</tspan><tspan x="262.145" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">or</tspan><tspan x="284.636" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="291.014" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="303.395" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="309.269" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="317.815" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="324.193" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="337.046" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m</tspan><tspan x="357.087" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="370.037" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="378.54" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">,</tspan><tspan x="385.204" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="391.582" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="404.415" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="417.915" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">n</tspan><tspan x="431.529" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="443.8" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="456.948" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="469.826" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="477.999" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">et</tspan><tspan x="499.299" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="513.043" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="522.035" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" letter-spacing="1"> </tspan><tspan x="528.413" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="541.178" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="555.199" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="561.248" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">p</tspan><tspan x="575.162" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="581.125" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="593.396" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="606.318" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="612.367" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ng </tspan></text>
-        <text transform="matrix(1 0 0 1 433.0488 586.3262)" display="inline"><tspan x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="13.236" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">l</tspan><tspan x="19.287" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="25.161" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="33.927" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">.</tspan><tspan x="40.474" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="45.399" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">U</tspan><tspan x="61.424" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="69.971" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="74.896" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">v</tspan><tspan x="87.281" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="100.135" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="109.061" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="115.066" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">us</tspan><tspan x="141.105" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="146.031" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">p</tspan><tspan x="159.945" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="173.69" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="182.616" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">us</tspan><tspan x="208.655" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="213.58" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">l</tspan><tspan x="219.63" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="225.658" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">b</tspan><tspan x="239.613" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="252.827" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="261.731" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="274.549" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">,</tspan><tspan x="281.213" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="286.139" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="299.796" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="308.343" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="313.246" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="321.749" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="330.675" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="336.637" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="348.93" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="357.455" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="363.439" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">q</tspan><tspan x="377.396" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="391.098" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="404.246" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="409.15" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="418.076" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">is</tspan><tspan x="436.375" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">us</tspan><tspan x="462.414" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="467.34" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">l</tspan><tspan x="473.367" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="487.047" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="499.925" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="508.273" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">us</tspan><tspan x="534.313" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> e</tspan><tspan x="552.166" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="560.934" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">.</tspan><tspan x="567.48" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22"> </tspan><tspan x="572.405" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">L</tspan><tspan x="584.67" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="598.17" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="607.073" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="620.288" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m </tspan></text>
-        <text transform="matrix(1 0 0 1 433.0488 616.334)" display="inline"><tspan x="0" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="6.05" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">p</tspan><tspan x="19.854" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="32.191" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="45.937" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m </tspan><tspan x="71.101" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="85.055" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ol</tspan><tspan x="104.583" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">or </tspan><tspan x="132.176" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="144.558" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="150.432" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t </tspan><tspan x="164.08" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="176.933" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">m</tspan><tspan x="196.974" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="209.924" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="218.404" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">, </tspan><tspan x="230.17" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="243.004" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">o</tspan><tspan x="256.504" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">n</tspan><tspan x="270.117" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="282.389" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="295.537" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="308.415" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="316.587" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">et</tspan><tspan x="337.887" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">u</tspan><tspan x="351.632" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r a</tspan><tspan x="378.491" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">d</tspan><tspan x="392.512" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="398.562" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">p</tspan><tspan x="412.475" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="418.438" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="430.709" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">c</tspan><tspan x="443.631" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="449.681" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">ng </tspan><tspan x="482.391" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">e</tspan><tspan x="495.627" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">l</tspan><tspan x="501.678" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">i</tspan><tspan x="507.552" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t</tspan><tspan x="516.318" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">. </tspan><tspan x="527.967" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">U</tspan><tspan x="543.991" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">t </tspan><tspan x="557.64" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">v</tspan><tspan x="570.024" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">a</tspan><tspan x="582.878" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">r</tspan><tspan x="591.804" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">iu</tspan><tspan x="611.467" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">s</tspan><tspan x="623.805" y="0" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22">.</tspan></text>
-        <text transform="matrix(1 0 0 1 407.1016 411.2891)" display="inline"><tspan x="0" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50" letter-spacing="2">b</tspan><tspan x="24.5" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50" letter-spacing="3">a</tspan><tspan x="51.649" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50" letter-spacing="1">r</tspan><tspan x="77.648" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50" letter-spacing="1">a</tspan><tspan x="103.697" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50" letter-spacing="1">ž</tspan><tspan x="127.647" y="0" fill="#2F2C2F" font-family="'QuirelTypeface'" font-size="50">:</tspan></text>
+
+        <text transform="matrix(1 0 0 1 433.0488 496.3022)" display="inline" fill="#F6F7F8" font-family="'Inter-Bold'" font-size="22" id="directQuestionText"> </text>
+
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M491.541,650.949v98.922
 		c0,7.827,6.346,14.172,14.173,14.172h51.442"/>
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M1014.651,650.949v98.922
@@ -3130,7 +3131,7 @@
         <line display="inline" fill="#BA912E" x1="679.576" y1="763.367" x2="826.616" y2="763.367"/>
 
         <line display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" x1="679.576" y1="763.367" x2="826.616" y2="763.367"/>
-        <path display="inline" fill="#5899B5" d="M934.863,819.445h-94.074c-7.795,0-14.173-6.379-14.173-14.174v-94.074
+        <path display="inline" class="additional-incorrect-answer" fill="#5899B5" d="M934.863,819.445h-94.074c-7.795,0-14.173-6.379-14.173-14.174v-94.074
 		c0-7.795,6.378-14.172,14.173-14.172h94.074c7.795,0,14.173,6.377,14.173,14.172v94.074
 		C949.036,813.066,942.658,819.445,934.863,819.445"/>
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M934.863,819.445h-94.074
@@ -3154,7 +3155,7 @@
 		s6.052-1.215,8.258-3.421l18.509-18.511l18.511,18.511c2.207,2.206,5.139,3.421,8.258,3.421s6.052-1.215,8.258-3.421
 		c2.205-2.205,3.42-5.139,3.42-8.257c0-3.119-1.215-6.052-3.421-8.257l-18.511-18.512l18.512-18.511
 		c2.205-2.206,3.42-5.138,3.42-8.257c0-3.12-1.215-6.053-3.421-8.258C920.646,721.004,917.713,719.789,914.594,719.789"/>
-        <path display="inline" fill="#5899B5" d="M665.403,819.445h-94.074c-7.795,0-14.173-6.379-14.173-14.174v-94.074
+        <path display="inline" class="additional-correct-answer" fill="#5899B5" d="M665.403,819.445h-94.074c-7.795,0-14.173-6.379-14.173-14.174v-94.074
 		c0-7.795,6.378-14.172,14.173-14.172h94.074c7.795,0,14.173,6.377,14.173,14.172v94.074
 		C679.576,813.066,673.198,819.445,665.403,819.445"/>
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M665.403,819.445h-94.074
@@ -3208,7 +3209,7 @@
         </g>
     </g>
 
-    <g id="OpenLineGroup" display="none">
+    <g id="OpenLineGroup" class="open-line d-nonee">
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M421.217,245.651v30.843
 		c0,7.827,6.346,14.173,14.173,14.173h213.296c3.759,0,7.364,1.493,10.022,4.15l47.064,47.064"/>
         <path display="inline" fill="none" stroke="#2F2C2F" stroke-width="5" stroke-miterlimit="10" d="M1100.151,249.833v26.66

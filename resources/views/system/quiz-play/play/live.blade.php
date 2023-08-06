@@ -16,6 +16,8 @@
     <div class="content-wrapper content-wrapper-bs">
         <!-- Live quiz header information -->
         @include('system.quiz-play.snippets.live-header')
+        <!-- Pop-Up for "Are you sure that you wanna click that .. ? -->
+        @include('system.quiz-play.snippets.are-you-sure')
 
         <hr>
 

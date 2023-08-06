@@ -147,7 +147,7 @@ class QuizPlayController extends Controller{
                             return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), [
                                 'sub_code' => '50007',
                                 'total_money' => $quiz->total_money,
-                                'uri' => route('system.quiz')
+                                // 'uri' => route('system.quiz')
                             ]);
                         }else{
                             if($beforeLastQuestion) {
@@ -173,8 +173,8 @@ class QuizPlayController extends Controller{
                         $quiz->update(['finished' => 1]);
 
                         return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
-                            'sub_code' => '50001',
-                            'uri' => route('system.quiz')
+                            'sub_code' => '50009',
+                            // 'uri' => route('system.quiz')
                         ]);
                     }
                 }else{
@@ -210,7 +210,8 @@ class QuizPlayController extends Controller{
 
                         return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
                             'sub_code' => '50001',
-                            'uri' => route('system.quiz')
+                            'chosen_letter' => $request->letter
+                            // 'uri' => route('system.quiz')
                         ]);
                     }
                 }
@@ -233,10 +234,24 @@ class QuizPlayController extends Controller{
 
             return $this->liveResponse('0000', __('Kviz završen!'), [
                 'sub_code' => '50001',
-                'uri' => route('system.quiz')
+                // 'uri' => route('system.quiz')
             ]);
         }catch (\Exception $e){
             return $this->jsonResponse('50050', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
+        }
+    }
+
+    /*
+     *  Propose the answer: This one is sent to TV ether to mark proposed answer before final response
+     */
+    public function proposeTheAnswer(Request $request){
+        try{
+            return $this->liveResponse('0000', __('Poslan prijedlog odgovora'), [
+                'sub_code' => '50030',
+                'letter' => $request->letter
+            ]);
+        }catch (\Exception $e){
+            return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }
 }

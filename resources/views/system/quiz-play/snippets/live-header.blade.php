@@ -47,4 +47,13 @@
             <i class="fa-solid fa-sack-dollar"></i>
         </div>
     </div>
+    <div class="lh-element">
+        <div class="lh-e-data">
+            <h2> <span id="lf-line-opened"> DA </span> </h2>
+            <p> {{ __('Linija otvorena') }} </p>
+        </div>
+        <div class="lh-e-icon">
+            <i class="fa-solid fa-phone-volume"></i>
+        </div>
+    </div>
 </div>

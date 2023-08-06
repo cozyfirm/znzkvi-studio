@@ -107,6 +107,8 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::post('/start-a-quiz',                        'QuizPlayController@startQuiz')->name('system.quiz-play.live.start-quiz');
             Route::post('/answer-the-question',                 'QuizPlayController@answerTheQuestion')->name('system.quiz-play.live.answer-the-question');
             Route::post('/finnish-the-quiz',                    'QuizPlayController@finnishQuiz')->name('system.quiz-play.live.finnish-quiz');
+
+            Route::post('/propose-the-answer',                  'QuizPlayController@proposeTheAnswer')->name('system.quiz-play.live.propose-the-answer');
         });
     });
 

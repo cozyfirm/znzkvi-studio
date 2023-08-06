@@ -5,7 +5,8 @@ $(document).ready(function () {
      *  - 6+
      *  - 7
      */
-    let jokerActive = true;
+    let jokerAvailable = true;
+    let questionClicked = "", correctAnswer = "";
 
     /* Set Ajax headers */
     $.ajaxSetup({
@@ -15,7 +16,6 @@ $(document).ready(function () {
     });
 
     let parseQuestion = function(question){
-        console.log(question);
         /* Set question and answers in fields */
         $("#question").val(question['question']);
         $("#answer_a").val(question['answer_a_rel']['answer']);
@@ -92,7 +92,7 @@ $(document).ready(function () {
                             /* Joker used */
                             parseQuestion(response['data']['question']);
                             /* Disable further joker usage */
-                            jokerActive = false;
+                            jokerAvailable = false;
 
                             /* Mark as red */
                             $(".joker-wrapper").addClass('joker-used');
@@ -124,21 +124,22 @@ $(document).ready(function () {
 
     /* Answer a question */
     $(".answer-it").click(function () {
-        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
-            'quiz_id' : $("#quiz_id").val(),
-            'question_id' : $("#question_id").val(),
-            'letter' : $(this).attr('letter'),
-            'additional' : 0
+        $(".live-pop-up-message").html('Da li ste sigurni da želite odgovor <b>"' + $(this).attr('letter') + '"</b> označiti kao konačan odgovor?');
+        $(".live-pop-up").fadeIn();
+
+        questionClicked = $(this).attr('letter');
+
+        /* Propose answer */
+        liveHTTP("propose-the-answer", '/system/quiz-play/live/propose-the-answer', 'POST', {
+            'letter' : $(this).attr('letter')
         });
     });
 
     $(".answer-additional").click(function () {
-        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
-            'quiz_id' : $("#quiz_id").val(),
-            'question_id' : $("#question_id").val(),
-            'correct' : $(this).attr('correct'),
-            'additional' : 1
-        });
+        $(".live-pop-up-message").html('Da li ste sigurni da želite kliknuti <b>"' + $(this).attr('correct') + '"</b> kao tačan odgovor na pitanje?');
+        $(".live-pop-up").fadeIn();
+
+        correctAnswer = $(this).attr('correct');
     });
     /* Use joker */
     $(".joker-wrapper").click(function () {
@@ -153,4 +154,37 @@ $(document).ready(function () {
         liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
     });
 
+
+    /* Close live pop-up */
+    $(".live-pop-up-close").click(function () {
+        $(".live-pop-up").fadeOut();
+    });
+    /* Well, if operator is sure that is final answer, then proceed with it */
+    $(".live-pop-up-continue").click(function () {
+        if(questionClicked !== ""){
+            /* That means, it is A, B, C or D answer */
+
+            liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+                'quiz_id' : $("#quiz_id").val(),
+                'question_id' : $("#question_id").val(),
+                'letter' : questionClicked,
+                'additional' : 0
+            });
+            questionClicked = "";
+            console.log("Clicked letter");
+        }else if(correctAnswer !== ""){
+            /* That means, it is additional question */
+
+            liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+                'quiz_id' : $("#quiz_id").val(),
+                'question_id' : $("#question_id").val(),
+                'correct' : correctAnswer,
+                'additional' : 1
+            });
+            correctAnswer = "";
+            console.log("Clicked additional");
+        }
+
+        $(".live-pop-up").fadeOut();
+    });
 });
