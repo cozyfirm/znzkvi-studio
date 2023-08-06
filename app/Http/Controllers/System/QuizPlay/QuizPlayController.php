@@ -53,10 +53,11 @@ class QuizPlayController extends Controller{
             $firstQuestion = $quiz->openAndGetNextQuestion();
 
             return $this->liveResponse('0000', __('Kviz uspješno započeo!'), [
-                'question' => $firstQuestion
+                'question' => $firstQuestion,
+                'sub_code' => '50000'
             ]);
         }catch (\Exception $e){
-            return $this->jsonResponse('50000', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
+            return $this->jsonResponse('50050', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
         }
     }
     /* Answer the question */
@@ -215,7 +216,7 @@ class QuizPlayController extends Controller{
                 }
             }
         }catch (\Exception $e){
-            return $this->jsonResponse('50000', __('Došlo je do greške prilikom odgovora na pitanje. Molimo kontaktirajte administratora!'));
+            return $this->jsonResponse('50050', __('Došlo je do greške prilikom odgovora na pitanje. Molimo kontaktirajte administratora!'));
         }
     }
 
@@ -235,7 +236,7 @@ class QuizPlayController extends Controller{
                 'uri' => route('system.quiz')
             ]);
         }catch (\Exception $e){
-            return $this->jsonResponse('50000', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
+            return $this->jsonResponse('50050', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
         }
     }
 }

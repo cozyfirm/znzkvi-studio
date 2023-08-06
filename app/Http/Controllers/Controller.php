@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use PhpMqtt\Client\Facades\MQTT;
 
 class Controller extends BaseController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -26,12 +27,18 @@ class Controller extends BaseController{
         ]);
     }
     public function liveResponse($code, $message, $data = [], $url = null){
-        return json_encode([
+        $data = [
             'code' => $code,
             'message' => $message,
             'data' => $data,
             'url' => $url
-        ]);
+        ];
+
+        /* First, publish data to socket */
+        MQTT::publish('quiz/znzkvi/live-stream', json_encode($data, JSON_UNESCAPED_UNICODE ));
+
+        /* Return value */
+        return json_encode($data);
     }
 
     /* Helper functions */

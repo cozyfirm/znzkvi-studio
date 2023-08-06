@@ -22,6 +22,9 @@
     <script src="{{asset('js/public.js')}}"></script>
 </head>
 <body>
+    <!-- Import script for live quiz handling -->
+    <script src="{{asset('js/mqtt/tv-script.js')}}"></script>
+
     <!-- Require SVG file -->
     <div class="quiz-wrapper">
         @include('public-part.quiz.files.svg-file')

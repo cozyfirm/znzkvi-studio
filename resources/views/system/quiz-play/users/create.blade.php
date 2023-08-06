@@ -11,7 +11,7 @@
 
 @section('content')
     <div class="content-wrapper p-3">
-        @if(!$totalSets or 1)
+        @if(!$totalSets)
             <div class="alert alert-danger"> {{ __('Trenutno nema dostupan ni jedan set za igranje !') }} </div>
         @endif
 

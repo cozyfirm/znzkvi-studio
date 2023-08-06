@@ -1,7 +1,7 @@
 .quiz-wrapper{
     position: relative; left: 0px; top: 0px; width: 100%; height: 100%; display: inline-flex; justify-content: center;
-
+    margin:0px; padding:0px;
     #svg-wrapper{
-        height: 100%;
+        height: calc(100% - 10px); margin:0px; padding:0px;
     }
 }
