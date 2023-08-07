@@ -10,7 +10,7 @@
     </div>
     <div class="lh-element">
         <div class="lh-e-data">
-            <h2 id="lf-current-question"> {{ $quiz->current_question }}. </h2>
+            <h2> <span id="lf-current-question"> {{ $quiz->current_question }} </span>. </h2>
             <p> {{ __('Aktivno pitanje') }} </p>
         </div>
         <div class="lh-e-icon">

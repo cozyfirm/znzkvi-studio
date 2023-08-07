@@ -23,11 +23,9 @@
 
         <div class="row">
             <div class="col-md-8">
-                @if(!$quiz->started)
-                    <div class="start-quiz">
-                        <i class="fa-regular fa-circle-play start-a-quiz" title="{{ __('Započnite kviz. Otvorite prvo pitanje!') }}"></i>
-                    </div>
-                @endif
+                <div class="reveal-the-question">
+                    <i class="fa-regular fa-circle-play" title="{{ __('Započnite kviz. Otvorite prvo pitanje!') }}"></i>
+                </div>
 
                 {!! Form::open(array('route' => 'system.quiz-play.users.save', 'method' => 'post', 'id' => 'js-form')) !!}
 

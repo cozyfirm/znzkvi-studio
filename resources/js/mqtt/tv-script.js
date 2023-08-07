@@ -164,6 +164,6 @@ $(document).ready(function () {
         console.log("Unsubscribed ...");
     });
 
-    quiz.lineOpenHide();
+    // quiz.lineOpenHide();
     // quiz.displayQuestion("#directQuestionText", "Bosanac, kada se osjeća neugodno na nekom radnom mjestu. Reći će da se osjeća kao koja životinja u kojem  gradu? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius purus libero, ut tristique risus luctus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius.");
 });

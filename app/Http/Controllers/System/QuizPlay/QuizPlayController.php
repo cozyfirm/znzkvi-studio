@@ -18,6 +18,9 @@ class QuizPlayController extends Controller{
         4 => '200'
     ];
     protected $_counter = 1;
+    protected $_tv_topic = 'quiz/quiz/live-stream';
+    protected $_presenter_topic = 'quiz/quiz/presenter';
+    protected $_message = "";
 
     public function live($quiz_id){
         $quiz = Quiz::where('id', $quiz_id)->first();
@@ -52,10 +55,22 @@ class QuizPlayController extends Controller{
             /* Mark first Question as "opened" */
             $firstQuestion = $quiz->openAndGetNextQuestion();
 
-            return $this->liveResponse('0000', __('Kviz uspješno započeo!'), [
+            /* Get second question */
+            $secondSet = QuizSet::where('quiz_id', $request->id)->where('question_no', ($quiz->current_question + 1))->first();
+
+            /* Setup message */
+            $this->_message = [
+                'question_no' => $quiz->current_question,
                 'question' => $firstQuestion,
+                'next_question' => Question::where('id', $secondSet->question_id)->first(),
                 'sub_code' => '50000'
-            ]);
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, $this->_message);
+            /* ToDo: Send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Kviz uspješno započeo!'), $this->_message);
         }catch (\Exception $e){
             return $this->jsonResponse('50050', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
         }
@@ -101,7 +116,7 @@ class QuizPlayController extends Controller{
             }
 
             /* Default response message */
-            $responseMsg = __("Uspješno unesen tačan odgovor. Otvaramo novo pitanje!");
+            $responseMsg = __("Otvaramo novo pitanje!");
 
             if(isset($request->joker)){
                 /* Check first is joker used */
@@ -172,7 +187,7 @@ class QuizPlayController extends Controller{
                         /* Mark quiz as finished */
                         $quiz->update(['finished' => 1]);
 
-                        return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
+                        return $this->liveResponse('0000', __("Kviz završen!"), [
                             'sub_code' => '50009',
                             // 'uri' => route('system.quiz')
                         ]);
@@ -208,7 +223,7 @@ class QuizPlayController extends Controller{
                         /* Mark quiz as finished */
                         $quiz->update(['finished' => 1]);
 
-                        return $this->liveResponse('0000', __("Uspješno unesen netačan odgovor. Kviz završen!"), [
+                        return $this->liveResponse('0000', __("Kviz završen!"), [
                             'sub_code' => '50001',
                             'chosen_letter' => $request->letter
                             // 'uri' => route('system.quiz')
@@ -242,6 +257,36 @@ class QuizPlayController extends Controller{
     }
 
     /*
+     *  Reveal question to TV screen & operator screen (operator on-click trigger)
+     */
+    public function revealQuestion (Request $request){
+        try{
+            $quiz = Quiz::where('id', $request->id)->first();
+
+            /* Get second question */
+            $secondSet = ($quiz->current_question <= 7) ? QuizSet::where('quiz_id', $request->id)->where('question_no', ($quiz->current_question + 1))->first() : NULL;
+
+            /* Setup message */
+            $this->_message = [
+                'question_no' => $quiz->current_question,
+                'question' => $quiz->currentQuestion(),
+                'next_question' => Question::where('id', $secondSet->question_id)->first(),
+                'sub_code' => '50010'
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, $this->_message);
+            /* ToDo: Send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Pitanje prikazano na TV screen-u!'), $this->_message);
+        }catch (\Exception $e){
+            return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
+        }
+    }
+
+    /*
+     *  Note: This message is deprecated and won't be used anymore! Leave it as legacy ...
+     *
      *  Propose the answer: This one is sent to TV ether to mark proposed answer before final response
      */
     public function proposeTheAnswer(Request $request){

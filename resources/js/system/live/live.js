@@ -5,6 +5,7 @@ $(document).ready(function () {
      *  - 6+
      *  - 7
      */
+    let quizID;
     let jokerAvailable = true;
     let questionClicked = "", correctAnswer = "";
 
@@ -50,7 +51,7 @@ $(document).ready(function () {
     };
 
     /* Set current active question in GUI */
-    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no + "."); };
+    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no); };
     /* Set total earned money in quiz - GUI */
     /* Set current active question in GUI */
     let setTotalMoney = function(total){ $("#lf-total-money").text(total); };
@@ -72,38 +73,56 @@ $(document).ready(function () {
                     if(typeof response['message'] !== 'undefined' && subCode !== '50004' && subCode !== '50005' && subCode !== '50006') notify.Me([response['message'], "success"]);
                     else notify.Me([response['message'], "warn"]);
 
-                    if(action === "start-a-quiz"){
-                        $(".start-quiz").fadeOut(0);
+                    if(subCode === '50000'){
+                        /* Quiz is just started, reveal the question */
+                        $(".reveal-the-question").fadeOut();
+
                         parseQuestion(response['data']['question']);
-                    }else if(action === 'answer-the-question'){
-                        if(subCode === '50002'){
-                            /* Correct answer */
-                            parseQuestion(response['data']['question']);
+                    }else if(subCode === '50002'){
+                        /* Correct answer */
+                        parseQuestion(response['data']['question']);
 
-                            /* Increase current question */
-                            setCurrentQuestion(response['data']['current_question']);
-                        }else if(subCode === '50003'){
-                            /* Correct answer, open level question */
-                            parseAdditionalQuestion(response['data']['question']);
+                        /* Increase current question */
+                        setCurrentQuestion(response['data']['current_question']);
 
-                            /* Increase current question */
-                            setCurrentQuestion(response['data']['current_question']);
-                        }else if(subCode === '50004'){
-                            /* Joker used */
-                            parseQuestion(response['data']['question']);
-                            /* Disable further joker usage */
-                            jokerAvailable = false;
+                        /* Fade In shade */
+                        $(".reveal-the-question").fadeIn(0);
+                    }else if(subCode === '50003'){
+                        /* Correct answer, open level question */
+                        parseAdditionalQuestion(response['data']['question']);
 
-                            /* Mark as red */
-                            $(".joker-wrapper").addClass('joker-used');
-                        }else{
-                            /* Answer is not correct */
-                        }
+                        /* Increase current question */
+                        setCurrentQuestion(response['data']['current_question']);
 
-                        /* If info about total earned money is sent */
-                        if(typeof response['data']['total_money'] !== 'undefined' && response['data']['total_money'] !== null){
-                            setTotalMoney(response['data']['total_money']);
-                        }
+                        /* Fade In shade */
+                        $(".reveal-the-question").fadeIn(0);
+                    }else if(subCode === '50004'){
+                        /* Joker used */
+                        parseQuestion(response['data']['question']);
+                        /* Disable further joker usage */
+                        jokerAvailable = false;
+
+                        /* Mark as red */
+                        $(".joker-wrapper").addClass('joker-used');
+
+                        /* Fade In shade */
+                        $(".reveal-the-question").fadeIn(0);
+                    }else if(subCode === '50010'){
+                        /* Reveal question for operator */
+                        $(".reveal-the-question").fadeOut();
+                    }else{
+                        /* Answer is not correct */
+                    }
+
+                    /* If info about total earned money is sent */
+                    if(typeof response['data']['total_money'] !== 'undefined' && response['data']['total_money'] !== null){
+                        setTotalMoney(response['data']['total_money']);
+                    }
+
+                    if(action === "start-a-quiz"){
+                    }
+                    else if(action === 'answer-the-question'){
+
                     }
 
                     setTimeout(function (){
@@ -117,9 +136,27 @@ $(document).ready(function () {
         });
     };
 
-    /* Start a quiz */
-    $(".start-a-quiz").click(function () {
-        liveHTTP("start-a-quiz", '/system/quiz-play/live/start-a-quiz', 'POST', {"id" : $("#quiz_id").val()});
+    /*
+     *  This action is used for two different purposes:
+     *
+     *      1. When current question is 1, then start the quiz and show the question
+     *      2. When current question is greater than 1, hide category screen and show the question
+     */
+    $(".reveal-the-question").click(function () {
+        let questionNo = parseInt($("#lf-current-question").text());
+        /* Set quiz ID */
+        quizID = parseInt($("#quiz_id").val());
+
+        /* Create HTTP request and send WS message */
+        if(questionNo === 1){
+            /* Start the quiz and show first question */
+            liveHTTP("start-a-quiz", '/system/quiz-play/live/start-a-quiz', 'POST', {"id" : quizID});
+        }else{
+            /* Show current question to the screen */
+            liveHTTP("reveal-question", '/system/quiz-play/live/reveal-question', 'POST', {"id" : quizID});
+        }
+
+        return;
     });
 
     /* Answer a question */
@@ -129,10 +166,11 @@ $(document).ready(function () {
 
         questionClicked = $(this).attr('letter');
 
+        /* Note: Do not send anything to TV screen */
         /* Propose answer */
-        liveHTTP("propose-the-answer", '/system/quiz-play/live/propose-the-answer', 'POST', {
-            'letter' : $(this).attr('letter')
-        });
+        // liveHTTP("propose-the-answer", '/system/quiz-play/live/propose-the-answer', 'POST', {
+        //     'letter' : $(this).attr('letter')
+        // });
     });
 
     $(".answer-additional").click(function () {
@@ -143,6 +181,7 @@ $(document).ready(function () {
     });
     /* Use joker */
     $(".joker-wrapper").click(function () {
+        /* When Joker is used, send WS message to TV Screen with proposed category */
         liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
             'quiz_id' : $("#quiz_id").val(),
             'question_id' : $("#question_id").val(),

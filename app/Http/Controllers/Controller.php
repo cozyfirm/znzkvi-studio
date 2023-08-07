@@ -34,11 +34,19 @@ class Controller extends BaseController{
             'url' => $url
         ];
 
+        /* Note: Do not send any message to TV screen!! */
         /* First, publish data to socket */
-        MQTT::publish('quiz/znzkvi/live-stream', json_encode($data, JSON_UNESCAPED_UNICODE ));
+        // MQTT::publish('quiz/znzkvi/live-stream', json_encode($data, JSON_UNESCAPED_UNICODE ));
 
         /* Return value */
         return json_encode($data);
+    }
+
+    /* Send WSS message to screen(s) */
+    public function publishMessage($topic, $message){
+        try{
+            MQTT::publish($topic, json_encode($message, JSON_UNESCAPED_UNICODE ));
+        }catch (\Exception $e){ throw $e; }
     }
 
     /* Helper functions */

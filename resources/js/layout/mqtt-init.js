@@ -6,7 +6,7 @@ module.exports = {
         return 'wss://mqtt-v2.alkaris.com:8083';
     },
     mainTopic : function(){
-        return "quiz/znzkvi/live-stream";
+        return "quiz/quiz/live-stream";
     },
     lastWill : function() {
         let date = new Date();

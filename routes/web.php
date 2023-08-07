@@ -109,6 +109,9 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::post('/finnish-the-quiz',                    'QuizPlayController@finnishQuiz')->name('system.quiz-play.live.finnish-quiz');
 
             Route::post('/propose-the-answer',                  'QuizPlayController@proposeTheAnswer')->name('system.quiz-play.live.propose-the-answer');
+
+            /* This is used to send message to TV screen and show question to operator */
+            Route::post('/reveal-question',                     'QuizPlayController@revealQuestion')->name('system.quiz-play.live.reveal-question');
         });
     });
 
