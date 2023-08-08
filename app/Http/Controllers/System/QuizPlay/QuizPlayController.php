@@ -67,7 +67,7 @@ class QuizPlayController extends Controller{
             ];
 
             /* Send WS message; Show first category on screen */
-            $this->publishMessage($this->_tv_topic, $this->_message);
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
             /* ToDo: Send message to presenter screen */
 
             return $this->liveResponse('0000', __('Kviz uspješno započeo!'), $this->_message);
@@ -77,25 +77,35 @@ class QuizPlayController extends Controller{
     }
     /* Answer the question */
     protected function replacementQuestion($quiz, $set){
-        /* Update set; Raise flag for joker quesiton */
-        $set->update(['joker' => 1]);
+        try{
+            /* Update set; Raise flag for joker quesiton */
+            $set->update(['joker' => 1]);
 
-        /* Update quiz field with number of question where joker is used; Set replacement question */
-        $quiz->update(['joker' => $set->question_no, 'replacement' => 1]);
+            /* Update quiz field with number of question where joker is used; Set replacement question */
+            $quiz->update(['joker' => $set->question_no, 'replacement' => 1]);
 
-        /* Get new sample from set */
-        $replacementSet = QuizSet::where('quiz_id', $quiz->id)->where('question_no', $set->question_no)->where('replacement', 1)->first();
-        $replacementSet->update(['opened' => 1]);
+            /* Get new sample from set */
+            $replacementSet = QuizSet::where('quiz_id', $quiz->id)->where('question_no', $set->question_no)->where('replacement', 1)->first();
+            $replacementSet->update(['opened' => 1]);
 
-        return $this->liveResponse('0000', __('Joker iskorišten! Otvaramo zamjensko pitanje '), [
-            'question' => Question::where('id', $replacementSet->question_id)->with('answerARel')
-                ->with('answerBRel')
-                ->with('answerCRel')
-                ->with('answerDRel')
-                ->first(),
-            'sub_code' => '50004',
-            'total_money' => $quiz->total_money
-        ]);
+            $this->_message = [
+                'question' => Question::where('id', $replacementSet->question_id)->with('answerARel')
+                    ->with('answerBRel')
+                    ->with('answerCRel')
+                    ->with('answerDRel')
+                    ->first(),
+                'sub_code' => '50004',
+                'total_money' => $quiz->total_money
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+            /* ToDo: Send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Joker iskorišten! Otvaramo zamjensko pitanje '), $this->_message);
+        }catch (\Exception $e){
+            return $this->jsonResponse('50050', __('Došlo je do greške prilikom korištenja jokera. Molimo kontaktirajte administratora!'));
+        }
     }
     /*
      *  All actions from live feed
@@ -103,9 +113,12 @@ class QuizPlayController extends Controller{
     public function answerTheQuestion(Request $request){
         try{
             $quiz = Quiz::where('id', $request->quiz_id)->first();
+            /* Question on which is answering to */
             $question = Question::where('id', $request->question_id)->first();
             /* Get SET sample */
             $set = QuizSet::where('quiz_id', $request->quiz_id)->where('question_id', $question->id)->first();
+
+            /* Is it sixth question */
             $beforeLastQuestion = ($set->question_no == 6) ? true : false;
 
             /* If quiz is finished, cancel all further actions */
@@ -158,25 +171,43 @@ class QuizPlayController extends Controller{
                             /* Mark quiz as finished */
                             $quiz->update(['finished' => 1]);
 
-                            /* Success message */
-                            return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), [
+                            /* Setup message */
+                            $this->_message = [
                                 'sub_code' => '50007',
                                 'total_money' => $quiz->total_money,
-                                // 'uri' => route('system.quiz')
-                            ]);
+                                'question_type' => "additional",
+                                'answered_question_no' => 7
+                            ];
+
+                            /* Send WS message; Show first category on screen */
+                            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                            /* ToDo: Send message to presenter screen */
+
+                            /* Success message */
+                            return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), $this->_message);
                         }else{
                             if($beforeLastQuestion) {
                                 QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->update(['level_opened' => 1]);
                             }
 
-                            return $this->liveResponse('0000', $responseMsg, [
+                            /* Setup message */
+                            $this->_message = [
                                 'question' => $quiz->openAndGetNextQuestion(),
                                 'current_question' => $quiz->current_question,
                                 'total_money' => $quiz->total_money,
-                                'sub_code' => $beforeLastQuestion ? '50003' : '50002'
-                            ]);
+                                'sub_code' => $beforeLastQuestion ? '50003' : '50002',
+                                'question_type' => "additional",
+                                'answered_question_no' => ($quiz->current_question - 1) . "+"
+                            ];
+
+                            /* Send WS message; Show first category on screen */
+                            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                            /* ToDo: Send message to presenter screen */
+
+                            return $this->liveResponse('0000', $responseMsg, $this->_message);
                         }
-                    }else{
+                    }
+                    else{
                         if($set->question_no == 7) {
                             /* Update last question info */
                             $set->update(['answered' => 1, 'correct' => 0]);
@@ -187,12 +218,20 @@ class QuizPlayController extends Controller{
                         /* Mark quiz as finished */
                         $quiz->update(['finished' => 1]);
 
-                        return $this->liveResponse('0000', __("Kviz završen!"), [
+                        /* Setup message */
+                        $this->_message = [
                             'sub_code' => '50009',
-                            // 'uri' => route('system.quiz')
-                        ]);
+                            'total_money' => $quiz->total_money
+                        ];
+
+                        /* Send WS message; Show first category on screen */
+                        $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                        /* ToDo: Send message to presenter screen */
+
+                        return $this->liveResponse('0000', __("Kviz završen!"), $this->_message);
                     }
                 }else{
+                    /* Answer to normal question */
                     /* Determine is it correct or not */
                     $correct  = ($question->correct_answer == $request->letter) ? true : false;
 
@@ -204,30 +243,59 @@ class QuizPlayController extends Controller{
                         if($set->question_no != 3 and $set->question_no != 6) $quiz->update(['correct_answers' => ($quiz->correct_answers + 1), 'current_question' => ($set->question_no + 1), 'replacement' => 0]);
 
                         if($set->level_question and !$set->level_opened){
+                            /* This could be 3rd or 6th question */
                             /* Mark level opened as true */
                             $set->update(['level_opened' => 1]);
 
-                            return $this->liveResponse('0000', $responseMsg, [
+                            /* Setup message */
+                            $this->_message = [
                                 'question' => $question,
                                 'sub_code' => '50003',
-                                'current_question' => $quiz->current_question
-                            ]);
+                                'current_question' => $quiz->current_question,
+                                'question_type' => "normal",
+                                'answered_question_no' => $quiz->current_question
+                            ];
+
+                            /* Send WS message; Show first category on screen */
+                            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                            /* ToDo: Send message to presenter screen */
+
+
+                            return $this->liveResponse('0000', $responseMsg, $this->_message);
                         }else{
-                            return $this->liveResponse('0000', $responseMsg, [
+                            /* This could be 1st, 2nd, 4th, 5th question */
+                            /* Setup message */
+                            $this->_message = [
                                 'question' => $quiz->openAndGetNextQuestion(),
                                 'sub_code' => '50002',
-                                'current_question' => $quiz->current_question
-                            ]);
+                                'current_question' => $quiz->current_question,
+                                'question_type' => "normal",
+                                'answered_question_no' => ($quiz->current_question - 1)
+                            ];
+
+                            /* Send WS message; Show first category on screen */
+                            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                            /* ToDo: Send message to presenter screen */
+
+                            return $this->liveResponse('0000', $responseMsg, $this->_message);
                         }
-                    }else{
+                    }
+                    else{
                         /* Mark quiz as finished */
                         $quiz->update(['finished' => 1]);
 
-                        return $this->liveResponse('0000', __("Kviz završen!"), [
+                        $this->_message = [
                             'sub_code' => '50001',
-                            'chosen_letter' => $request->letter
-                            // 'uri' => route('system.quiz')
-                        ]);
+                            'chosen_letter' => $request->letter,
+                            'total_money' => $quiz->total_money
+                        ];
+
+                        /* Send WS message; Show first category on screen */
+                        $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                        /* ToDo: Send message to presenter screen */
+
+
+                        return $this->liveResponse('0000', __("Kviz završen!"), $this->_message);
                     }
                 }
             }
@@ -245,12 +313,19 @@ class QuizPlayController extends Controller{
      * */
     public function finnishQuiz(Request $request){
         try{
-            Quiz::where('id', $request->id)->update(['finished' => 1, 'active' => 0]);
+            $quiz = Quiz::where('id', $request->id)->first();
+            $quiz->update(['finished' => 1, 'active' => 0]);
 
-            return $this->liveResponse('0000', __('Kviz završen!'), [
-                'sub_code' => '50001',
-                // 'uri' => route('system.quiz')
-            ]);
+            $this->_message = [
+                'sub_code' => '50011',
+                'total_money' => $quiz->total_money
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+            /* ToDo: Send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Kviz završen!'), $this->_message);
         }catch (\Exception $e){
             return $this->jsonResponse('50050', __('Došlo je do greške prilikom inicijalizacije kviza. Molimo kontaktirajte administratora!'));
         }
@@ -270,16 +345,17 @@ class QuizPlayController extends Controller{
             $this->_message = [
                 'question_no' => $quiz->current_question,
                 'question' => $quiz->currentQuestion(),
-                'next_question' => Question::where('id', $secondSet->question_id)->first(),
+                'next_question' => ($secondSet) ? Question::where('id', $secondSet->question_id)->first() : NULL,
                 'sub_code' => '50010'
             ];
 
             /* Send WS message; Show first category on screen */
-            $this->publishMessage($this->_tv_topic, $this->_message);
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
             /* ToDo: Send message to presenter screen */
 
             return $this->liveResponse('0000', __('Pitanje prikazano na TV screen-u!'), $this->_message);
         }catch (\Exception $e){
+            dd($e);
             return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }

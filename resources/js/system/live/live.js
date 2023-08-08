@@ -6,7 +6,7 @@ $(document).ready(function () {
      *  - 7
      */
     let quizID;
-    let jokerAvailable = true;
+    let jokerAvailable = true, jokerUsed = false;
     let questionClicked = "", correctAnswer = "";
 
     /* Set Ajax headers */
@@ -101,6 +101,7 @@ $(document).ready(function () {
                         parseQuestion(response['data']['question']);
                         /* Disable further joker usage */
                         jokerAvailable = false;
+                        jokerUsed = true;
 
                         /* Mark as red */
                         $(".joker-wrapper").addClass('joker-used');
@@ -148,7 +149,7 @@ $(document).ready(function () {
         quizID = parseInt($("#quiz_id").val());
 
         /* Create HTTP request and send WS message */
-        if(questionNo === 1){
+        if(questionNo === 1 && jokerUsed === false){
             /* Start the quiz and show first question */
             liveHTTP("start-a-quiz", '/system/quiz-play/live/start-a-quiz', 'POST', {"id" : quizID});
         }else{
@@ -181,6 +182,8 @@ $(document).ready(function () {
     });
     /* Use joker */
     $(".joker-wrapper").click(function () {
+        jokerUsed = true;
+
         /* When Joker is used, send WS message to TV Screen with proposed category */
         liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
             'quiz_id' : $("#quiz_id").val(),

@@ -64,8 +64,15 @@ class Quiz extends Model{
                 ->where('replacement', $this->replacement)
                 ->first();
 
+            $question = Question::where('id', $set->question_id)
+                ->with('answerARel')
+                ->with('answerBRel')
+                ->with('answerCRel')
+                ->with('answerDRel')
+                ->first();
+
             return [
-                'question' => Question::where('id', $set->question_id)->first(),
+                'question' => $question,
                 'additional' => $set->level_opened,
                 'joker' => $this->joker
             ];

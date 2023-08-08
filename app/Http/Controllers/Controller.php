@@ -43,8 +43,14 @@ class Controller extends BaseController{
     }
 
     /* Send WSS message to screen(s) */
-    public function publishMessage($topic, $message){
+    public function publishMessage($topic, $code, $data, $uri = null){
         try{
+            $message = [
+                'code' => $code,
+                'data' => $data,
+                'uri' => $uri
+            ];
+
             MQTT::publish($topic, json_encode($message, JSON_UNESCAPED_UNICODE ));
         }catch (\Exception $e){ throw $e; }
     }
