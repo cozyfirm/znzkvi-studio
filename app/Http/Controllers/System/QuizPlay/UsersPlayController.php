@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersPlayController extends Controller{
     protected $_path = 'system.quiz-play.users.';
+    protected $_message = "";
 
     protected function totalMoney(){
         try{
@@ -93,6 +94,21 @@ class UsersPlayController extends Controller{
                 $quiz = Quiz::where('user_id', '=', NULL)->first();
                 /* Update quiz with user */
                 $quiz->update(['user_id' => $user->id, 'active' => 1]);
+
+                /* Send message to TV screen to show announce first category */
+
+                /* Setup message */
+                $this->_message = [
+                    'current_question' => 1,
+                    'category' => 1,
+                    'question' => $quiz->currentQuestion(),
+                    'sub_code' => '50014'
+                ];
+
+                /* Send WS message; Show first category on screen */
+                $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+                /* ToDo: Send message to presenter screen */
+
 
                 /* Return redirect to quiz */
                 return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.quiz-play.live', ['quiz_id' => $quiz->id ]));

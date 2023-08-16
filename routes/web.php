@@ -112,6 +112,7 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
 
             /* This is used to send message to TV screen and show question to operator */
             Route::post('/reveal-question',                     'QuizPlayController@revealQuestion')->name('system.quiz-play.live.reveal-question');
+            Route::post('/reveal-screen',                       'QuizPlayController@revealScreen')->name('system.quiz-play.live.reveal-screen');
         });
     });
 

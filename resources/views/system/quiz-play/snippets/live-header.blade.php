@@ -17,9 +17,9 @@
             <i class="fa-solid fa-person-circle-question"></i>
         </div>
     </div>
-    <div class="lh-element">
+    <div class="lh-element question-timer-wrapper">
         <div class="lh-e-data">
-            <h2> 5s </h2>
+            <h2> <span class="question-timer">5</span>s </h2>
             <p> {{ __('Vrijeme') }} </p>
         </div>
         <div class="lh-e-icon">
@@ -47,13 +47,30 @@
             <i class="fa-solid fa-sack-dollar"></i>
         </div>
     </div>
-    <div class="lh-element">
+    <div class="lh-element reveal-mid-screen">
         <div class="lh-e-data">
-            <h2> <span id="lf-line-opened"> DA </span> </h2>
-            <p> {{ __('Linija otvorena') }} </p>
+            <h2>
+                <span id="lf-line-opened">
+                    <i class="fa-regular fa-eye"></i>
+                    <i class="fa-regular fa-eye-slash d-none"></i>
+                    <i class="fa-solid fa-spinner fa-spin d-none"></i>
+{{--                    <i class="fa-solid fa-ban"></i>--}}
+                </span>
+            </h2>
+            <p> {{ __('Mid Screen') }} </p>
         </div>
         <div class="lh-e-icon">
-            <i class="fa-solid fa-phone-volume"></i>
+            <i class="fa-solid fa-display"></i>
         </div>
     </div>
+
+    {{--<div class="lh-element">--}}
+    {{--    <div class="lh-e-data">--}}
+    {{--        <h2> <span id="lf-line-opened"> DA </span> </h2>--}}
+    {{--        <p> {{ __('Linija otvorena') }} </p>--}}
+    {{--    </div>--}}
+    {{--    <div class="lh-e-icon">--}}
+    {{--        <i class="fa-solid fa-phone-volume"></i>--}}
+    {{--    </div>--}}
+    {{--</div>--}}
 </div>

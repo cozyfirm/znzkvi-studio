@@ -1,3 +1,12 @@
+/* This script is used for MQTT messaging system */
+window.mqttInit = require('../../layout/mqtt-init');
+
+/* Is mid screen revealed to users */
+import { vars } from './snippets/variables';
+
+/* Include MQTT scripts */
+require('./mqtt-scripts/tv-screen');
+
 $(document).ready(function () {
     /*
      *  Joker info; Joker cannot be used on questions:
@@ -8,6 +17,15 @@ $(document).ready(function () {
     let quizID;
     let jokerAvailable = true, jokerUsed = false;
     let questionClicked = "", correctAnswer = "";
+    // let questionRevealed = false;
+
+    /* Total seconds left */
+    let questionTimer = 5;
+
+    // let screenRevealed = im_screenRevealed;
+
+    /* Number of current question */
+    let currentQuestionNo = 1;
 
     /* Set Ajax headers */
     $.ajaxSetup({
@@ -51,7 +69,7 @@ $(document).ready(function () {
     };
 
     /* Set current active question in GUI */
-    let setCurrentQuestion = function(question_no){ $("#lf-current-question").text(question_no); };
+    let setCurrentQuestion = function(question_no){ currentQuestionNo = question_no; $("#lf-current-question").text(question_no); };
     /* Set total earned money in quiz - GUI */
     /* Set current active question in GUI */
     let setTotalMoney = function(total){ $("#lf-total-money").text(total); };
@@ -74,28 +92,39 @@ $(document).ready(function () {
                     else notify.Me([response['message'], "warn"]);
 
                     if(subCode === '50000'){
+                        // console.log(response['data']);
+
                         /* Quiz is just started, reveal the question */
-                        $(".reveal-the-question").fadeOut();
+                        $(".reveal-the-question").fadeOut(0);
 
                         parseQuestion(response['data']['question']);
-                    }else if(subCode === '50002'){
+                    }else if(subCode === '50002' || subCode === '50003'){
                         /* Correct answer */
-                        parseQuestion(response['data']['question']);
+                        // console.log(response['data']);
+
+                        if(subCode === '50002'){
+                            parseQuestion(response['data']['question']);
+                        }else{
+                            /* Level question */
+                            parseAdditionalQuestion(response['data']['question']);
+                        }
 
                         /* Increase current question */
                         setCurrentQuestion(response['data']['current_question']);
 
                         /* Fade In shade */
                         $(".reveal-the-question").fadeIn(0);
-                    }else if(subCode === '50003'){
-                        /* Correct answer, open level question */
-                        parseAdditionalQuestion(response['data']['question']);
 
-                        /* Increase current question */
-                        setCurrentQuestion(response['data']['current_question']);
+                        /* Set screen revealed as false */
+                        vars.screenRevealed = "not";
 
-                        /* Fade In shade */
-                        $(".reveal-the-question").fadeIn(0);
+                        $(".fa-eye-slash").removeClass('d-none');
+                        $(".fa-spinner").addClass('d-none');
+                        $(".fa-eye").addClass('d-none');
+
+                        vars.questionRevealed = false;
+
+                        // console.log("Current question: " + currentQuestionNo);
                     }else if(subCode === '50004'){
                         /* Joker used */
                         parseQuestion(response['data']['question']);
@@ -108,9 +137,16 @@ $(document).ready(function () {
 
                         /* Fade In shade */
                         $(".reveal-the-question").fadeIn(0);
+                        vars.questionRevealed = false;
                     }else if(subCode === '50010'){
                         /* Reveal question for operator */
                         $(".reveal-the-question").fadeOut();
+
+                        questionTimer = 5;
+                        $(".question-timer").text(questionTimer);
+                    }else if(subCode === '50011'){
+                        /* Reveal mid screen */
+
                     }else{
                         /* Answer is not correct */
                     }
@@ -128,7 +164,7 @@ $(document).ready(function () {
 
                     setTimeout(function (){
                         if(typeof response['data']['uri'] !== 'undefined' && response['data']['uri'] !== null) window.location = response['data']['uri'];
-                        else console.log("Do not redirect! " + response['message']);
+                        // else console.log("Do not redirect! " + response['message']);
                     }, 2000);
                 }else{
                     notify.Me([response['message'], "warn"]);
@@ -153,11 +189,19 @@ $(document).ready(function () {
             /* Start the quiz and show first question */
             liveHTTP("start-a-quiz", '/system/quiz-play/live/start-a-quiz', 'POST', {"id" : quizID});
         }else{
+            if(vars.screenRevealed === "not"){
+                notify.Me(["Molimo da prikažete najavu pitanja (Mid screen) !", "warn"]);
+                return;
+            }else if(vars.screenRevealed === "pending"){
+                notify.Me(["Najava pitanja (Mid screen) nije prikazana na TV-u!", "warn"]);
+                return;
+            }
+
             /* Show current question to the screen */
             liveHTTP("reveal-question", '/system/quiz-play/live/reveal-question', 'POST', {"id" : quizID});
         }
 
-        return;
+        vars.questionRevealed = true;
     });
 
     /* Answer a question */
@@ -213,7 +257,6 @@ $(document).ready(function () {
                 'additional' : 0
             });
             questionClicked = "";
-            console.log("Clicked letter");
         }else if(correctAnswer !== ""){
             /* That means, it is additional question */
 
@@ -224,9 +267,42 @@ $(document).ready(function () {
                 'additional' : 1
             });
             correctAnswer = "";
-            console.log("Clicked additional");
         }
 
         $(".live-pop-up").fadeOut();
+
+
+        /* Reset question timer */
+        questionTimer = 5;
+        /* Display to user */
+        $(".question-timer").text(questionTimer);
+        /* Remove classes */
+        $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('animated').removeClass('shake');
+    });
+
+    /* Reveal mid screen to TV screen */
+    $(".reveal-mid-screen").click(function () {
+        let questionNo = parseInt($("#lf-current-question").text());
+
+        if(vars.questionRevealed){
+            notify.Me(["Pitanje već otvoreno!", "warn"]);
+            return;
+        }
+        if(vars.screenRevealed === "not" || (questionNo === 1 && jokerUsed === false)){
+
+            $(".fa-eye").addClass('d-none');
+            $(".fa-eye-slash").addClass('d-none');
+            $(".fa-spinner").removeClass('d-none');
+
+            liveHTTP("reveal-screen", '/system/quiz-play/live/reveal-screen', 'POST', {
+                'id' : $("#quiz_id").val()
+            });
+
+            vars.screenRevealed = "pending";
+        }else if(vars.screenRevealed === "pending"){
+            notify.Me(["Molimo pričekajte ...", "warn"]);
+        }else if(vars.screenRevealed === "yes"){
+            notify.Me(["Mid screen je već prikazan na TV-u!", "warn"]);
+        }
     });
 });

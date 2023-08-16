@@ -8,6 +8,9 @@ module.exports = {
     mainTopic : function(){
         return "quiz/quiz/live-stream";
     },
+    liveFeedTVScreenTopic : function(){
+        return "quiz/quiz/live-feed-tv-screen";
+    },
     lastWill : function() {
         let date = new Date();
         return {

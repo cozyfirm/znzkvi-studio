@@ -18,8 +18,6 @@ class QuizPlayController extends Controller{
         4 => '200'
     ];
     protected $_counter = 1;
-    protected $_tv_topic = 'quiz/quiz/live-stream';
-    protected $_presenter_topic = 'quiz/quiz/presenter';
     protected $_message = "";
 
     public function live($quiz_id){
@@ -60,7 +58,7 @@ class QuizPlayController extends Controller{
 
             /* Setup message */
             $this->_message = [
-                'question_no' => $quiz->current_question,
+                'current_question' => $quiz->current_question,
                 'question' => $firstQuestion,
                 'next_question' => Question::where('id', $secondSet->question_id)->first(),
                 'sub_code' => '50000'
@@ -175,7 +173,7 @@ class QuizPlayController extends Controller{
                             $this->_message = [
                                 'sub_code' => '50007',
                                 'total_money' => $quiz->total_money,
-                                'question_type' => "additional",
+                                'next_question_type' => "additional",
                                 'answered_question_no' => 7
                             ];
 
@@ -196,7 +194,7 @@ class QuizPlayController extends Controller{
                                 'current_question' => $quiz->current_question,
                                 'total_money' => $quiz->total_money,
                                 'sub_code' => $beforeLastQuestion ? '50003' : '50002',
-                                'question_type' => "additional",
+                                'next_question_type' => "additional",
                                 'answered_question_no' => ($quiz->current_question - 1) . "+"
                             ];
 
@@ -252,7 +250,7 @@ class QuizPlayController extends Controller{
                                 'question' => $question,
                                 'sub_code' => '50003',
                                 'current_question' => $quiz->current_question,
-                                'question_type' => "normal",
+                                'next_question_type' => "normal",
                                 'answered_question_no' => $quiz->current_question
                             ];
 
@@ -269,7 +267,7 @@ class QuizPlayController extends Controller{
                                 'question' => $quiz->openAndGetNextQuestion(),
                                 'sub_code' => '50002',
                                 'current_question' => $quiz->current_question,
-                                'question_type' => "normal",
+                                'next_question_type' => "normal",
                                 'answered_question_no' => ($quiz->current_question - 1)
                             ];
 
@@ -317,7 +315,7 @@ class QuizPlayController extends Controller{
             $quiz->update(['finished' => 1, 'active' => 0]);
 
             $this->_message = [
-                'sub_code' => '50011',
+                'sub_code' => '50015',
                 'total_money' => $quiz->total_money
             ];
 
@@ -343,7 +341,7 @@ class QuizPlayController extends Controller{
 
             /* Setup message */
             $this->_message = [
-                'question_no' => $quiz->current_question,
+                'current_question' => $quiz->current_question,
                 'question' => $quiz->currentQuestion(),
                 'next_question' => ($secondSet) ? Question::where('id', $secondSet->question_id)->first() : NULL,
                 'sub_code' => '50010'
@@ -355,7 +353,29 @@ class QuizPlayController extends Controller{
 
             return $this->liveResponse('0000', __('Pitanje prikazano na TV screen-u!'), $this->_message);
         }catch (\Exception $e){
-            dd($e);
+            return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
+        }
+    }
+
+    /*
+     *  Reveal mid screen such as question category or level question screen
+     */
+    public function revealScreen(Request $request){
+        try{
+            $quiz = Quiz::where('id', $request->id)->first();
+
+            $this->_message = [
+                'current_question' => $quiz->current_question,
+                'question' => $quiz->currentQuestion(),
+                'sub_code' => '50011'
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+            /* ToDo: Maybe we should send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Mid screen prikazan na TV-u!'), $this->_message);
+        }catch (\Exception $e){
             return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }

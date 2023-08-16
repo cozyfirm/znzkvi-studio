@@ -11,6 +11,8 @@
 
 @section('content')
     <!-- Import script for live quiz handling -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
     <script src="{{asset('js/live.js')}}"></script>
 
     <div class="content-wrapper content-wrapper-bs">

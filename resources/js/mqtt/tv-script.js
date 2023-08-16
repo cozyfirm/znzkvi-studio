@@ -15,7 +15,7 @@ $(document).ready(function () {
     /* Letter of correct answer */
     let correctAnsLetter = "", proposedAnswer = "";
     /* Current question category and next question category for category screens */
-    let currentCategory, nextCategory;
+    let currentCategory, nextCategory = 1;
     /* Current question and next question */
     let currentQuestionNo = 1, nextQuestionNo = 1;
     /* Is additional (direct) question or just normal question */
@@ -24,8 +24,37 @@ $(document).ready(function () {
     /* For switching between High Score, Open Line and questions */
     let openLine = false;
 
+    /* Question timer */
+    let questionTimer = 5, counterActive = false;
+
+    const interval = setInterval(function() {
+        if(counterActive){
+            client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+
+            if(questionTimer > 0) questionTimer -= 1;
+            else{
+                /* Done ! We should finnish quiz ! */
+                client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+
+                counterActive = false;
+                questionTimer = 5;
+            }
+        }
+    }, 1000);
+
     /* Waiting time between correct answer and new questions */
     let waitPeriod = 2000;
+
+    /* Last answered question number */
+    let answeredQuestionNo = 1;
 
     client.on('error', (err) => {
         console.log('Connection error: ', err);
@@ -71,12 +100,18 @@ $(document).ready(function () {
                 correctAnsLetter = data['question']['correct_answer'];
 
                 /* Current and next question numbers */
-                currentQuestionNo = data['question_no'];
+                currentQuestionNo = data['current_question'];
                 nextQuestionNo    = data['next_question'];
 
                 /* Set current and next question categories */
                 currentCategory = data['question']['category'];
                 nextCategory = data['next_question']['category'];
+
+                /* Set total score to default value - Hide all elements */
+                quiz.totalScoreDefaultValue();
+
+                /* Set timer counter as inactive */
+                counterActive = false;
             }
             if(subCode === '50001' || subCode === "50009"){
                 /* Answer is incorrect */
@@ -91,19 +126,27 @@ $(document).ready(function () {
                     quiz.additionalAnswer("incorrect");
                 }
 
+                /* Set timer counter as inactive */
+                counterActive = false;
+
                 setTimeout(function (){
                     /* Set colors to default */
                     quiz.defaultAnswersColors();
                     /* Set colors for additional (direct) answer to default */
                     quiz.cleanAdditionalAnswerProposal();
 
-                    /* Show total score of 200 BAM */
+                    /* Show total score - BAM */
                     quiz.totalScore(data['total_money']);
 
+                    /* Set next category to default - first one */
+                    nextCategory = 1;
+
+                    /* Remove level stars */
+                    quiz.resetStars();
                 }, waitPeriod);
             }
             else if(subCode === '50002' || subCode === '50003'){
-                if(data['question_type'] === "normal"){
+                if(data['next_question_type'] === "normal"){
                     /* Show correct answer */
                     quiz.answerTheQuestion(correctAnsLetter);
                 }else{
@@ -118,87 +161,10 @@ $(document).ready(function () {
                     }
                 }
 
+                /* Set timer counter as inactive */
+                counterActive = false;
 
-                /*
-                 *  Wait for waitPeriod and:
-                 *      if answered question is 3, then reveal first level screen
-                 *      else if current question is 6, then reveal second level screen
-                 *      else reveal category screen
-                 */
-
-                setTimeout(function (){
-                    if(data['answered_question_no'] === 3){
-                        quiz.levelQuestion("reveal", "first");
-                    }else if(data['answered_question_no'] === 6){
-                        quiz.levelQuestion("reveal", "second");
-                    }else if(data['answered_question_no'] === "6+"){
-                        quiz.levelQuestion("reveal", "third");
-                    }else{
-                        quiz.questionFromCategory("reveal", nextCategory);
-                    }
-
-                    /* Set colors to default */
-                    quiz.defaultAnswersColors();
-                    /* Set colors for additional (direct) answer to default */
-                    quiz.cleanAdditionalAnswerProposal();
-                }, waitPeriod);
-
-                console.log("Question type: " + data['question_type']);
-            }
-            else if(subCode === '50002'){
-
-
-                return;
-
-
-                /* Show if answer is correct or incorrect */
-                // if(parseInt(response['data']['current_question']) === 4){
-                //     /* This is for additional questions */
-                //     quiz.additionalAnswer("correct");
-                // }else{
-                //     quiz.finalAnswer(proposedAnswer, correctAnsLetter);
-                // }
-                console.log(response['data']);
-
-                setTimeout(function (){
-                    /* Correct answer */
-                    // quiz.setQuestion(subCode, response['data']['question']);
-
-                    /* Level stars */
-                    quiz.setStars(parseInt(response['data']['current_question']));
-                }, waitPeriod);
-
-                /* Set question type */
-                // questionType = "normal";
-
-                /* Set correct answer letter */
-                correctAnsLetter = response['data']['question']['correct_answer'];
-            }
-            else if(subCode === '50003'){
-                /*
-                *   Here will come following questions
-                *       - 3
-                *       - 6
-                *       - 7
-                * */
-                // if(parseInt(response['data']['current_question']) === 3 || parseInt(response['data']['current_question']) === 6){
-                //     quiz.finalAnswer(proposedAnswer, correctAnsLetter);
-                // }
-                // else if(parseInt(response['data']['current_question']) === 7){
-                //     /* This is for additional questions */
-                //     quiz.additionalAnswer("correct");
-                // }
-
-                setTimeout(function (){
-                    /* Correct answer, open level question */
-                    // quiz.setDirectQuestion(subCode, response['data']['question']);
-
-                    /* Level stars */
-                    // quiz.setStars(parseInt(response['data']['current_question']));
-                }, waitPeriod);
-
-                /* Set question type */
-                // questionType = "direct";
+                answeredQuestionNo = data['answered_question_no'];
             }
             else if(subCode === '50004'){
                 /* Joker used */
@@ -211,11 +177,17 @@ $(document).ready(function () {
                 /* Set correct answer letter */
                 correctAnsLetter = response['data']['question']['correct_answer'];
                 quiz.questionFromCategory("reveal", currentCategory);
+
+                /* Set timer counter as inactive */
+                counterActive = false;
             }
             else if(subCode === '50007'){
                 /* Mark answer as correct */
                 quiz.additionalAnswer("correct");
                 quiz.setStars("third");
+
+                /* Set timer counter as inactive */
+                counterActive = false;
 
                 setTimeout(function (){
                     /* Set colors to default */
@@ -225,17 +197,25 @@ $(document).ready(function () {
 
                     /* Show total score of 200 BAM */
                     quiz.totalScore(200);
+
+                    /* Remove level stars */
+                    quiz.resetStars();
+
+                    nextCategory = 1;
                 }, waitPeriod);
             }
             else if(subCode === '50010'){
                 /* Reveal the question form is called here */
-                currentQuestionNo = data['question_no'];
+                currentQuestionNo = data['current_question'];
                 nextQuestionNo    = data['next_question'];
+
+                /* Reset counter to 5 seconds */
+                questionTimer = 5;
 
                 /* Set current and next question categories */
                 currentCategory = data['question']['question']['category'];
-                if(parseInt(data['question_no']) < 7) nextCategory = data['next_question']['category'];
-                else nextCategory = null;
+                if(parseInt(data['current_question']) < 7) nextCategory = data['next_question']['category'];
+                else nextCategory = 1;
 
                 /* Detect question type: normal or additional */
                 questionType = (parseInt(data['question']['additional']) === 1) ? "additional" : "normal";
@@ -258,7 +238,46 @@ $(document).ready(function () {
 
                 /* Set correct answer letter */
                 correctAnsLetter = data['question']['question']['correct_answer'];
-            }else if(subCode === '50011'){
+            }
+            else if(subCode === '50011'){
+                /* Reveal mid screen - Category or Level question screen */
+
+                let currentQuestionNo = parseInt(data['current_question']);
+                let additional = parseInt(data['question']['additional']);
+
+                if(additional){
+                    if(currentQuestionNo === 3){
+                        quiz.levelQuestion("reveal", "first");
+                    }else if(currentQuestionNo === 6){
+                        quiz.levelQuestion("reveal", "second");
+                    }else if(currentQuestionNo === 7){
+                        quiz.levelQuestion("reveal", "third");
+                    }
+                }else{
+                    quiz.questionFromCategory("reveal", nextCategory);
+                }
+
+
+                /* Set colors to default */
+                quiz.defaultAnswersColors();
+                /* Set colors for additional (direct) answer to default */
+                quiz.cleanAdditionalAnswerProposal();
+
+                /* Send message back to browser; Inform that message has been received and screen has been changed */
+                client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50100" }}), { qos: 0, retain: false }, function (error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                });
+            }
+            else if(subCode === '50014'){
+                /* User is created; Show first category */
+                quiz.questionFromCategory("reveal", data['category']);
+
+                /* Set timer counter as inactive */
+                counterActive = false;
+            }
+            else if(subCode === '50015'){
                 /* Force quiz finnish; Operator action */
                 /* Answer is incorrect */
                 jokerAvailable = true;
@@ -269,8 +288,16 @@ $(document).ready(function () {
                 /* Set colors for additional (direct) answer to default */
                 quiz.cleanAdditionalAnswerProposal();
 
-                /* Show total score of 200 BAM */
+                /* Show total score - BAM */
                 quiz.totalScore(data['total_money']);
+
+                /* Remove level stars */
+                quiz.resetStars();
+
+                nextCategory = 1;
+
+                /* Set timer counter as inactive */
+                counterActive = false;
             }
             else if(subCode === '50020'){
                 /* Show open line GUI */
@@ -281,6 +308,12 @@ $(document).ready(function () {
                 proposedAnswer = response['data']['letter'];
                 quiz.proposeAnswer(response['data']['letter']);
             }
+            /* Frontend messages */
+            /* Start time counter; Number of seconds to answer */
+            else if(subCode === '50101'){
+                counterActive = true;
+            }
+
             else{
                 /* Answer is not correct */
             }

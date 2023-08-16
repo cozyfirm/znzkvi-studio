@@ -40,7 +40,6 @@ module.exports = {
 
         let mainWrapper = $(".notifyMeWrapper");
 
-        console.log(params['expiration']);
         mainWrapper.append(function () {
             return $("<div/>").attr("id", customID)
                 .attr('class', 'notifyMe')

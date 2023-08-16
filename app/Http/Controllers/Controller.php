@@ -11,6 +11,9 @@ use PhpMqtt\Client\Facades\MQTT;
 class Controller extends BaseController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $_tv_topic = 'quiz/quiz/live-stream';
+    protected $_presenter_topic = 'quiz/quiz/presenter';
+
     public function jsonSuccess($message, $url = null){
         return response()->json([
             'code' => '0000',

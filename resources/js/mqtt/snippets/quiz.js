@@ -100,6 +100,11 @@ module.exports = {
     jokerUsed : function () { $("#jokerUsed").removeClass('d-none'); },
 
     /* Set stars depending on current question number */
+    resetStars: function(){
+        d3.select(".star-1").style("fill", "#5899B5");
+        d3.select(".star-2").style("fill", "#5899B5");
+        d3.select(".star-3").style("fill", "#5899B5");
+    },
     setStars: function (level) {
         if(level === "first"){
             d3.select(".star-1").style("fill", "#ffc107");
