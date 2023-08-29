@@ -20,9 +20,11 @@ $(document).ready(function () {
     let currentQuestionNo = 1, nextQuestionNo = 1;
     /* Is additional (direct) question or just normal question */
     let questionType = "normal";
+    /* Current level */
+    let currentLevel = 0;
 
     /* For switching between High Score, Open Line and questions */
-    let openLine = false;
+    let openLine = false, openLineCounter = 0, openLineSymbol = false;
 
     /* Question timer */
     let questionTimer = 5, counterActive = false;
@@ -34,6 +36,8 @@ $(document).ready(function () {
                     console.log(error);
                 }
             });
+
+            quiz.setTime(questionTimer);
 
             if(questionTimer > 0) questionTimer -= 1;
             else{
@@ -48,10 +52,40 @@ $(document).ready(function () {
                 questionTimer = 5;
             }
         }
+
+        if(openLine){
+            if(openLineSymbol) {
+                $("#UsklicnikGroupOLAfter").fadeIn(1000);
+                $("#SignalGroup").fadeIn(1000);
+                // $("#OpenLineText").fadeIn(1000);
+            }
+            else {
+                $("#UsklicnikGroupOLAfter").fadeOut(1000);
+                $("#SignalGroup").fadeOut(1000);
+                // $("#OpenLineText").fadeOut(1000);
+            }
+
+            openLineSymbol = !openLineSymbol;
+
+            if(openLineCounter === 8){
+                for(let i=1; i<=7; i++){
+                    $(".lbg-ol-" + i).addClass('d-none');
+                }
+
+                openLineCounter = 0;
+            }else{
+                for(let i=1; i<=7; i++){
+                    $(".lbg-ol-" + openLineCounter).removeClass('d-none');
+                }
+
+                openLineCounter++;
+            }
+
+        }
     }, 1000);
 
     /* Waiting time between correct answer and new questions */
-    let waitPeriod = 2000;
+    let waitPeriod = 5000;
 
     /* Last answered question number */
     let answeredQuestionNo = 1;
@@ -112,6 +146,11 @@ $(document).ready(function () {
 
                 /* Set timer counter as inactive */
                 counterActive = false;
+                /* Set default timer value to 5 */
+                questionTimer = 5;
+
+                /* Set GUI */
+                quiz.setTime(questionTimer);
             }
             if(subCode === '50001' || subCode === "50009"){
                 /* Answer is incorrect */
@@ -143,6 +182,7 @@ $(document).ready(function () {
 
                     /* Remove level stars */
                     quiz.resetStars();
+                    currentLevel = 0;
                 }, waitPeriod);
             }
             else if(subCode === '50002' || subCode === '50003'){
@@ -156,8 +196,12 @@ $(document).ready(function () {
                     /* Increase number of stars */
                     if(data['answered_question_no'] === "3+"){
                         quiz.setStars("first");
+                        /* Rise flag for first level */
+                        currentLevel = 1;
                     }else if(data['answered_question_no'] === "6+"){
                         quiz.setStars("second");
+                        /* Rise flag for second level */
+                        currentLevel = 2;
                     }
                 }
 
@@ -180,11 +224,19 @@ $(document).ready(function () {
 
                 /* Set timer counter as inactive */
                 counterActive = false;
+
+                /* Set default timer value to 5 */
+                questionTimer = 5;
+
+                /* Set GUI */
+                quiz.setTime(questionTimer);
             }
             else if(subCode === '50007'){
                 /* Mark answer as correct */
                 quiz.additionalAnswer("correct");
                 quiz.setStars("third");
+                /* Rise flag for third level */
+                currentLevel = 3;
 
                 /* Set timer counter as inactive */
                 counterActive = false;
@@ -200,6 +252,7 @@ $(document).ready(function () {
 
                     /* Remove level stars */
                     quiz.resetStars();
+                    currentLevel = 0;
 
                     nextCategory = 1;
                 }, waitPeriod);
@@ -211,6 +264,9 @@ $(document).ready(function () {
 
                 /* Reset counter to 5 seconds */
                 questionTimer = 5;
+
+                /* Set GUI */
+                quiz.setTime(questionTimer);
 
                 /* Set current and next question categories */
                 currentCategory = data['question']['question']['category'];
@@ -229,10 +285,10 @@ $(document).ready(function () {
                         quiz.questionFromCategory("reveal", lastCategory);
 
                         setTimeout(function (){
-                            quiz.setDirectQuestion(subCode, response['data']['question']['question']);
+                            quiz.setDirectQuestion(subCode, response['data']['question']['question'], currentCategory);
                         }, waitPeriod);
                     }else{
-                        quiz.setDirectQuestion(subCode, response['data']['question']['question']);
+                        quiz.setDirectQuestion(subCode, response['data']['question']['question'], currentCategory);
                     }
                 }
 
@@ -293,6 +349,7 @@ $(document).ready(function () {
 
                 /* Remove level stars */
                 quiz.resetStars();
+                currentLevel = 0;
 
                 nextCategory = 1;
 
@@ -312,6 +369,28 @@ $(document).ready(function () {
             /* Start time counter; Number of seconds to answer */
             else if(subCode === '50101'){
                 counterActive = true;
+            }else if(subCode === '50102'){
+                counterActive = false;
+            }else if(subCode === '50103'){
+                if(!openLine){
+                    /* Show open line screen */
+                    $("#Interface-StrokeOpenLine").removeClass('d-none');
+                    $("#InterfaceCategoryPrimaryColorOpenLine").removeClass('d-none');
+                    $("#OpenLineGroup").removeClass('d-none');
+                }else{
+                    /* Hide open line screen */
+                    $("#Interface-StrokeOpenLine").addClass('d-none');
+                    $("#InterfaceCategoryPrimaryColorOpenLine").addClass('d-none');
+                    $("#OpenLineGroup").addClass('d-none');
+                }
+
+                openLine = !openLine;
+
+                /* Set as default */
+                openLineCounter = 0;
+                for(let i=1; i<=7; i++){
+                    $(".lbg-ol-" + i).addClass('d-none');
+                }
             }
 
             else{

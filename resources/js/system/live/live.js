@@ -305,4 +305,11 @@ $(document).ready(function () {
             notify.Me(["Mid screen je već prikazan na TV-u!", "warn"]);
         }
     });
+
+    /* Open line; ToDo - Check for status later ... */
+    $(".open-line-btn").click(function () {
+        liveHTTP("open-line", '/system/quiz-play/live/open-line', 'POST', {
+            'id' : $("#quiz_id").val()
+        });
+    });
 });

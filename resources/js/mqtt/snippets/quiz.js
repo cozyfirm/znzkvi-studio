@@ -1,4 +1,7 @@
 module.exports = {
+    primaryColors: ["#77CEF4", "#8AC988", "#fbc111", "#6d6768", "#f8a46c", "#f06b6c", "#d4a75f"],
+    secondaryColors: ["#5899B5", "#4C7F49", "#BA912E", "#585658", "#b97b50", "#b15050", "#937542"],
+
     breakSentence : function(sentence, chunkSize = 68){
         return sentence.match(new RegExp(String.raw`\S.{1,${chunkSize - 2}}\S(?= |$)`, 'g'));
     },
@@ -62,6 +65,11 @@ module.exports = {
         d3.select(".nq-B-letter").style("fill", "#2F2C2F");
         d3.select(".nq-C-letter").style("fill", "#2F2C2F");
         d3.select(".nq-D-letter").style("fill", "#2F2C2F");
+
+        // d3.select(".answer-A-wrapper").style("fill", "#5899B5");
+        // d3.select(".answer-B-wrapper").style("fill", "#5899B5");
+        // d3.select(".answer-C-wrapper").style("fill", "#5899B5");
+        // d3.select(".answer-D-wrapper").style("fill", "#5899B5");
     },
     answerTheQuestion: function(letter, incorrect = false){
         this.defaultAnswersColors();
@@ -70,14 +78,19 @@ module.exports = {
         d3.select(".nq-" + letter + "-letter").style("fill", "#F5F6F7");
 
         if(!incorrect){
-            d3.select(".nq-" + letter + "-border").style("fill", "#8AC988");
+            d3.select(".nq-" + letter + "-border").style("fill", "#F5F6F7");
+            d3.select(".answer-" + letter + "-wrapper").style("fill", "#8BCA89");
         }else{
-            d3.select(".nq-" + letter + "-border").style("fill", "#8AC988");
-            d3.select(".nq-" + incorrect + "-border").style("fill", "#EE6B6C");
+            d3.select(".nq-" + letter + "-border").style("fill", "#F5F6F7");
+            d3.select(".answer-" + letter + "-wrapper").style("fill", "#8BCA89");
+
+            d3.select(".nq-" + incorrect + "-letter").style("fill", "#F5F6F7");
+            d3.select(".nq-" + incorrect + "-border").style("fill", "#F5F6F7");
+            d3.select(".answer-" + incorrect + "-wrapper").style("fill", "#F06B6C");
         }
     },
 
-    setDirectQuestion : function (subCode, question) {
+    setDirectQuestion : function (subCode, question, category) {
         /* Show default colors */
         this.cleanAdditionalAnswerProposal();
 
@@ -91,6 +104,9 @@ module.exports = {
         /* First change GUI design / category */
         this.changeCategory(question['category']);
 
+        /* Set default colors  */
+        d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
+
         /* Question text */
         this.displayQuestion("#directQuestionText", question['additional_questions']);
     },
@@ -101,19 +117,25 @@ module.exports = {
 
     /* Set stars depending on current question number */
     resetStars: function(){
-        d3.select(".star-1").style("fill", "#5899B5");
-        d3.select(".star-2").style("fill", "#5899B5");
-        d3.select(".star-3").style("fill", "#5899B5");
+        $(".star-1").addClass('d-none');
+        $(".star-2").addClass('d-none');
+        $(".star-3").addClass('d-none');
     },
     setStars: function (level) {
         if(level === "first"){
-            d3.select(".star-1").style("fill", "#ffc107");
+            $(".star-1").removeClass('d-none');
+            // d3.select(".star-1").style("fill", "#ffc107");
         }else if(level === "second"){
-            d3.select(".star-2").style("fill", "#ffc107");
+            $(".star-2").removeClass('d-none');
+            // d3.select(".star-2").style("fill", "#ffc107");
         }else if(level === "third"){
             /* Quiz is finished */
-            d3.select(".star-3").style("fill", "#ffc107");
+            $(".star-3").removeClass('d-none');
+            // d3.select(".star-3").style("fill", "#ffc107");
         }
+    },
+    starsBackground: function(currentLevel){
+
     },
 
     /* Show line open GUI and hide it*/
@@ -141,6 +163,39 @@ module.exports = {
 
             $(".qfc-" + category).removeClass('d-none');
             $(".qfc-i-" + category).removeClass('d-none');
+
+            d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
+
+            d3.select("#QuestionBackgroundSecondary").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#BacgroundCategoryNamesGroup").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#TopLableBackground").style("fill", this.secondaryColors[category - 1]);
+
+            d3.select("#AnswerSecondaryColorA").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#AnswerSecondaryColorB").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#AnswerSecondaryColorC").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#AnswerSecondaryColorD").style("fill", this.secondaryColors[category - 1]);
+
+            d3.select("#DirektnoPitanjGroupBarazSecondary").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".additional-correct-answer").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".additional-incorrect-answer").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".check-additional-bcg").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".times-additional-bcg").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#TimerNumber").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#TimerCategoryColor").style("fill", this.secondaryColors[category - 1]);
+
+            /* Stars with background */
+            d3.select(".stars-bcg-1").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".stars-bcg-2").style("fill", this.secondaryColors[category - 1]);
+            d3.select(".stars-bcg-3").style("fill", this.secondaryColors[category - 1]);
+
+            /* Right part */
+            d3.select("#_x37_").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#_x35_").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#_x33_").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#_x31_").style("fill", this.secondaryColors[category - 1]);
+            d3.select("#loaderBcgWrapper").style("fill", this.secondaryColors[category - 1]);
+
+            console.log("Ovdje mijenjamo kategoriju. Trenutno : " + category);
         }else{
             $(".question-from-category").addClass('d-none');
         }
@@ -178,21 +233,25 @@ module.exports = {
         }
     },
     cleanAdditionalAnswerProposal: function(){
-        d3.select(".dq-c-a-s-b").style("stroke", "#2F2C2F");
-        d3.select(".dq-i-a-s-b").style("stroke", "#2F2C2F");
-
-        d3.select(".additional-correct-answer").style("fill", "#5899B5");
-        d3.select(".additional-incorrect-answer").style("fill", "#5899B5");
+        // d3.select(".dq-c-a-s-b").style("stroke", "#2F2C2F");
+        // d3.select(".dq-i-a-s-b").style("stroke", "#2F2C2F");
+        //
+        // d3.select(".additional-correct-answer").style("fill", "#5899B5");
+        // d3.select(".additional-incorrect-answer").style("fill", "#5899B5");
+        $("#BarazCorrect").addClass('d-none');
+        $("#BarazInCorrect").addClass('d-none');
     },
     additionalAnswer : function (action) {
         this.cleanAdditionalAnswerProposal();
 
         if(action === 'correct'){
-            d3.select(".dq-c-a-s-b").style("stroke", "#8AC988");
-            d3.select(".additional-correct-answer").style("fill", "#8AC988");
+            $("#BarazCorrect").removeClass('d-none');
+            // d3.select(".dq-c-a-s-b").style("stroke", "#8AC988");
+            // d3.select(".additional-correct-answer").style("fill", "#8AC988");
         }else{
-            d3.select(".dq-i-a-s-b").style("stroke", "#EE6B6C");
-            d3.select(".additional-incorrect-answer").style("fill", "#EE6B6C");
+            $("#BarazInCorrect").removeClass('d-none');
+            // d3.select(".dq-i-a-s-b").style("stroke", "#EE6B6C");
+            // d3.select(".additional-incorrect-answer").style("fill", "#EE6B6C");
         }
     },
 
@@ -214,6 +273,8 @@ module.exports = {
             this.screenAction(".lqc-" + level, 'reveal');
 
             d3.select(".lqs-" + level + "-star").style("fill", "#FBC111");
+            /* Set background as blue */
+            d3.select("#InterfaceCategoryPrimaryColor").style("fill", "#77CEF4");
         }else{
             /* Maybe won't be ever used */
         }
@@ -224,7 +285,28 @@ module.exports = {
     totalScore: function (money) {
         this.hideAllScreens();
 
+        /* Set background as blue */
+        d3.select("#InterfaceCategoryPrimaryColor").style("fill", "#77CEF4");
+
         this.screenAction(".earned-money", 'reveal');
         this.screenAction(".em-" + money, 'reveal');
+    },
+
+    /* Timer manipulations */
+    setTime: function (time) {
+        $(".timer-scale").removeClass('d-none');
+
+        for(let i=4; i>=time; i--){
+            $(".t-sc-" + (i + 1)).addClass('d-none');
+        }
+
+        /* Play sound */
+        if(time < 5){
+            const audio = new Audio("/sounds/beep.wav");
+            audio.play();
+        }
+
+        /* Set digits */
+        d3.select("#TimerNumber").text(time);
     }
 };

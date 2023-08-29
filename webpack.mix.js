@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
 
     .js('resources/js/system/system.js', 'public/js/system.js')
     .js('resources/js/public-part/public.js', 'public/js/public.js')
+    .js('resources/js/public-part/mqtt/mqtt-library.js', 'public/js/mqtt-library.js')
     .js('resources/js/system/live/live.js', 'public/js/live.js')
 
     /* MQTT live messages from system to TV screen */

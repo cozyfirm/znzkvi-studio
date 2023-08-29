@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo_black.png')}}"/>
 
+    <!-- ToDo - Download all external files -->
     <!-- Stylesheet -->
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/system/system.css')}}">
@@ -15,7 +16,7 @@
     <script src="https://kit.fontawesome.com/cdf2a0a58b.js"></script>
 
     <!-- Javascript scripts -->
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="external-js/mqtt.min.js"></script>
 
     <script src="{{asset('js/system.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

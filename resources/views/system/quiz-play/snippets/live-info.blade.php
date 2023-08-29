@@ -57,6 +57,14 @@
                             </div>
 
                             <hr>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="open-line-btn"> <p>{{ __('Otvorene linije') }}</p> </div>
+                                </div>
+                            </div>
+
+                            <hr>
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
                                     <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-check"></i> 18 tačnih odgovora </small> </a>

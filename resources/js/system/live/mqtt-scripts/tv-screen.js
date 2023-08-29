@@ -2,6 +2,8 @@
 import { vars } from './../snippets/variables';
 
 $(document).ready(function () {
+    let timerStarted = false;
+
     /* Is screen revealed or not */
     // let screenRevealed = im_screenRevealed;
 
@@ -60,11 +62,30 @@ $(document).ready(function () {
             notify.Me(['Niste još otvorili pitanje!', "warn"]);
             return;
         }
-        /* Send message back to TV Screen; Start counting down */
-        client.publish(mqttInit.mainTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101" }}), { qos: 0, retain: false }, function (error) {
-            if (error) {
-                console.log(error);
-            }
-        });
+        if(parseInt($(".question-timer").text()) === 0){
+            notify.Me(['Ne možete restartovati timer !', "warn"]);
+
+            return;
+        }
+
+        if(!timerStarted){
+            /* Send message back to TV Screen; Start counting down */
+            client.publish(mqttInit.mainTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101" }}), { qos: 0, retain: false }, function (error) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+
+            timerStarted = true;
+        }else{
+            /* Send message back to TV Screen; Start counting down */
+            client.publish(mqttInit.mainTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102" }}), { qos: 0, retain: false }, function (error) {
+                if (error) {
+                    console.log(error);
+                }
+            });
+
+            timerStarted = false;
+        }
     });
 });

@@ -4,6 +4,7 @@
     "/css/system/system.css": "/css/system/system.css",
     "/css/public/public.css": "/css/public/public.css",
     "/js/live.js": "/js/live.js",
+    "/js/mqtt-library.js": "/js/mqtt-library.js",
     "/js/mqtt/control-script.js": "/js/mqtt/control-script.js",
     "/js/mqtt/tv-script.js": "/js/mqtt/tv-script.js",
     "/js/public.js": "/js/public.js",

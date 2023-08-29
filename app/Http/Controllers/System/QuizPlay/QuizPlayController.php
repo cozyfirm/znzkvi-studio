@@ -379,7 +379,25 @@ class QuizPlayController extends Controller{
             return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }
+    public function openLine(Request $request){
+        try{
+            $quiz = Quiz::where('id', $request->id)->first();
 
+            $this->_message = [
+                'current_question' => $quiz->current_question,
+                'question' => $quiz->currentQuestion(),
+                'sub_code' => '50103'
+            ];
+
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+            /* ToDo: Maybe we should send message to presenter screen */
+
+            return $this->liveResponse('0000', __('Poruka uspješno poslana!'), $this->_message);
+        }catch (\Exception $e){
+            return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
+        }
+    }
     /*
      *  Note: This message is deprecated and won't be used anymore! Leave it as legacy ...
      *
