@@ -228,6 +228,9 @@ $(document).ready(function () {
                 /* Set default timer value to 5 */
                 questionTimer = 5;
 
+                const jokerMusic = new Audio("/sounds/joker.mp3");
+                jokerMusic.play().then(r => function () {});
+
                 /* Set GUI */
                 quiz.setTime(questionTimer);
             }
@@ -283,6 +286,9 @@ $(document).ready(function () {
                     /* Set additional (direct) question */
                     if(currentQuestionNo === 7){
                         quiz.questionFromCategory("reveal", lastCategory);
+
+                        const nobelMusic = new Audio("/sounds/nobel_opened.wav");
+                        nobelMusic.play().then(r => function () {});
 
                         setTimeout(function (){
                             quiz.setDirectQuestion(subCode, response['data']['question']['question'], currentCategory);

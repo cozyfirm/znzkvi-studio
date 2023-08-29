@@ -77,17 +77,25 @@ module.exports = {
         /* Set letter color to white */
         d3.select(".nq-" + letter + "-letter").style("fill", "#F5F6F7");
 
+        let audio = new Audio("/sounds/correct-answer.wav");
+
         if(!incorrect){
+            /* Answer is correct */
             d3.select(".nq-" + letter + "-border").style("fill", "#F5F6F7");
             d3.select(".answer-" + letter + "-wrapper").style("fill", "#8BCA89");
         }else{
+            /* Answer is incorrect */
             d3.select(".nq-" + letter + "-border").style("fill", "#F5F6F7");
             d3.select(".answer-" + letter + "-wrapper").style("fill", "#8BCA89");
 
             d3.select(".nq-" + incorrect + "-letter").style("fill", "#F5F6F7");
             d3.select(".nq-" + incorrect + "-border").style("fill", "#F5F6F7");
             d3.select(".answer-" + incorrect + "-wrapper").style("fill", "#F06B6C");
+
+            audio = new Audio("/sounds/incorrect-answer.wav");
         }
+
+        audio.play().then(r => function () {});
     },
 
     setDirectQuestion : function (subCode, question, category) {
@@ -244,15 +252,22 @@ module.exports = {
     additionalAnswer : function (action) {
         this.cleanAdditionalAnswerProposal();
 
+        let audio = new Audio("/sounds/correct_level.wav");
+
         if(action === 'correct'){
             $("#BarazCorrect").removeClass('d-none');
             // d3.select(".dq-c-a-s-b").style("stroke", "#8AC988");
             // d3.select(".additional-correct-answer").style("fill", "#8AC988");
         }else{
             $("#BarazInCorrect").removeClass('d-none');
+            audio = new Audio("/sounds/incorrect-answer.wav");
+
             // d3.select(".dq-i-a-s-b").style("stroke", "#EE6B6C");
             // d3.select(".additional-incorrect-answer").style("fill", "#EE6B6C");
         }
+
+        audio.play().then(r => function () {});
+
     },
 
     /* Screens functions */
@@ -301,10 +316,11 @@ module.exports = {
         }
 
         /* Play sound */
-        if(time < 5){
+        if(time < 5) {
             const audio = new Audio("/sounds/beep.wav");
-            audio.play();
+            audio.play().then(r => function () {});
         }
+
 
         /* Set digits */
         d3.select("#TimerNumber").text(time);
