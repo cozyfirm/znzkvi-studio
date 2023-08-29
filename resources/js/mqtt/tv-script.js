@@ -220,7 +220,7 @@ $(document).ready(function () {
 
                 /* Set correct answer letter */
                 correctAnsLetter = response['data']['question']['correct_answer'];
-                quiz.questionFromCategory("reveal", currentCategory);
+                quiz.questionFromCategory("reveal", 0);
 
                 /* Set timer counter as inactive */
                 counterActive = false;

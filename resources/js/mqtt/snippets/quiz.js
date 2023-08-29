@@ -165,12 +165,22 @@ module.exports = {
         $(".qfc-general").addClass('d-none');
         /* Hide all categories icons */
         $(".qfc-i").addClass('d-none');
+        /* Hide all text */
+        $(".tlg-text").addClass('d-none');
 
         if(action === 'reveal'){
             $(".question-from-category").removeClass('d-none');
 
-            $(".qfc-" + category).removeClass('d-none');
-            $(".qfc-i-" + category).removeClass('d-none');
+            if(category === 0){
+                /* It is joker flag */
+                $(".qfc-joker").removeClass('d-none');
+                $(".qfc-i-joker").removeClass('d-none');
+                $("#tlg_joker_used").removeClass('d-none');
+            }else{
+                $(".qfc-" + category).removeClass('d-none');
+                $(".qfc-i-" + category).removeClass('d-none');
+                $("#tlg_category_heading").removeClass('d-none');
+            }
 
             d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
 
