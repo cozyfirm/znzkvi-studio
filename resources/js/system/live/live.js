@@ -92,15 +92,12 @@ $(document).ready(function () {
                     else notify.Me([response['message'], "warn"]);
 
                     if(subCode === '50000'){
-                        // console.log(response['data']);
-
                         /* Quiz is just started, reveal the question */
                         $(".reveal-the-question").fadeOut(0);
 
                         parseQuestion(response['data']['question']);
                     }else if(subCode === '50002' || subCode === '50003'){
                         /* Correct answer */
-                        // console.log(response['data']);
 
                         if(subCode === '50002'){
                             parseQuestion(response['data']['question']);
@@ -123,8 +120,6 @@ $(document).ready(function () {
                         $(".fa-eye").addClass('d-none');
 
                         vars.questionRevealed = false;
-
-                        // console.log("Current question: " + currentQuestionNo);
                     }else if(subCode === '50004'){
                         /* Joker used */
                         parseQuestion(response['data']['question']);

@@ -9,20 +9,22 @@
     <div class="top-menu-links">
         <!-- Left top icons -->
         <div class="left-icons">
-            <div class="single-li" title="{{__('Show off')}}">
-                <i class="fas fa-globe-americas"></i>
-                <div class="number-of"><p>3</p></div>
-            </div>
+{{--            <div class="single-li" title="{{__('Show off')}}">--}}
+{{--                <i class="fas fa-globe-americas"></i>--}}
+{{--                <div class="number-of"><p>3</p></div>--}}
+{{--            </div>--}}
 
-            <a href="#" target="_blank">
-                <div class="single-li">
-                    <p> {{__('Blog')}} </p>
-                </div>
-            </a>
+{{--            <a href="#" target="_blank">--}}
+{{--                <div class="single-li">--}}
+{{--                    <p> {{__('Blog')}} </p>--}}
+{{--                </div>--}}
+{{--            </a>--}}
 
             <a href="#">
                 <div class="single-li">
-                    <p> {{__('About US')}} </p>
+                    <div class="sl-c-button open-line-g-btn @if($openLines->value) bg-green @else bg-red @endif">
+                        <p> {{__('Otvorene linije')}} </p>
+                    </div>
                 </div>
             </a>
         </div>

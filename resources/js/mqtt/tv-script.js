@@ -4,6 +4,8 @@ window.mqttInit = require('../layout/mqtt-init');
 
 /* Include functions for handling GUI */
 window.quiz = require('./snippets/quiz');
+/* Import scripts for HTTP requests */
+window.helper = require('./snippets/helper');
 
 $(document).ready(function () {
     const clientID = mqttInit.clientID();
@@ -24,17 +26,18 @@ $(document).ready(function () {
     let currentLevel = 0;
 
     /* For switching between High Score, Open Line and questions */
-    let openLine = false, openLineCounter = 0, openLineSymbol = false;
+    let openLine = true, openLineCounter = 0, openLineSymbol = false;
 
     /* Question timer */
     let questionTimer = 5, counterActive = false;
 
     const interval = setInterval(function() {
+        /*
+         *  Timer: Every user has 5 seconds to answer the question before time is over
+         */
         if(counterActive){
             client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
-                if (error) {
-                    console.log(error);
-                }
+                if (error) { console.log(error); }
             });
 
             quiz.setTime(questionTimer);
@@ -43,9 +46,7 @@ $(document).ready(function () {
             else{
                 /* Done ! We should finnish quiz ! */
                 client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
-                    if (error) {
-                        console.log(error);
-                    }
+                    if (error) { console.log(error); }
                 });
 
                 counterActive = false;
@@ -53,34 +54,26 @@ $(document).ready(function () {
             }
         }
 
+        /* Open Line GUI animations */
         if(openLine){
+            /* Fade In and fade Out symbols */
+            openLineSymbol = !openLineSymbol;
             if(openLineSymbol) {
                 $("#UsklicnikGroupOLAfter").fadeIn(1000);
                 $("#SignalGroup").fadeIn(1000);
-                // $("#OpenLineText").fadeIn(1000);
-            }
-            else {
+            }else {
                 $("#UsklicnikGroupOLAfter").fadeOut(1000);
                 $("#SignalGroup").fadeOut(1000);
-                // $("#OpenLineText").fadeOut(1000);
             }
 
-            openLineSymbol = !openLineSymbol;
-
+            /* Right line raise and fall */
             if(openLineCounter === 8){
-                for(let i=1; i<=7; i++){
-                    $(".lbg-ol-" + i).addClass('d-none');
-                }
-
+                for(let i=1; i<=7; i++){ $(".lbg-ol-" + i).addClass('d-none'); }
                 openLineCounter = 0;
             }else{
-                for(let i=1; i<=7; i++){
-                    $(".lbg-ol-" + openLineCounter).removeClass('d-none');
-                }
-
+                for(let i=1; i<=7; i++){ $(".lbg-ol-" + openLineCounter).removeClass('d-none'); }
                 openLineCounter++;
             }
-
         }
     }, 1000);
 
@@ -90,17 +83,11 @@ $(document).ready(function () {
     /* Last answered question number */
     let answeredQuestionNo = 1;
 
-    client.on('error', (err) => {
-        console.log('Connection error: ', err);
-        client.end()
-    });
-
+    client.on('error', (err) => { client.end() });
     client.on('reconnect', () => { console.log('Reconnecting...'); });
-
     client.on('connect', () => {
-        console.log('Client connected:' + clientID);
         // Subscribe to topic
-        client.subscribe(mqttInit.mainTopic(), { qos: 0 })
+        client.subscribe(mqttInit.mainTopic(), { qos: 0 });
 
         /* Show SVG element */
         $(".main-svg-file").removeClass('d-none');
@@ -115,6 +102,8 @@ $(document).ready(function () {
             /* Message type */
             let subCode = response['data']['sub_code'];
             let data    = response['data'];
+
+            console.log(data);
 
             if(subCode === '50000'){
                 /* Quiz just started, show screen for questions */
@@ -194,6 +183,9 @@ $(document).ready(function () {
             }
             else if(subCode === '50002' || subCode === '50003'){
                 /* Answer is correct! */
+
+                /* Now, we have info about current category */
+                currentCategory = data['current_category'];
 
                 if(data['next_question_type'] === "normal"){
                     /* Show correct answer */
@@ -393,12 +385,15 @@ $(document).ready(function () {
 
             /* Open Lines */
             else if(subCode === '50103'){
-                let forceLineOpen = data['forceShow'];
+                let status = data['status'];
 
-                if(!openLine || forceLineOpen) quiz.openLine("reveal");
-                else quiz.openLine("hide");
-
-                openLine = !openLine;
+                if(status === 'open'){
+                    openLine = true;
+                    quiz.openLine("reveal");
+                }else{
+                    openLine = false;
+                    quiz.openLine("hide");
+                }
 
                 /* Set as default */
                 openLineCounter = 0;
@@ -418,7 +413,10 @@ $(document).ready(function () {
         }
 
     });
-    client.on('unubscribe', (topic, message, packet) => {
-        console.log("Unsubscribed ...");
-    });
+    client.on('unubscribe', (topic, message, packet) => { console.log("Unsubscribed ..."); });
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /* On screen load, show Open Lines; Create HTTP and notify all users for this screen */
+
+    helper.createHTTP("reveal-open-line", "/system/quiz-play/live/open-line", "POST", {source: "tv", action: "init"});
 });

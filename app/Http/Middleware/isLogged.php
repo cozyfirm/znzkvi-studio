@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Settings\Config;
 use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class isLogged
 
             \View::share([
                 'loggedUser' => $user,
+                'openLines' => Config::where('key', 'open_lines')->first()
             ]);
             return $next($request);
         }else{

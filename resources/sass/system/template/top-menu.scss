@@ -23,7 +23,7 @@
         position: absolute; left: $left-menu-w; width: calc(100% - 321px); height: 40px; top:20px; border-left:1px solid #E5E5E5;
 
         .left-icons{
-            position: absolute; left:30px; top:0px; min-width:200px; height: 100%;
+            position: absolute; left:20px; top:0px; min-width:200px; height: 100%;
             .single-li{
                 position: relative; height: 40px; display: inline-flex; margin:0px 10px;
                 p{
@@ -36,6 +36,15 @@
                     position: absolute; right:-6px; top:2px; height: 14px; background: #000000; border-radius:2px;
                     p{
                         font-size:10px; margin:0px; color:#fff; padding-top:0px; padding-left:3px; padding-right:3px;
+                    }
+                }
+
+                .sl-c-button{
+                    position: relative; height: 36px; margin-top: 2px; background: grey; text-align: center; padding-left: 15px;
+                    padding-right: 15px; border-radius: 3px;
+
+                    p{
+                        color:#ffffff; margin: 0px; padding-top: 8px; font-weight: bold;
                     }
                 }
             }

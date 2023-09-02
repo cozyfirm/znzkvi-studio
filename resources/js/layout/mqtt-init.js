@@ -11,6 +11,8 @@ module.exports = {
     liveFeedTVScreenTopic : function(){
         return "quiz/quiz/live-feed-tv-screen";
     },
+    globalChannel : function(){ return "quiz/quiz/global-channel"; },
+
     lastWill : function() {
         let date = new Date();
         return {

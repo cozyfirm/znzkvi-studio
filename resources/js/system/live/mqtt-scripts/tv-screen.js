@@ -41,8 +41,6 @@ $(document).ready(function () {
                 $(".fa-eye").removeClass('d-none');
                 $(".fa-eye-slash").addClass('d-none');
                 $(".fa-spinner").addClass('d-none');
-
-                console.log("Screen has been revealed !");
             }
             else if(subCode === '50101'){
                 $(".question-timer").text(data['time']);

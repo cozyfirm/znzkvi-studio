@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Quiz\Questions\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
+use App\Models\Settings\Config;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,7 @@ class QuizPlayController extends Controller{
             /* Setup message */
             $this->_message = [
                 'current_question' => $quiz->current_question,
+                'current_category' => $firstQuestion->category,
                 'question' => $firstQuestion,
                 'next_question' => Question::where('id', $secondSet->question_id)->first(),
                 'sub_code' => '50000'
@@ -123,24 +125,18 @@ class QuizPlayController extends Controller{
             $beforeLastQuestion = ($set->question_no == 6) ? true : false;
 
             /* If quiz is finished, cancel all further actions */
-            if($quiz->finished){
-                if($quiz->joker) return $this->liveResponse('0000', __('Kviz je već završen!'), [
-                    'sub_code' => '50008'
-                ]);
-            }
+            if($quiz->finished) return $this->liveResponse('0000', __('Kviz je već završen!'), [
+                'sub_code' => '50008'
+            ]);
 
             /* Default response message */
             $responseMsg = __("Otvaramo novo pitanje!");
 
             if(isset($request->joker)){
                 /* Check first is joker used */
-                if($quiz->joker) return $this->liveResponse('0000', __('Joker je već iskorišten!'), [
-                    'sub_code' => '50006'
-                ]);
+                if($quiz->joker) return $this->liveResponse('0000', __('Joker je već iskorišten!'), [ 'sub_code' => '50006' ]);
 
-                if($quiz->current_question == 1) return $this->liveResponse('0000', __('Nije moguće iskoristiti Joker na ovom pitanju!'), [
-                    'sub_code' => '50005'
-                ]);
+                if($quiz->current_question == 1) return $this->liveResponse('0000', __('Nije moguće iskoristiti Joker na ovom pitanju!'), [ 'sub_code' => '50005' ]);
 
                 /* Use joker */
                 if($set->question_no == 3 or $set->question_no == 6 or $set->question_no == 7){
@@ -195,10 +191,13 @@ class QuizPlayController extends Controller{
                                 QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->update(['level_opened' => 1]);
                             }
 
+                            $currentQuestion = $quiz->openAndGetNextQuestion();
+
                             /* Setup message */
                             $this->_message = [
-                                'question' => $quiz->openAndGetNextQuestion(),
+                                'question' => $currentQuestion,
                                 'current_question' => $quiz->current_question,
+                                'current_category' => $currentQuestion->category,
                                 'total_money' => $quiz->total_money,
                                 'sub_code' => $beforeLastQuestion ? '50003' : '50002',
                                 'next_question_type' => "additional",
@@ -235,7 +234,8 @@ class QuizPlayController extends Controller{
 
                         return $this->liveResponse('0000', __("Kviz završen!"), $this->_message);
                     }
-                }else{
+                }
+                else{
                     /* Answer to normal question */
                     /* Determine is it correct or not */
                     $correct  = ($question->correct_answer == $request->letter) ? true : false;
@@ -257,6 +257,7 @@ class QuizPlayController extends Controller{
                                 'question' => $question,
                                 'sub_code' => '50003',
                                 'current_question' => $quiz->current_question,
+                                'current_category' => $question->category,
                                 'next_question_type' => "normal",
                                 'answered_question_no' => $quiz->current_question
                             ];
@@ -270,10 +271,13 @@ class QuizPlayController extends Controller{
                         }else{
                             /* This could be 1st, 2nd, 4th, 5th question */
                             /* Setup message */
+                            $currentQuestion = $quiz->openAndGetNextQuestion();
+
                             $this->_message = [
-                                'question' => $quiz->openAndGetNextQuestion(),
+                                'question' => $currentQuestion,
                                 'sub_code' => '50002',
                                 'current_question' => $quiz->current_question,
+                                'current_category' => $currentQuestion->category,
                                 'next_question_type' => "normal",
                                 'answered_question_no' => ($quiz->current_question - 1)
                             ];
@@ -394,24 +398,49 @@ class QuizPlayController extends Controller{
             return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }
+
+
     public function openLine(Request $request){
         try{
-            $quiz = Quiz::where('id', $request->id)->first();
+            if($request->source == "tv"){
+                if($request->action == "init"){
+                    /* On load screen on TV */
+                    Config::where('key', 'open_lines')->update(['value' => 1]);
+                    $this->_message = [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1];
 
-            $this->_message = [
-                'current_question' => $quiz->current_question,
-                'question' => $quiz->currentQuestion(),
-                'forceShow' => false,
-                'sub_code' => '50103'
-            ];
+                    /* Publish message to all screens (Admin portal) */
+                    $this->publishMessage($this->_global_channel, '0000', $this->_message);
+                    /* Return success response and show Line Open GUI in TV screen */
+                    return $this->liveResponse('0000', __('Status uspješno ažuriran!'), $this->_message);
+                }
+            }else{
+                /* Comand sent by user */
+                $lineOpen = Config::where('key', 'open_lines')->first();
+                if($lineOpen->value == 1){
+                    /* If Open Line GUI is revealed, update status, hide it in TV screen and mark button as red in Admin panel */
+                    Config::where('key', 'open_lines')->update(['value' => 0]);
 
-            /* Send WS message; Show first category on screen */
-            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
-            /* ToDo: Maybe we should send message to presenter screen */
+                    /* Send message to TV Screen to hide GUI */
+                    $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "closed"]);
 
-            return $this->liveResponse('0000', __('Poruka uspješno poslana!'), $this->_message);
+                    /* Send message to Admin panel */
+                    $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+                }else{
+                    Config::where('key', 'open_lines')->update(['value' => 1]);
+
+                    /* Send message to TV Screen to hide GUI */
+                    $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "open"]);
+
+                    /* Send message to Admin panel */
+                    $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1]);
+                }
+
+                dd($request->all());
+
+            }
+
         }catch (\Exception $e){
-            return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
+            return $this->jsonResponse('51050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }
     /*

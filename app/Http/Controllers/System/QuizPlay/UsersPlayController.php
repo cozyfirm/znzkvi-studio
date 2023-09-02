@@ -70,8 +70,7 @@ class UsersPlayController extends Controller{
         if($activeQuiz) return redirect()-> route('system.quiz-play.live', ['quiz_id' => $activeQuiz->id ]);
 
         /* Send message to TV screen: Lines are open! */
-        $this->publishMessage($this->_tv_topic, '0000', [ 'sub_code' => '50103', 'forceShow' => true ]);
-        /* ToDo: Send message to presenter screen */
+        // $this->publishMessage($this->_tv_topic, '0000', [ 'sub_code' => '50103', 'forceShow' => true ]);
 
         return $this->getData('create');
     }

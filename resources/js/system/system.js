@@ -23,7 +23,7 @@ $(document).ready(function() {
 });
 
 // ** MQTT Library ** //
-require('../libraries/mqtt');
+window.mqtt = require('../libraries/mqtt');
 require('../layout/mqtt-init');
 
 // ** Notify.js Library ** //
@@ -54,3 +54,7 @@ require('../layout/submit');
 /* Quiz scripts */
 require('./pages/quiz/questions');
 require('./pages/quiz/demo/send-messages');
+
+/* Global MQTT channel */
+require('./live/global-channel');
+require('./live/global-user-interactions');

@@ -13,6 +13,7 @@ class Controller extends BaseController{
 
     protected $_tv_topic = 'quiz/quiz/live-stream';
     protected $_presenter_topic = 'quiz/quiz/presenter';
+    protected $_global_channel = "quiz/quiz/global-channel";
 
     public function jsonSuccess($message, $url = null){
         return response()->json([
