@@ -27,6 +27,14 @@
                     </div>
                 </div>
             </a>
+
+{{--            <a href="#">--}}
+{{--                <div class="single-li">--}}
+{{--                    <div class="sl-c-button live-feed-g-btn">--}}
+{{--                        <i class="fa-solid fa-heart-pulse fa-beat "> </i>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </a>--}}
         </div>
 
         <!-- Right top icons -->
@@ -83,14 +91,14 @@
             </div>
         </a>
 
-        <div class="subtitle">
+        <div class="subtitle live-feed-m-elem @if(!isset($activeQuiz)) d-none @endif">
             <h4> {{__('Zaigrajmo kviz')}} </h4>
             <div class="subtitle-icon">
                 <i class="fas fa-project-diagram"></i>
             </div>
         </div>
 
-        <a href="{{ route('system.quiz-play.users.create-user') }}" class="menu-a-link">
+        <a href="" class="menu-a-link live-feed-m-elem lf-m-e-w @if(!isset($activeQuiz)) d-none @endif" active-quiz="12">
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">
@@ -167,7 +175,7 @@
                         </div>
                     </div>
                     <div class="inside-links active-links">
-                        <a href="{{ route('system.users.create-user') }}">
+                        <a href="{{ route('system.quiz-play.users.create-user') }}">
                             <div class="inside-lm-link">
                                 <div class="ilm-l"></div><div class="ilm-c"></div>
                                 <p>{{__('Novi korisnik')}}</p>

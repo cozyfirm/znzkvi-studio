@@ -53,9 +53,7 @@ $(document).ready(function () {
         }
     });
 
-
-    /* Start counting (seconds left to answer) */
-    $(".question-timer-wrapper").click(function () {
+    let guiTimer = function(){
         if(!vars.questionRevealed){
             notify.Me(['Niste još otvorili pitanje!', "warn"]);
             return;
@@ -85,5 +83,16 @@ $(document).ready(function () {
 
             timerStarted = false;
         }
+    };
+
+    /* Start counting (seconds left to answer) */
+    $(".question-timer-wrapper").click(function () {
+        guiTimer();
+    });
+
+    $('body').keypress((event) => {
+        let char = String.fromCharCode(event.which);
+
+        if(char === " "){ guiTimer(); }
     });
 });

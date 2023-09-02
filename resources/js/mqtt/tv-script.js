@@ -103,8 +103,6 @@ $(document).ready(function () {
             let subCode = response['data']['sub_code'];
             let data    = response['data'];
 
-            console.log(data);
-
             if(subCode === '50000'){
                 /* Quiz just started, show screen for questions */
 
@@ -114,7 +112,8 @@ $(document).ready(function () {
                  * */
                 jokerAvailable = true; quiz.jokerAvailable(); quiz.jokerDisabled();
 
-                // ToDo - Line Open !?
+                /* Hide line open GUI */
+                quiz.openLine("hide");
 
                 /* Reveal normal question (always first category) */
                 quiz.revealTheQuestion(subCode, response['data']['question'], 1);
@@ -273,6 +272,9 @@ $(document).ready(function () {
                 /* Set GUI */
                 quiz.setTime(questionTimer);
 
+                /* Hide line open GUI */
+                quiz.openLine("hide");
+
                 /* Set current and next question categories */
                 currentCategory = data['current_category'];
 
@@ -306,6 +308,9 @@ $(document).ready(function () {
             }
             else if(subCode === '50011'){
                 /* Reveal mid screen - Category or Level question screen */
+
+                /* Hide line open GUI */
+                quiz.openLine("hide");
 
                 let currentQuestionNo = parseInt(data['current_question']);
                 let additional = parseInt(data['question']['additional']);

@@ -24,6 +24,15 @@ $(document).ready(function () {
             }
             else if(subCode === '51011'){
                 $(".open-line-g-btn").addClass('bg-red').removeClass('bg-green');
+            }else if(subCode === '51012'){
+                /* Live feed show or hide */
+                if(data['status'] === 'show'){
+                    $(".live-feed-m-elem").removeClass('d-none');
+                    /* Set active quiz id as attribute */
+                    $(".lf-m-e-w").attr('active-quiz', data['quiz_id']).attr('href', data['route']);
+                }else{
+                    $(".live-feed-m-elem").addClass('d-none');
+                }
             }
         }else{
             notify.Me(['Desila se greška prilikom čitanja MQTT poruke!', "warn"]);

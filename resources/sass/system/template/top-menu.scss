@@ -23,9 +23,9 @@
         position: absolute; left: $left-menu-w; width: calc(100% - 321px); height: 40px; top:20px; border-left:1px solid #E5E5E5;
 
         .left-icons{
-            position: absolute; left:20px; top:0px; min-width:200px; height: 100%;
+            position: absolute; left:30px; top:0px; min-width:200px; height: 100%;
             .single-li{
-                position: relative; height: 40px; display: inline-flex; margin:0px 10px;
+                position: relative; height: 40px; display: inline-flex; margin:0px 0px; margin-right: 10px;
                 p{
                     margin:0px; padding-top:10px; margin-right:10px; font-size:14px;
                 }
@@ -40,11 +40,14 @@
                 }
 
                 .sl-c-button{
-                    position: relative; height: 36px; margin-top: 2px; background: grey; text-align: center; padding-left: 15px;
+                    position: relative; display: inline-flex; height: 36px; margin-top: 2px; background: grey; text-align: center; padding-left: 15px;
                     padding-right: 15px; border-radius: 3px;
 
                     p{
                         color:#ffffff; margin: 0px; padding-top: 8px; font-weight: bold;
+                    }
+                    i{
+                         font-size: 18px; padding-top: 5px; margin-top: 3px;
                     }
                 }
             }

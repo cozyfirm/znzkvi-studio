@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Core\Countries;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
+use App\Models\Settings\Config;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -66,8 +67,8 @@ class UsersPlayController extends Controller{
      */
     public function create(){
         /* First, let's check if there is currently any active quiz */
-        $activeQuiz = Quiz::where('active', 1)->where('finished', 0)->first();
-        if($activeQuiz) return redirect()-> route('system.quiz-play.live', ['quiz_id' => $activeQuiz->id ]);
+        // $activeQuiz = Quiz::where('active', 1)->where('finished', 0)->first();
+        // if($activeQuiz) return redirect()-> route('system.quiz-play.live', ['quiz_id' => $activeQuiz->id ]);
 
         /* Send message to TV screen: Lines are open! */
         // $this->publishMessage($this->_tv_topic, '0000', [ 'sub_code' => '50103', 'forceShow' => true ]);
@@ -112,9 +113,14 @@ class UsersPlayController extends Controller{
                 $this->publishMessage($this->_tv_topic, '0000', $this->_message);
                 /* ToDo: Send message to presenter screen */
 
+                /* Send WS message to global channel to make Live feed available for operator*/
+                $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "quiz_id" => $quiz->id, "status" => "show", "route" => route('system.quiz-play.live', ['quiz_id' => $quiz->id])]);
+                /* Also, set open lines as false since first category should open any second */
+                Config::where('key', 'open_lines')->update(['value' => 0]);
+                $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0]);
 
                 /* Return redirect to quiz */
-                return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.quiz-play.live', ['quiz_id' => $quiz->id ]));
+                return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));
             }catch (\Exception $e){
                 dd($e);
                 return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));

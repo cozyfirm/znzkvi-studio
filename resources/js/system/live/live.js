@@ -168,13 +168,41 @@ $(document).ready(function () {
         });
     };
 
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /* User action functions */
+
+    let revealMidScreen = function(){
+        let questionNo = parseInt($("#lf-current-question").text());
+
+        if(vars.questionRevealed){
+            notify.Me(["Pitanje već otvoreno!", "warn"]);
+            return;
+        }
+        if(vars.screenRevealed === "not" || (questionNo === 1 && jokerUsed === false)){
+
+            $(".fa-eye").addClass('d-none');
+            $(".fa-eye-slash").addClass('d-none');
+            $(".fa-spinner").removeClass('d-none');
+
+            liveHTTP("reveal-screen", '/system/quiz-play/live/reveal-screen', 'POST', {
+                'id' : $("#quiz_id").val()
+            });
+
+            vars.screenRevealed = "pending";
+        }else if(vars.screenRevealed === "pending"){
+            notify.Me(["Molimo pričekajte ...", "warn"]);
+        }else if(vars.screenRevealed === "yes"){
+            notify.Me(["Mid screen je već prikazan na TV-u!", "warn"]);
+        }
+    };
+
     /*
      *  This action is used for two different purposes:
      *
      *      1. When current question is 1, then start the quiz and show the question
      *      2. When current question is greater than 1, hide category screen and show the question
      */
-    $(".reveal-the-question").click(function () {
+    let revealTheQuestion = function(){
         let questionNo = parseInt($("#lf-current-question").text());
         /* Set quiz ID */
         quizID = parseInt($("#quiz_id").val());
@@ -197,51 +225,13 @@ $(document).ready(function () {
         }
 
         vars.questionRevealed = true;
-    });
+    };
 
-    /* Answer a question */
-    $(".answer-it").click(function () {
-        $(".live-pop-up-message").html('Da li ste sigurni da želite odgovor <b>"' + $(this).attr('letter') + '"</b> označiti kao konačan odgovor?');
+    let showAnswerPopUp = function(letter){
+        $(".live-pop-up-message").html('Da li ste sigurni da želite odgovor <b>"' + letter + '"</b> označiti kao konačan odgovor?');
         $(".live-pop-up").fadeIn();
-
-        questionClicked = $(this).attr('letter');
-
-        /* Note: Do not send anything to TV screen */
-        /* Propose answer */
-        // liveHTTP("propose-the-answer", '/system/quiz-play/live/propose-the-answer', 'POST', {
-        //     'letter' : $(this).attr('letter')
-        // });
-    });
-
-    $(".answer-additional").click(function () {
-        $(".live-pop-up-message").html('Da li ste sigurni da želite kliknuti <b>"' + $(this).attr('correct') + '"</b> kao tačan odgovor na pitanje?');
-        $(".live-pop-up").fadeIn();
-
-        correctAnswer = $(this).attr('correct');
-    });
-    /* Use joker */
-    $(".joker-wrapper").click(function () {
-        jokerUsed = true;
-
-        /* When Joker is used, send WS message to TV Screen with proposed category */
-        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
-            'quiz_id' : $("#quiz_id").val(),
-            'question_id' : $("#question_id").val(),
-            'joker' : true
-        });
-    });
-    /* Finnish quiz */
-    $(".finnish-quiz-btn").click(function () {
-        liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
-    });
-
-
-    /* Close live pop-up */
-    $(".live-pop-up-close").click(function () {
-        $(".live-pop-up").fadeOut();
-    });
-    /* Well, if operator is sure that is final answer, then proceed with it */
-    $(".live-pop-up-continue").click(function () {
+    };
+    let answerTheQuestion = function(){
         if(questionClicked !== ""){
             /* That means, it is A, B, C or D answer */
 
@@ -273,38 +263,106 @@ $(document).ready(function () {
         $(".question-timer").text(questionTimer);
         /* Remove classes */
         $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('animated').removeClass('shake');
-    });
+    };
 
+    let showAdditionalAnswerPopUp = function(what){
+        $(".live-pop-up-message").html('Da li ste sigurni da želite kliknuti <b>"' + what + '"</b> kao tačan odgovor na pitanje?');
+        $(".live-pop-up").fadeIn();
+    };
+
+    let useJoker = function(){
+        jokerUsed = true;
+
+        /* When Joker is used, send WS message to TV Screen with proposed category */
+        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+            'quiz_id' : $("#quiz_id").val(),
+            'question_id' : $("#question_id").val(),
+            'joker' : true
+        });
+    };
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /* Mouse actions */
+
+    $(".reveal-the-question").click(function () { revealTheQuestion(); });
     /* Reveal mid screen to TV screen */
-    $(".reveal-mid-screen").click(function () {
-        let questionNo = parseInt($("#lf-current-question").text());
+    $(".reveal-mid-screen").click(function () { revealMidScreen(); });
 
-        if(vars.questionRevealed){
-            notify.Me(["Pitanje već otvoreno!", "warn"]);
-            return;
-        }
-        if(vars.screenRevealed === "not" || (questionNo === 1 && jokerUsed === false)){
 
-            $(".fa-eye").addClass('d-none');
-            $(".fa-eye-slash").addClass('d-none');
-            $(".fa-spinner").removeClass('d-none');
-
-            liveHTTP("reveal-screen", '/system/quiz-play/live/reveal-screen', 'POST', {
-                'id' : $("#quiz_id").val()
-            });
-
-            vars.screenRevealed = "pending";
-        }else if(vars.screenRevealed === "pending"){
-            notify.Me(["Molimo pričekajte ...", "warn"]);
-        }else if(vars.screenRevealed === "yes"){
-            notify.Me(["Mid screen je već prikazan na TV-u!", "warn"]);
-        }
+    /* Answer a question */
+    $(".answer-it").click(function () {
+        showAnswerPopUp($(this).attr('letter'));
+        questionClicked = $(this).attr('letter');
     });
+
+    $(".answer-additional").click(function () {
+        showAdditionalAnswerPopUp($(this).attr('correct'));
+        correctAnswer = $(this).attr('correct');
+    });
+    /* Use joker */
+    $(".joker-wrapper").click(function () { useJoker(); });
+    /* Finnish quiz */
+    $(".finnish-quiz-btn").click(function () {
+        liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
+    });
+
+
+    /* Close live pop-up */
+    $(".live-pop-up-close").click(function () { $(".live-pop-up").fadeOut(); });
+    /* Well, if operator is sure that is final answer, then proceed with it */
+    $(".live-pop-up-continue").click(function () { answerTheQuestion(); });
+
+
 
     /* Open line; ToDo - Check for status later ... */
     $(".open-line-btn").click(function () {
         liveHTTP("open-line", '/system/quiz-play/live/open-line', 'POST', {
             'id' : $("#quiz_id").val()
         });
+    });
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /*
+     *  On key press, trigger different actions:
+     */
+
+    $('body').keypress((event) => {
+        let char = String.fromCharCode(event.which);
+
+        if(char === "a"){
+            showAnswerPopUp("A");
+            questionClicked = "A";
+        }else if(char === "b"){
+            showAnswerPopUp("B");
+            questionClicked = "B";
+        }else if(char === "c"){
+            showAnswerPopUp("C");
+            questionClicked = "C";
+        }else if(char === "d"){
+            showAnswerPopUp("D");
+            questionClicked = "D";
+        }
+        else if(char === "m"){ revealMidScreen(); }
+        else if(char === "n"){ revealTheQuestion(); }
+        /* Close popup */
+        else if(char === "h"){ answerTheQuestion();  }
+        /* Continue => Answer the question */
+        else if(char === "f"){ $(".live-pop-up").fadeOut(); }
+        /* Not correct additional answer */
+        else if(char === "k"){
+            showAdditionalAnswerPopUp("No");
+            correctAnswer = "No";
+        }
+        else if(char === "g"){
+            showAdditionalAnswerPopUp("Yes");
+            correctAnswer = "Yes";
+        }
+        else if(char === "r"){ useJoker(); }
+        else if(char === "x"){
+            liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
+        }
+        else if(char === "o"){
+            liveHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle"});
+        }
     });
 });

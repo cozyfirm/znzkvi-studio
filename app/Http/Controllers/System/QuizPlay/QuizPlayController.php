@@ -21,6 +21,10 @@ class QuizPlayController extends Controller{
     protected $_counter = 1;
     protected $_message = "";
 
+    public function checkLiveFeed(){
+
+    }
+
     public function live($quiz_id){
         $quiz = Quiz::where('id', $quiz_id)->first();
         if($quiz->finished) return redirect()->route('system.quiz');
@@ -184,7 +188,9 @@ class QuizPlayController extends Controller{
                             $this->publishMessage($this->_tv_topic, '0000', $this->_message);
                             /* ToDo: Send message to presenter screen */
 
-                            /* Success message */
+                            /* Send WS message to global channel to hide Live Feed*/
+                            $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "status" => "hide"]);
+
                             return $this->liveResponse('0000', __('Svih 7 pitanja tačno odgovoreno! Kviz uspješno završen!'), $this->_message);
                         }else{
                             if($beforeLastQuestion) {
@@ -231,6 +237,9 @@ class QuizPlayController extends Controller{
                         /* Send WS message; Show first category on screen */
                         $this->publishMessage($this->_tv_topic, '0000', $this->_message);
                         /* ToDo: Send message to presenter screen */
+
+                        /* Send WS message to global channel to hide Live Feed*/
+                        $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "status" => "hide"]);
 
                         return $this->liveResponse('0000', __("Kviz završen!"), $this->_message);
                     }
@@ -303,6 +312,8 @@ class QuizPlayController extends Controller{
                         $this->publishMessage($this->_tv_topic, '0000', $this->_message);
                         /* ToDo: Send message to presenter screen */
 
+                        /* Send WS message to global channel to hide Live Feed*/
+                        $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "status" => "hide"]);
 
                         return $this->liveResponse('0000', __("Kviz završen!"), $this->_message);
                     }
@@ -333,6 +344,9 @@ class QuizPlayController extends Controller{
             /* Send WS message; Show first category on screen */
             $this->publishMessage($this->_tv_topic, '0000', $this->_message);
             /* ToDo: Send message to presenter screen */
+
+            /* Send WS message to global channel to hide Live Feed*/
+            $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "status" => "hide"]);
 
             return $this->liveResponse('0000', __('Kviz završen!'), $this->_message);
         }catch (\Exception $e){
@@ -399,7 +413,10 @@ class QuizPlayController extends Controller{
         }
     }
 
-
+    /*
+     *  Open lines function:
+     *      -
+     */
     public function openLine(Request $request){
         try{
             if($request->source == "tv"){

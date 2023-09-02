@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Quiz\Quiz;
 use App\Models\Settings\Config;
 use App\User;
 use Closure;
@@ -24,7 +25,8 @@ class isRoot
 
             \View::share([
                 'loggedUser' => $user,
-                'openLines' => Config::where('key', 'open_lines')->first()
+                'openLines' => Config::where('key', 'open_lines')->first(),
+                'activeQuiz' => Quiz::where('active', 1)->where('finished', 0)->first()
             ]);
             return $next($request);
         }else{
