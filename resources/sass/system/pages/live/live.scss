@@ -43,6 +43,7 @@
                 }
             }
         }
+        .lh-element:hover{ cursor: pointer; background: rgba(0,0,0,0.1); }
         .lh-e-time-expired{
             background: #C84040;
             .lh-e-data{
@@ -61,6 +62,12 @@
                 }
             }
         }
+    }
+
+    /* Controls */
+    .answer-it:hover{
+        background: rgba(0,0,0,0.1);
+        color:#ffffff;
     }
 
     /* Users statistics */

@@ -30,7 +30,6 @@ class QuizPlayController extends Controller{
         /* All users from current session */
         $users = Quiz::where('user_id', '!=', null)->get();
 
-
         return view($this->_path.'live', [
             'quiz' => $quiz,
             'user' => $user,
@@ -86,12 +85,16 @@ class QuizPlayController extends Controller{
             $replacementSet = QuizSet::where('quiz_id', $quiz->id)->where('question_no', $set->question_no)->where('replacement', 1)->first();
             $replacementSet->update(['opened' => 1]);
 
+            $currentQuestion = Question::where('id', $replacementSet->question_id)->with('answerARel')
+                ->with('answerBRel')
+                ->with('answerCRel')
+                ->with('answerDRel')
+                ->first();
+
             $this->_message = [
-                'question' => Question::where('id', $replacementSet->question_id)->with('answerARel')
-                    ->with('answerBRel')
-                    ->with('answerCRel')
-                    ->with('answerDRel')
-                    ->first(),
+                'current_question' => $quiz->current_question,
+                'current_category' => $currentQuestion->category,
+                'question' => $currentQuestion,
                 'sub_code' => '50004',
                 'total_money' => $quiz->total_money
             ];
@@ -133,6 +136,10 @@ class QuizPlayController extends Controller{
                 /* Check first is joker used */
                 if($quiz->joker) return $this->liveResponse('0000', __('Joker je već iskorišten!'), [
                     'sub_code' => '50006'
+                ]);
+
+                if($quiz->current_question == 1) return $this->liveResponse('0000', __('Nije moguće iskoristiti Joker na ovom pitanju!'), [
+                    'sub_code' => '50005'
                 ]);
 
                 /* Use joker */
@@ -339,10 +346,14 @@ class QuizPlayController extends Controller{
             /* Get second question */
             $secondSet = ($quiz->current_question <= 7) ? QuizSet::where('quiz_id', $request->id)->where('question_no', ($quiz->current_question + 1))->first() : NULL;
 
+            /* Get the current question */
+            $currentQuestion = $quiz->currentQuestion();
+
             /* Setup message */
             $this->_message = [
                 'current_question' => $quiz->current_question,
-                'question' => $quiz->currentQuestion(),
+                'current_category' => $currentQuestion['category'],
+                'question' => $currentQuestion,
                 'next_question' => ($secondSet) ? Question::where('id', $secondSet->question_id)->first() : NULL,
                 'sub_code' => '50010'
             ];
@@ -364,9 +375,13 @@ class QuizPlayController extends Controller{
         try{
             $quiz = Quiz::where('id', $request->id)->first();
 
+            /* Get the current question */
+            $currentQuestion = $quiz->currentQuestion();
+
             $this->_message = [
                 'current_question' => $quiz->current_question,
-                'question' => $quiz->currentQuestion(),
+                'current_category' => $currentQuestion['category'],
+                'question' => $currentQuestion,
                 'sub_code' => '50011'
             ];
 
@@ -386,6 +401,7 @@ class QuizPlayController extends Controller{
             $this->_message = [
                 'current_question' => $quiz->current_question,
                 'question' => $quiz->currentQuestion(),
+                'forceShow' => false,
                 'sub_code' => '50103'
             ];
 

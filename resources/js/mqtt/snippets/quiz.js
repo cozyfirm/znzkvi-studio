@@ -2,19 +2,68 @@ module.exports = {
     primaryColors: ["#77CEF4", "#8AC988", "#fbc111", "#6d6768", "#f8a46c", "#f06b6c", "#d4a75f"],
     secondaryColors: ["#5899B5", "#4C7F49", "#BA912E", "#585658", "#b97b50", "#b15050", "#937542"],
 
-    breakSentence : function(sentence, chunkSize = 68){
+    breakSentence : function(sentence, chunkSize = 59){
         return sentence.match(new RegExp(String.raw`\S.{1,${chunkSize - 2}}\S(?= |$)`, 'g'));
     },
 
+    /******************************************************************************************************************/
+    /* Show line open GUI and hide it*/
+    screenAction: function(element, action = 'reveal'){
+        if(action === 'reveal') $(element).removeClass('d-none');
+        else $(element).addClass('d-none');
+    },
+    hideAllScreens: function(){
+        /* Hide line open screen */
+        this.openLine("hide");
+        /* Hide questions group */
+        this.screenAction(".questions-group", 'hide');
+        /* Hide mid screens */
+        this.screenAction(".mid-screen", 'hide');
+    },
+    showElement: function(selector){ $(selector).removeClass('d-none'); },
+    hideElement: function(selector){ $(selector).addClass('d-none'); },
+
+    /******************************************************************************************************************/
     /* Change category name and icon, depending on question */
     changeCategory : function(category){
         $(".category-wrapper").addClass('d-none');
         $(".category-wrapper-" + category).removeClass('d-none');
     },
-    showElement: function(selector){ $(selector).removeClass('d-none'); },
-    hideElement: function(selector){ $(selector).addClass('d-none'); },
 
-    displayQuestion : function(ID, question, chunkSize = 68){
+    changeColorByCategory: function(category){
+        d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
+
+        d3.select("#QuestionBackgroundSecondary").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#BacgroundCategoryNamesGroup").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#TopLableBackground").style("fill", this.secondaryColors[category - 1]);
+
+        d3.select("#AnswerSecondaryColorA").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#AnswerSecondaryColorB").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#AnswerSecondaryColorC").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#AnswerSecondaryColorD").style("fill", this.secondaryColors[category - 1]);
+
+        d3.select("#DirektnoPitanjGroupBarazSecondary").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".additional-correct-answer").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".additional-incorrect-answer").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".check-additional-bcg").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".times-additional-bcg").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#TimerNumber").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#TimerCategoryColor").style("fill", this.secondaryColors[category - 1]);
+
+        /* Stars with background */
+        d3.select(".stars-bcg-1").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".stars-bcg-2").style("fill", this.secondaryColors[category - 1]);
+        d3.select(".stars-bcg-3").style("fill", this.secondaryColors[category - 1]);
+
+        /* Right part */
+        d3.select("#_x37_").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#_x35_").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#_x33_").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#_x31_").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#loaderBcgWrapper").style("fill", this.secondaryColors[category - 1]);
+    },
+
+    displayQuestion : function(ID, question, chunkSize = 59){
         let sentence = this.breakSentence(question, chunkSize);
         $(ID).empty();
 
@@ -26,13 +75,11 @@ module.exports = {
         }
     },
 
+    /************************************** Reveal answer and Answer the question *************************************/
     /* Display to users question and possible answers */
-    setQuestion : function (subCode, question) {
-        /* Show default colors */
-        // this.cleanProposals();
-
+    revealTheQuestion : function (subCode, question, category = 1) {
         /* Set colors to default */
-        this.defaultAnswersColors();
+        this.cleanAnswerProposal();
 
         /* Show and hide elements */
         this.screenAction(".questions-group", "reveal");
@@ -53,8 +100,14 @@ module.exports = {
         $("#AnswerTextC").text(question['answer_c_rel']['answer']);
         $("#AnswerTextD").text(question['answer_d_rel']['answer']);
     },
+    /*
+     *  Regular answers:
+     *      - mark as correct
+     *      - mark as incorrect
+     *      - remove proposed answers (only letter and border )
+     */
     /* Display to users selected answer and show if it is correct or not */
-    defaultAnswersColors: function(){
+    cleanAnswerProposal: function(){
         /* First, set default colors for all answers and letters */
         d3.select(".nq-A-border").style("fill", "#2F2C2F");
         d3.select(".nq-B-border").style("fill", "#2F2C2F");
@@ -72,7 +125,7 @@ module.exports = {
         // d3.select(".answer-D-wrapper").style("fill", "#5899B5");
     },
     answerTheQuestion: function(letter, incorrect = false){
-        this.defaultAnswersColors();
+        this.cleanAnswerProposal();
 
         /* Set letter color to white */
         d3.select(".nq-" + letter + "-letter").style("fill", "#F5F6F7");
@@ -98,6 +151,25 @@ module.exports = {
         audio.play().then(r => function () {});
     },
 
+    /*********************************************** ADDITIONAL ANSWER ************************************************/
+    cleanAdditionalAnswerProposal: function(){
+        $("#BarazCorrect").addClass('d-none');
+        $("#BarazInCorrect").addClass('d-none');
+    },
+    additionalAnswer : function (action) {
+        this.cleanAdditionalAnswerProposal();
+        let audio = new Audio("/sounds/correct_level.wav");
+
+        if(action === 'correct'){
+            $("#BarazCorrect").removeClass('d-none');
+        }else{
+            $("#BarazInCorrect").removeClass('d-none');
+            audio = new Audio("/sounds/incorrect-answer.wav");
+        }
+        audio.play().then(r => function () {});
+    },
+
+    /****************************************** REVEAL ADDITIONAL QUESTION ********************************************/
     setDirectQuestion : function (subCode, question, category) {
         /* Show default colors */
         this.cleanAdditionalAnswerProposal();
@@ -111,6 +183,7 @@ module.exports = {
 
         /* First change GUI design / category */
         this.changeCategory(question['category']);
+        this.changeColorByCategory(category);
 
         /* Set default colors  */
         d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
@@ -119,10 +192,7 @@ module.exports = {
         this.displayQuestion("#directQuestionText", question['additional_questions']);
     },
 
-    /* Joker interactions */
-    jokerAvailable : function () { $("#jokerUsed").addClass('d-none'); },
-    jokerUsed : function () { $("#jokerUsed").removeClass('d-none'); },
-
+    /************************************************** STARS *********************************************************/
     /* Set stars depending on current question number */
     resetStars: function(){
         $(".star-1").addClass('d-none');
@@ -142,24 +212,8 @@ module.exports = {
             // d3.select(".star-3").style("fill", "#ffc107");
         }
     },
-    starsBackground: function(currentLevel){
 
-    },
-
-    /* Show line open GUI and hide it*/
-    screenAction: function(element, action = 'reveal'){
-        if(action === 'reveal') $(element).removeClass('d-none');
-        else $(element).addClass('d-none');
-    },
-    hideAllScreens: function(){
-        /* Hide line open screen */
-        this.screenAction(".open-line", 'hide');
-        /* Hide questions group */
-        this.screenAction(".questions-group", 'hide');
-        /* Hide mid screens */
-        this.screenAction(".mid-screen", 'hide');
-    },
-    /* Category from question show */
+    /********************************************* ANNOUNCE NEW CATEGORY **********************************************/
     screenCategoryFromQuestion: function(action, category = 1){
         /* Hide all names of categories */
         $(".qfc-general").addClass('d-none');
@@ -180,114 +234,22 @@ module.exports = {
                 $(".qfc-" + category).removeClass('d-none');
                 $(".qfc-i-" + category).removeClass('d-none');
                 $("#tlg_category_heading").removeClass('d-none');
+
+                this.changeColorByCategory(category);
             }
-
-            d3.select("#InterfaceCategoryPrimaryColor").style("fill", this.primaryColors[category - 1]);
-
-            d3.select("#QuestionBackgroundSecondary").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#BacgroundCategoryNamesGroup").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#TopLableBackground").style("fill", this.secondaryColors[category - 1]);
-
-            d3.select("#AnswerSecondaryColorA").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#AnswerSecondaryColorB").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#AnswerSecondaryColorC").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#AnswerSecondaryColorD").style("fill", this.secondaryColors[category - 1]);
-
-            d3.select("#DirektnoPitanjGroupBarazSecondary").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".additional-correct-answer").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".additional-incorrect-answer").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".check-additional-bcg").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".times-additional-bcg").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#TimerNumber").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#TimerCategoryColor").style("fill", this.secondaryColors[category - 1]);
-
-            /* Stars with background */
-            d3.select(".stars-bcg-1").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".stars-bcg-2").style("fill", this.secondaryColors[category - 1]);
-            d3.select(".stars-bcg-3").style("fill", this.secondaryColors[category - 1]);
-
-            /* Right part */
-            d3.select("#_x37_").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#_x35_").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#_x33_").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#_x31_").style("fill", this.secondaryColors[category - 1]);
-            d3.select("#loaderBcgWrapper").style("fill", this.secondaryColors[category - 1]);
-
-            console.log("Ovdje mijenjamo kategoriju. Trenutno : " + category);
         }else{
             $(".question-from-category").addClass('d-none');
         }
     },
-    lineOpen: function () {
-        $(".mid-screen").addClass('d-none');
-        $(".questions-group").addClass('d-none');
-        this.screenAction(".open-line", 'reveal');
-    },
-    lineOpenHide : function () {
-        $(".questions-group").removeClass('d-none');
-        this.screenAction(".open-line", 'hide');
-    },
-
-    /* Propose answer; Change color of suggested answer before final decision */
-    cleanProposals: function(){
-        d3.select(".answer-A-wrapper").style("fill", "#5899B5");
-        d3.select(".answer-B-wrapper").style("fill", "#5899B5");
-        d3.select(".answer-C-wrapper").style("fill", "#5899B5");
-        d3.select(".answer-D-wrapper").style("fill", "#5899B5");
-    },
-    proposeAnswer: function (letter) {
-        this.cleanProposals();
-
-        d3.select(".answer-" + letter + "-wrapper").style("fill", "#ffc107");
-    },
-    /* Final answer colors for A, B, C, D response */
-    finalAnswer: function (proposedAnswer, finalAnswer) {
-        this.cleanProposals();
-        if(proposedAnswer !== finalAnswer){
-            d3.select(".answer-" + proposedAnswer + "-wrapper").style("fill", "#bb2d3b");
-            d3.select(".answer-" + finalAnswer + "-wrapper").style("fill", "#20c997");
-        }else{
-            d3.select(".answer-" + finalAnswer + "-wrapper").style("fill", "#20c997");
-        }
-    },
-    cleanAdditionalAnswerProposal: function(){
-        // d3.select(".dq-c-a-s-b").style("stroke", "#2F2C2F");
-        // d3.select(".dq-i-a-s-b").style("stroke", "#2F2C2F");
-        //
-        // d3.select(".additional-correct-answer").style("fill", "#5899B5");
-        // d3.select(".additional-incorrect-answer").style("fill", "#5899B5");
-        $("#BarazCorrect").addClass('d-none');
-        $("#BarazInCorrect").addClass('d-none');
-    },
-    additionalAnswer : function (action) {
-        this.cleanAdditionalAnswerProposal();
-
-        let audio = new Audio("/sounds/correct_level.wav");
-
-        if(action === 'correct'){
-            $("#BarazCorrect").removeClass('d-none');
-            // d3.select(".dq-c-a-s-b").style("stroke", "#8AC988");
-            // d3.select(".additional-correct-answer").style("fill", "#8AC988");
-        }else{
-            $("#BarazInCorrect").removeClass('d-none');
-            audio = new Audio("/sounds/incorrect-answer.wav");
-
-            // d3.select(".dq-i-a-s-b").style("stroke", "#EE6B6C");
-            // d3.select(".additional-incorrect-answer").style("fill", "#EE6B6C");
-        }
-
-        audio.play().then(r => function () {});
-
-    },
-
-    /* Screens functions */
-    questionFromCategory: function(action, category){
+    announceCategory: function(action, category){
         this.hideAllScreens();
-
         /* Show category */
         this.screenCategoryFromQuestion(action, category);
     },
-    levelQuestion: function (action, level) {
+
+
+    /******************************************* ANNOUNCE LEVEL QUESTION **********************************************/
+    announceLevelQuestion: function (action, level) {
         this.hideAllScreens();
 
         /* Show correct opened level */
@@ -300,10 +262,16 @@ module.exports = {
             d3.select(".lqs-" + level + "-star").style("fill", "#FBC111");
             /* Set background as blue */
             d3.select("#InterfaceCategoryPrimaryColor").style("fill", "#77CEF4");
-        }else{
-            /* Maybe won't be ever used */
         }
     },
+
+    /************************************************** JOKER *********************************************************/
+    jokerAvailable : function () { $("#jokerUsed").addClass('d-none'); },
+    jokerUsed : function () { $("#jokerUsed").removeClass('d-none'); },
+    jokerDisabled : function () { $("#jokerDisabled").removeClass('d-none'); },
+    jokerEnabled  : function () { $("#jokerDisabled").addClass('d-none'); },
+
+    /************************************************** TOTAL SCORE ***************************************************/
     totalScoreDefaultValue: function(){
         this.screenAction(".em-money", 'hide');
     },
@@ -317,22 +285,29 @@ module.exports = {
         this.screenAction(".em-" + money, 'reveal');
     },
 
-    /* Timer manipulations */
+    /***************************************************** TIMER ******************************************************/
     setTime: function (time) {
         $(".timer-scale").removeClass('d-none');
 
-        for(let i=4; i>=time; i--){
-            $(".t-sc-" + (i + 1)).addClass('d-none');
-        }
-
-        /* Play sound */
+        for(let i=4; i>=time; i--){ $(".t-sc-" + (i + 1)).addClass('d-none'); }
         if(time < 5) {
             const audio = new Audio("/sounds/beep.wav");
             audio.play().then(r => function () {});
         }
-
-
         /* Set digits */
         d3.select("#TimerNumber").text(time);
+    },
+
+    /*********************************************** Open line actions ************************************************/
+    openLine: function (action = "reveal") {
+        if(action === "reveal"){
+            this.showElement("#Interface-StrokeOpenLine");
+            this.showElement("#InterfaceCategoryPrimaryColorOpenLine");
+            this.showElement("#OpenLineGroup");
+        }else{
+            this.hideElement("#Interface-StrokeOpenLine");
+            this.hideElement("#InterfaceCategoryPrimaryColorOpenLine");
+            this.hideElement("#OpenLineGroup");
+        }
     }
 };

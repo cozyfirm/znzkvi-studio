@@ -101,6 +101,9 @@ $(document).ready(function () {
         console.log('Client connected:' + clientID);
         // Subscribe to topic
         client.subscribe(mqttInit.mainTopic(), { qos: 0 })
+
+        /* Show SVG element */
+        $(".main-svg-file").removeClass('d-none');
     });
 
     client.on('disconnect', () => { console.log('Client disconnected:' + clientID); });
@@ -113,22 +116,19 @@ $(document).ready(function () {
             let subCode = response['data']['sub_code'];
             let data    = response['data'];
 
-            /* First, clean all proposals */
-            // quiz.cleanProposals();
-
             if(subCode === '50000'){
                 /* Quiz just started, show screen for questions */
-                jokerAvailable = true;
-                quiz.jokerAvailable();
 
-                /* Show questions GUI */
-                quiz.lineOpenHide();
+                /*
+                 *  Joker is actually available since new quiz is started so we need to raise flag for joker available
+                 *  but since it can't be used on first question, it is also disabled !
+                 * */
+                jokerAvailable = true; quiz.jokerAvailable(); quiz.jokerDisabled();
 
-                /* Set questions value */
-                quiz.setQuestion(subCode, response['data']['question']);
+                // ToDo - Line Open !?
 
-                /* Set question type */
-                // questionType = "normal";
+                /* Reveal normal question (always first category) */
+                quiz.revealTheQuestion(subCode, response['data']['question'], 1);
 
                 /* Set correct answer letter */
                 correctAnsLetter = data['question']['correct_answer'];
@@ -146,16 +146,19 @@ $(document).ready(function () {
 
                 /* Set timer counter as inactive */
                 counterActive = false;
-                /* Set default timer value to 5 */
-                questionTimer = 5;
+                /* Set default timer value to 5 and set GUI */
+                questionTimer = 5; quiz.setTime(questionTimer);
 
-                /* Set GUI */
-                quiz.setTime(questionTimer);
+                /* Set colors to default */
+                quiz.cleanAnswerProposal();
+                /* Clean colors for additional answer */
+                quiz.cleanAdditionalAnswerProposal();
+
+                /* Set color by category; Since quiz just started, first category is one so set it as blue */
+                quiz.changeColorByCategory(1);
             }
             if(subCode === '50001' || subCode === "50009"){
                 /* Answer is incorrect */
-                jokerAvailable = true;
-                quiz.jokerAvailable();
 
                 if(subCode === "50001"){
                     /* Mark it as red then show line open gui */
@@ -170,22 +173,28 @@ $(document).ready(function () {
 
                 setTimeout(function (){
                     /* Set colors to default */
-                    quiz.defaultAnswersColors();
+                    quiz.cleanAnswerProposal();
                     /* Set colors for additional (direct) answer to default */
                     quiz.cleanAdditionalAnswerProposal();
-
                     /* Show total score - BAM */
                     quiz.totalScore(data['total_money']);
-
-                    /* Set next category to default - first one */
-                    nextCategory = 1;
-
                     /* Remove level stars */
                     quiz.resetStars();
                     currentLevel = 0;
+
+                    /*
+                     *  Since answer is incorrect; next user can use joker and it becomes available; Also hence it will open
+                     *  new question, it also becomes disabled
+                     * */
+                    jokerAvailable = true; quiz.jokerAvailable(); quiz.jokerDisabled();
+
+                    /* Reset to default question number | Set next category to default - first one */
+                    currentQuestionNo = 1; currentCategory = 1; nextCategory = 1;
                 }, waitPeriod);
             }
             else if(subCode === '50002' || subCode === '50003'){
+                /* Answer is correct! */
+
                 if(data['next_question_type'] === "normal"){
                     /* Show correct answer */
                     quiz.answerTheQuestion(correctAnsLetter);
@@ -212,19 +221,20 @@ $(document).ready(function () {
             }
             else if(subCode === '50004'){
                 /* Joker used */
-                /* Disable further joker usage */
-                jokerAvailable = false;
-                quiz.jokerUsed();
+                /* Disable further joker usage; Joker now becomes enabled to show joker is not available anymore */
+                jokerAvailable = false; quiz.jokerUsed(); quiz.jokerEnabled();
 
-                quiz.setQuestion(subCode, response['data']['question']);
+                /* Set current category from question */
+                currentCategory = data['current_category'];
+
+                // We should not reveal question here
 
                 /* Set correct answer letter */
-                correctAnsLetter = response['data']['question']['correct_answer'];
-                quiz.questionFromCategory("reveal", 0);
+                correctAnsLetter = data['question']['correct_answer'];
+                quiz.announceCategory("reveal", 0);
 
                 /* Set timer counter as inactive */
                 counterActive = false;
-
                 /* Set default timer value to 5 */
                 questionTimer = 5;
 
@@ -235,7 +245,7 @@ $(document).ready(function () {
                 quiz.setTime(questionTimer);
             }
             else if(subCode === '50007'){
-                /* Mark answer as correct */
+                /* Mark answer as correct; User just won 200 BAM! */
                 quiz.additionalAnswer("correct");
                 quiz.setStars("third");
                 /* Rise flag for third level */
@@ -246,7 +256,7 @@ $(document).ready(function () {
 
                 setTimeout(function (){
                     /* Set colors to default */
-                    quiz.defaultAnswersColors();
+                    quiz.cleanAnswerProposal();
                     /* Set colors for additional (direct) answer to default */
                     quiz.cleanAdditionalAnswerProposal();
 
@@ -272,7 +282,8 @@ $(document).ready(function () {
                 quiz.setTime(questionTimer);
 
                 /* Set current and next question categories */
-                currentCategory = data['question']['question']['category'];
+                currentCategory = data['current_category'];
+
                 if(parseInt(data['current_question']) < 7) nextCategory = data['next_question']['category'];
                 else nextCategory = 1;
 
@@ -281,11 +292,11 @@ $(document).ready(function () {
 
                 if(questionType === "normal"){
                     /* Now, we should set normal question  */
-                    quiz.setQuestion(subCode, response['data']['question']['question']);
+                    quiz.revealTheQuestion(subCode, response['data']['question']['question'], currentCategory);
                 }else{
                     /* Set additional (direct) question */
                     if(currentQuestionNo === 7){
-                        quiz.questionFromCategory("reveal", lastCategory);
+                        quiz.announceCategory("reveal", lastCategory);
 
                         const nobelMusic = new Audio("/sounds/nobel_opened.wav");
                         nobelMusic.play().then(r => function () {});
@@ -306,22 +317,27 @@ $(document).ready(function () {
 
                 let currentQuestionNo = parseInt(data['current_question']);
                 let additional = parseInt(data['question']['additional']);
+                currentCategory = data['current_category'];
 
                 if(additional){
+                    /* If joker is not used; I has to be disabled on this part */
+                    if(jokerAvailable) quiz.jokerDisabled();
+
                     if(currentQuestionNo === 3){
-                        quiz.levelQuestion("reveal", "first");
+                        quiz.announceLevelQuestion("reveal", "first");
                     }else if(currentQuestionNo === 6){
-                        quiz.levelQuestion("reveal", "second");
+                        quiz.announceLevelQuestion("reveal", "second");
                     }else if(currentQuestionNo === 7){
-                        quiz.levelQuestion("reveal", "third");
+                        quiz.announceLevelQuestion("reveal", "third");
                     }
                 }else{
-                    quiz.questionFromCategory("reveal", nextCategory);
+                    quiz.jokerEnabled();
+                    quiz.announceCategory("reveal", currentCategory);
                 }
 
 
                 /* Set colors to default */
-                quiz.defaultAnswersColors();
+                quiz.cleanAnswerProposal();
                 /* Set colors for additional (direct) answer to default */
                 quiz.cleanAdditionalAnswerProposal();
 
@@ -334,7 +350,7 @@ $(document).ready(function () {
             }
             else if(subCode === '50014'){
                 /* User is created; Show first category */
-                quiz.questionFromCategory("reveal", data['category']);
+                quiz.announceCategory("reveal", data['category']);
 
                 /* Set timer counter as inactive */
                 counterActive = false;
@@ -342,11 +358,12 @@ $(document).ready(function () {
             else if(subCode === '50015'){
                 /* Force quiz finnish; Operator action */
                 /* Answer is incorrect */
-                jokerAvailable = true;
-                quiz.jokerAvailable();
+
+                /* Make joker available for next round; Also make joker disabled since it's first question */
+                jokerAvailable = true; quiz.jokerAvailable(); quiz.jokerDisabled();
 
                 /* Set colors to default */
-                quiz.defaultAnswersColors();
+                quiz.cleanAnswerProposal();
                 /* Set colors for additional (direct) answer to default */
                 quiz.cleanAdditionalAnswerProposal();
 
@@ -364,12 +381,7 @@ $(document).ready(function () {
             }
             else if(subCode === '50020'){
                 /* Show open line GUI */
-                quiz.lineOpen();
-            }
-            else if(subCode === '50030'){
-                /* Propose answer and propose joker used ? */
-                proposedAnswer = response['data']['letter'];
-                quiz.proposeAnswer(response['data']['letter']);
+                // quiz.lineOpen();
             }
             /* Frontend messages */
             /* Start time counter; Number of seconds to answer */
@@ -377,39 +389,31 @@ $(document).ready(function () {
                 counterActive = true;
             }else if(subCode === '50102'){
                 counterActive = false;
-            }else if(subCode === '50103'){
-                if(!openLine){
-                    /* Show open line screen */
-                    $("#Interface-StrokeOpenLine").removeClass('d-none');
-                    $("#InterfaceCategoryPrimaryColorOpenLine").removeClass('d-none');
-                    $("#OpenLineGroup").removeClass('d-none');
-                }else{
-                    /* Hide open line screen */
-                    $("#Interface-StrokeOpenLine").addClass('d-none');
-                    $("#InterfaceCategoryPrimaryColorOpenLine").addClass('d-none');
-                    $("#OpenLineGroup").addClass('d-none');
-                }
+            }
+
+            /* Open Lines */
+            else if(subCode === '50103'){
+                let forceLineOpen = data['forceShow'];
+
+                if(!openLine || forceLineOpen) quiz.openLine("reveal");
+                else quiz.openLine("hide");
 
                 openLine = !openLine;
 
                 /* Set as default */
                 openLineCounter = 0;
-                for(let i=1; i<=7; i++){
-                    $(".lbg-ol-" + i).addClass('d-none');
-                }
+                for(let i=1; i<=7; i++){ $(".lbg-ol-" + i).addClass('d-none'); }
             }
-
             else{
-                /* Answer is not correct */
-            }
 
-            // Categories: 1, 6, 3, 2, 5, 4, 7
+            }
 
             /* If info about total earned money is sent */
             if(typeof response['data']['total_money'] !== 'undefined' && response['data']['total_money'] !== null){
                 // setTotalMoney(response['data']['total_money']);
             }
         }else{
+            console.log(response);
             console.log("There has been an error, please do something about that !");
         }
 
@@ -417,12 +421,4 @@ $(document).ready(function () {
     client.on('unubscribe', (topic, message, packet) => {
         console.log("Unsubscribed ...");
     });
-
-    // quiz.additionalAnswer("incorrect");
-    /* Init screen with first category from questions */
-    // quiz.questionFromCategory("reveal", 1);
-
-    // quiz.lineOpen();
-    // quiz.lineOpenHide();
-    // quiz.displayQuestion("#directQuestionText", "Bosanac, kada se osjeća neugodno na nekom radnom mjestu. Reći će da se osjeća kao koja životinja u kojem  gradu? Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius purus libero, ut tristique risus luctus et. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius.");
 });
