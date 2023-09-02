@@ -6,6 +6,7 @@
     "/js/live.js": "/js/live.js",
     "/js/mqtt-library.js": "/js/mqtt-library.js",
     "/js/mqtt/control-script.js": "/js/mqtt/control-script.js",
+    "/js/mqtt/presenter-script.js": "/js/mqtt/presenter-script.js",
     "/js/mqtt/tv-script.js": "/js/mqtt/tv-script.js",
     "/js/public.js": "/js/public.js",
     "/js/system.js": "/js/system.js"

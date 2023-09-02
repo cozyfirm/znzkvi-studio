@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <a href="" class="menu-a-link live-feed-m-elem lf-m-e-w @if(!isset($activeQuiz)) d-none @endif" active-quiz="12">
+        <a href="@if(isset($activeQuiz)) {{ route('system.quiz-play.live', ['quiz_id' => $activeQuiz->id ]) }} @endif" class="menu-a-link live-feed-m-elem lf-m-e-w @if(!isset($activeQuiz)) d-none @endif" active-quiz="12">
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">

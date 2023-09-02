@@ -12,6 +12,7 @@ module.exports = {
         return "quiz/quiz/live-feed-tv-screen";
     },
     globalChannel : function(){ return "quiz/quiz/global-channel"; },
+    presenterTopic : function(){ return "quiz/quiz/presenter-topic"; },
 
     lastWill : function() {
         let date = new Date();

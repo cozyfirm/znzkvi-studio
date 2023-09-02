@@ -14,4 +14,12 @@ class StudioQuizController extends Controller{
     public function studioQuiz(){
         return view($this->_path.'studio-quiz');
     }
+
+    /*
+     *  Presenter view / version
+     */
+
+    public function presenterVersion(){
+        return view('public-part.presenter.preview');
+    }
 }

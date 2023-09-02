@@ -12,7 +12,7 @@ class Controller extends BaseController{
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $_tv_topic = 'quiz/quiz/live-stream';
-    protected $_presenter_topic = 'quiz/quiz/presenter';
+    protected $_presenter_topic = 'quiz/quiz/presenter-topic';
     protected $_global_channel = "quiz/quiz/global-channel";
 
     public function jsonSuccess($message, $url = null){

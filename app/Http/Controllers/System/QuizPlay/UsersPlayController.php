@@ -76,55 +76,55 @@ class UsersPlayController extends Controller{
         return $this->getData('create');
     }
     public function save(Request $request){
-        try{
-            try{
-                if(! $this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
+        try {
+            if (!$this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
 
-                $user = User::where('email', $request->email)->first();
-                if($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
+            $user = User::where('email', $request->email)->first();
+            if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
-                $user = User::where('username', $request->username)->first();
-                if($user) return $this->jsonResponse('1203', __('Željeno korisniko ime je već zauzeto'));
+            $user = User::where('username', $request->username)->first();
+            if ($user) return $this->jsonResponse('1203', __('Željeno korisniko ime je već zauzeto'));
 
-                $request['password'] = Hash::make($this->generateRandomString(10));
-                $request->request->add(['api_token' => hash('sha256', $request->email. '+'. time())]);
-                $request['email_verified_at'] = Carbon::now();
+            $request['password'] = Hash::make($this->generateRandomString(10));
+            $request->request->add(['api_token' => hash('sha256', $request->email . '+' . time())]);
+            $request['email_verified_at'] = Carbon::now();
 
-                /* Create new user */
-                $user = User::create($request->except('_token'));
-                /* Set all quizzes as inactive */
-                Quiz::where('id', '>', 0)->update(['active' => 0]);
-                /* Select first available quiz */
-                $quiz = Quiz::where('user_id', '=', NULL)->first();
-                /* Update quiz with user */
-                $quiz->update(['user_id' => $user->id, 'active' => 1]);
+            /* Create new user */
+            $user = User::create($request->except('_token'));
+            /* Set all quizzes as inactive */
+            Quiz::where('id', '>', 0)->update(['active' => 0]);
+            /* Select first available quiz */
+            $quiz = Quiz::where('user_id', '=', NULL)->first();
+            /* Update quiz with user */
+            $quiz->update(['user_id' => $user->id, 'active' => 1]);
 
-                /* Send message to TV screen to show announce first category */
+            /* Send message to TV screen to show announce first category */
 
-                /* Setup message */
-                $this->_message = [
-                    'current_question' => 1,
-                    'category' => 1,
-                    'question' => $quiz->currentQuestion(),
-                    'sub_code' => '50014'
-                ];
+            /* Setup message */
+            $this->_message = [
+                'current_question' => 1,
+                'category' => 1,
+                'question' => $quiz->currentQuestion(),
+                'sub_code' => '50014'
+            ];
 
-                /* Send WS message; Show first category on screen */
-                $this->publishMessage($this->_tv_topic, '0000', $this->_message);
-                /* ToDo: Send message to presenter screen */
+            /* Send WS message; Show first category on screen */
+            $this->publishMessage($this->_tv_topic, '0000', $this->_message);
+            /* Send message to presenter screen */
+            $this->_message['sub_code'] = '55014';
+            $this->_message['user'] = User::where('id', $quiz->user_id)->with('countryRel')->first();
+            $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
 
-                /* Send WS message to global channel to make Live feed available for operator*/
-                $this->publishMessage($this->_global_channel, '0000', [ 'sub_code' => '51012', "quiz_id" => $quiz->id, "status" => "show", "route" => route('system.quiz-play.live', ['quiz_id' => $quiz->id])]);
-                /* Also, set open lines as false since first category should open any second */
-                Config::where('key', 'open_lines')->update(['value' => 0]);
-                $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+            /* Send WS message to global channel to make Live feed available for operator*/
+            $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51012', "quiz_id" => $quiz->id, "status" => "show", "route" => route('system.quiz-play.live', ['quiz_id' => $quiz->id])]);
+            /* Also, set open lines as false since first category should open any second */
+            Config::where('key', 'open_lines')->update(['value' => 0]);
+            $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51011', "key" => "open_lines", "value" => 0]);
 
-                /* Return redirect to quiz */
-                return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));
-            }catch (\Exception $e){
-                dd($e);
-                return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
-            }
-        }catch (\Exception $e){}
+            /* Return redirect to quiz */
+            return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));
+        } catch (\Exception $e) {
+            return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
+        }
     }
 }

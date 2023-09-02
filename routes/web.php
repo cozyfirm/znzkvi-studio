@@ -20,6 +20,7 @@ Route::group(['namespace' => 'PublicPart', 'prefix' => '/'], function(){
 
     /* Quiz */
     Route::get ('/studio-quiz',                      'StudioQuizController@studioQuiz')->name('public-part.quiz.studio-quiz');
+    Route::get ('/presenter-view',                   'StudioQuizController@presenterVersion')->name('public-part.quiz.presenter-view');
 });
 
 
