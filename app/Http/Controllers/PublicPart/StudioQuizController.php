@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PublicPart;
 
 use App\Http\Controllers\Controller;
+use App\Models\Quiz\Quiz;
 use Illuminate\Http\Request;
 
 class StudioQuizController extends Controller{
@@ -20,6 +21,15 @@ class StudioQuizController extends Controller{
      */
 
     public function presenterVersion(){
-        return view('public-part.presenter.preview');
+        $currentQuiz = Quiz::where('active', 1)->first();
+        $totalQuizzes = Quiz::count();
+        $currentQuizNo = Quiz::where('user_id', '!=', null)->count();
+
+        return view('public-part.presenter.preview', [
+            'currentQuiz' => $currentQuiz,
+            'totalQuizzes' => $totalQuizzes,
+            'currentQuizNo' => $currentQuizNo,
+            'totalScore' => Quiz::where('user_id', '!=', null)->with('userRel.countryRel')->orderBy('total_money', 'DESC')->get()
+        ]);
     }
 }

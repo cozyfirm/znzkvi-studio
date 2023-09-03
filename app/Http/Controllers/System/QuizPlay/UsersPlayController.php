@@ -113,6 +113,7 @@ class UsersPlayController extends Controller{
             /* Send message to presenter screen */
             $this->_message['sub_code'] = '55014';
             $this->_message['user'] = User::where('id', $quiz->user_id)->with('countryRel')->first();
+            $this->_message['current_quiz_no'] = Quiz::where('user_id', '!=', null)->count();
             $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
 
             /* Send WS message to global channel to make Live feed available for operator*/

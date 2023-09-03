@@ -21,6 +21,18 @@ class QuizPlayController extends Controller{
     protected $_counter = 1;
     protected $_message = "";
 
+    public function getTodayScore(){
+        return Quiz::where('user_id', '!=', null)->with('userRel.countryRel')->orderBy('total_money', 'DESC')->get();
+    }
+    public function getHeaderInfo($quiz_id){
+        $quiz = Quiz::where('id', $quiz_id)->first();
+
+        return [
+            'user' => User::where('id', $quiz->user_id)->with('countryRel')->first(),
+            'currentQuiz' => Quiz::where('user_id', '!=', null)->count()
+        ];
+    }
+
     public function checkLiveFeed(){
 
     }
@@ -71,7 +83,11 @@ class QuizPlayController extends Controller{
 
             /* Send WS message; Show first category on screen */
             $this->publishMessage($this->_tv_topic, '0000', $this->_message);
-            /* ToDo: Send message to presenter screen */
+
+            /* Send message to presenter screen */
+            $this->_message['headers'] = $this->getHeaderInfo($quiz->id);
+            $this->_message['score'] = $this->getTodayScore();
+            $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
 
             return $this->liveResponse('0000', __('Kviz uspješno započeo!'), $this->_message);
         }catch (\Exception $e){
@@ -378,7 +394,10 @@ class QuizPlayController extends Controller{
 
             /* Send WS message; Show first category on screen */
             $this->publishMessage($this->_tv_topic, '0000', $this->_message);
-            /* ToDo: Send message to presenter screen */
+            /* Send message to presenter screen */
+            $this->_message['headers'] = $this->getHeaderInfo($quiz->id);
+            $this->_message['score'] = $this->getTodayScore();
+            $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
 
             return $this->liveResponse('0000', __('Pitanje prikazano na TV screen-u!'), $this->_message);
         }catch (\Exception $e){
@@ -405,7 +424,10 @@ class QuizPlayController extends Controller{
 
             /* Send WS message; Show first category on screen */
             $this->publishMessage($this->_tv_topic, '0000', $this->_message);
-            /* ToDo: Maybe we should send message to presenter screen */
+            /* Send message to presenter screen */
+            $this->_message['headers'] = $this->getHeaderInfo($quiz->id);
+            $this->_message['score'] = $this->getTodayScore();
+            $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
 
             return $this->liveResponse('0000', __('Mid screen prikazan na TV-u!'), $this->_message);
         }catch (\Exception $e){
@@ -427,7 +449,13 @@ class QuizPlayController extends Controller{
 
                     /* Publish message to all screens (Admin portal) */
                     $this->publishMessage($this->_global_channel, '0000', $this->_message);
+
+                    /* Publish message to presenter screen */
+                    $this->_message['sub_code'] = '55010';
+                    $this->publishMessage($this->_presenter_topic, '0000', $this->_message);
+
                     /* Return success response and show Line Open GUI in TV screen */
+                    $this->_message['sub_code'] = '51010';
                     return $this->liveResponse('0000', __('Status uspješno ažuriran!'), $this->_message);
                 }
             }else{
@@ -442,6 +470,9 @@ class QuizPlayController extends Controller{
 
                     /* Send message to Admin panel */
                     $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+
+                    /* Publish message to presenter screen */
+                    $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 0]);
                 }else{
                     Config::where('key', 'open_lines')->update(['value' => 1]);
 
@@ -450,10 +481,10 @@ class QuizPlayController extends Controller{
 
                     /* Send message to Admin panel */
                     $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1]);
+
+                    /* Publish message to presenter screen */
+                    $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 1]);
                 }
-
-                dd($request->all());
-
             }
 
         }catch (\Exception $e){

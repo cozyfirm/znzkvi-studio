@@ -413,8 +413,7 @@ $(document).ready(function () {
                 // setTotalMoney(response['data']['total_money']);
             }
         }else{
-            console.log(response);
-            console.log("There has been an error, please do something about that !");
+            console.log("Error: " + response);
         }
 
     });

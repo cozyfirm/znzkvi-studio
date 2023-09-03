@@ -28,16 +28,20 @@
 
 <!-- Require SVG file -->
 <div class="presenter-wrapper">
+    <div class="open-lines">
+        <img src="{{ asset('images/presenter-images/line_open.png') }}" alt="">
+    </div>
+
     <div class="left-side">
         <div class="user-info">
             <div class="quiz-no">
-                <div class="qn_c"> <p>3</p> </div>
+                <div class="qn_c"> <p class="qn_c_text">{{ $currentQuizNo }}</p> </div>
                 <div class="slash"></div>
-                <div class="qn_t"> <p>16</p> </div>
+                <div class="qn_t"> <p>{{ $totalQuizzes }}</p> </div>
             </div>
             <div class="user-data">
-                <h2 class="ps-user-name">  </h2>
-                <p class="ps-user-address">  </p>
+                <h2 class="ps-user-name"> {{ $currentQuiz->userRel->name ?? '' }} </h2>
+                <p class="ps-user-address"> {{ $currentQuiz->userRel->address ?? '' }}, {{ $currentQuiz->userRel->city ?? '' }} - {{ $currentQuiz->userRel->countryRel->name ?? '' }}  </p>
             </div>
             <div class="stars">
                 <div class="stars-w">
@@ -59,6 +63,21 @@
 
         <div class="question-data">
             <div class="inner-wrapper">
+                <div class="announce-category-screen d-none">
+                    <img class="a-c-s-c cat_1 d-none" src="{{ asset('images/presenter-images/cat_1.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_2 d-none" src="{{ asset('images/presenter-images/cat_2.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_3 d-none" src="{{ asset('images/presenter-images/cat_3.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_4 d-none" src="{{ asset('images/presenter-images/cat_4.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_5 d-none" src="{{ asset('images/presenter-images/cat_5.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_6 d-none" src="{{ asset('images/presenter-images/cat_6.jpg') }}" alt="">
+                    <img class="a-c-s-c cat_7 d-none" src="{{ asset('images/presenter-images/cat_7.jpg') }}" alt="">
+                </div>
+                <div class="announce-level-question d-none">
+                    <img class="a-l-q-l level_first d-none" src="{{ asset('images/presenter-images/level_1.jpg') }}" alt="">
+                    <img class="a-l-q-l level_second d-none" src="{{ asset('images/presenter-images/level_2.jpg') }}" alt="">
+                    <img class="a-l-q-l level_third d-none" src="{{ asset('images/presenter-images/level_3.jpg') }}" alt="">
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -102,7 +121,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <div class="form-group">
-                                {!! Form::textarea('aq_answer', 'Parlament Kantona Sarajevo', ['class' => 'form-control', 'id' => 'aq_answer', 'readonly', 'style' => 'height:105px !important;']) !!}
+                                {!! Form::textarea('aq_answer', '', ['class' => 'form-control', 'id' => 'aq_answer', 'readonly', 'style' => 'height:105px !important;']) !!}
                             </div>
                         </div>
                     </div>
@@ -122,32 +141,22 @@
         <hr class="mt-0">
 
         <div class="all-users-score">
-            <div class="statistics-row">
-                <div class="sr-no"> <p> 1. </p> </div>
-                <div class="sr-user">
-                    <h4> Aladin Kapić </h4>
-                    <p> Sarajevo, Bosna i Hercegovina </p>
-                </div>
-                <div class="sr-icons">
-                    <div class="icon-wrapper" title="{{ __('Ukupno osvojeno BAM ') }} 100">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                        <div class="iw-t"> <p> 200 </p> </div>
+            @php $i = 1; @endphp
+            @foreach($totalScore as $score)
+                <div class="statistics-row">
+                    <div class="sr-no"> <p> {{ $i++ }}. </p> </div>
+                    <div class="sr-user">
+                        <h4> {{ $score->userRel->name ?? '' }} </h4>
+                        <p> {{ $score->userRel->address ?? '' }}, {{ $score->userRel->city ?? '' }} - {{ $score->userRel->countryRel->name ?? '' }} </p>
+                    </div>
+                    <div class="sr-icons">
+                        <div class="icon-wrapper">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                            <div class="iw-t"> <p> {{ $score->total_money ?? '' }} </p> </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="statistics-row">
-                <div class="sr-no"> <p> 2. </p> </div>
-                <div class="sr-user">
-                    <h4> Jovan Perišić </h4>
-                    <p> Donji Vakuf, Bosna i Hercegovina </p>
-                </div>
-                <div class="sr-icons">
-                    <div class="icon-wrapper" title="{{ __('Ukupno osvojeno BAM ') }} 100">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                        <div class="iw-t"> <p> 50 </p> </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
     </div>
