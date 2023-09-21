@@ -169,6 +169,8 @@ $(document).ready(function () {
                     /* Remove level stars */
                     quiz.resetStars();
                     currentLevel = 0;
+                    quiz.resetLevelQuestionStars();
+
 
                     /*
                      *  Since answer is incorrect; next user can use joker and it becomes available; Also hence it will open
@@ -259,6 +261,8 @@ $(document).ready(function () {
                     currentLevel = 0;
 
                     nextCategory = 1;
+
+                    quiz.resetLevelQuestionStars();
                 }, waitPeriod);
             }
             else if(subCode === '50010'){
@@ -370,6 +374,7 @@ $(document).ready(function () {
                 /* Remove level stars */
                 quiz.resetStars();
                 currentLevel = 0;
+                quiz.resetLevelQuestionStars();
 
                 nextCategory = 1;
 

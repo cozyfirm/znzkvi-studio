@@ -9,7 +9,7 @@ $(document).ready(function () {
     const client   = mqtt.connect(mqttInit.host(), mqttInit.options(clientID));
 
     client.on('error', (err) => { notify.Me(['Global channel: Connection error ' + err, "warn"]); client.end(); });
-    client.on('reconnect', () => { notify.Me(['Reconnecting to: "Global channel"', "warn"]); });
+    client.on('reconnect', () => { console.log('Reconnecting to: "Global channel"'); /* notify.Me([, "warn"]); */ });
     client.on('connect', () => { client.subscribe(mqttInit.globalChannel(), { qos: 0 }) });
     client.on('disconnect', () => { notify.Me(['Client disconnected (Global channel):' + clientID, "warn"]); });
 

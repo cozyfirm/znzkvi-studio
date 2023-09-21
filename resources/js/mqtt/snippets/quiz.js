@@ -249,6 +249,12 @@ module.exports = {
 
 
     /******************************************* ANNOUNCE LEVEL QUESTION **********************************************/
+    resetLevelQuestionStars: function (){
+        d3.select(".lqs-first-star").style("fill", "#5899B5");
+        d3.select(".lqs-second-star").style("fill", "#5899B5");
+        d3.select(".lqs-third-star").style("fill", "#5899B5");
+    },
+
     announceLevelQuestion: function (action, level) {
         this.hideAllScreens();
 
