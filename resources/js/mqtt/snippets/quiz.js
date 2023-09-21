@@ -283,6 +283,7 @@ module.exports = {
     },
     totalScore: function (money) {
         this.hideAllScreens();
+        this.totalScoreDefaultValue();
 
         /* Set background as blue */
         d3.select("#InterfaceCategoryPrimaryColor").style("fill", "#77CEF4");
