@@ -297,9 +297,8 @@ module.exports = {
         $(".timer-scale").removeClass('d-none');
 
         for(let i=4; i>=time; i--){ $(".t-sc-" + (i + 1)).addClass('d-none'); }
-        if(time < 5) {
-            const audio = new Audio("/sounds/beep.wav");
-            audio.play().then(r => function () {});
+        if(time <= 5) {
+
         }
         /* Set digits */
         d3.select("#TimerNumber").text(time);

@@ -119,8 +119,8 @@ class UsersPlayController extends Controller{
             /* Send WS message to global channel to make Live feed available for operator*/
             $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51012', "quiz_id" => $quiz->id, "status" => "show", "route" => route('system.quiz-play.live', ['quiz_id' => $quiz->id])]);
             /* Also, set open lines as false since first category should open any second */
-            Config::where('key', 'open_lines')->update(['value' => 0]);
-            $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+            // Config::where('key', 'open_lines')->update(['value' => 0]);
+            // $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51011', "key" => "open_lines", "value" => 0]);
 
             /* Return redirect to quiz */
             return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));

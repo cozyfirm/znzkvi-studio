@@ -26,7 +26,7 @@ $(document).ready(function () {
     let currentLevel = 0;
 
     /* For switching between High Score, Open Line and questions */
-    let openLine = true, openLineCounter = 0, openLineSymbol = false;
+    let openLine = true, openLineCounter = 0, openLineSymbol = false, phoneNumber = 1, phoneNumberCounter = 1;
 
     /* Question timer */
     let questionTimer = 5, counterActive = false;
@@ -42,8 +42,16 @@ $(document).ready(function () {
 
             quiz.setTime(questionTimer);
 
-            if(questionTimer > 0) questionTimer -= 1;
+            if(questionTimer > 0) {
+                const audio = new Audio("/sounds/beep.wav");
+                audio.play().then(r => function () {});
+
+                questionTimer -= 1;
+            }
             else{
+                const audio = new Audio("/sounds/incorrect-answer.wav");
+                audio.play().then(r => function () {});
+
                 /* Done ! We should finnish quiz ! */
                 client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
                     if (error) { console.log(error); }
@@ -70,10 +78,26 @@ $(document).ready(function () {
             if(openLineCounter === 8){
                 for(let i=1; i<=7; i++){ $(".lbg-ol-" + i).addClass('d-none'); }
                 openLineCounter = 0;
+
+                if(phoneNumber){
+                    $("#call_number_one").addClass('d-none');
+                    $("#call_number_two").removeClass('d-none');
+                }else{
+                    $("#call_number_two").addClass('d-none');
+                    $("#call_number_one").removeClass('d-none');
+                }
+                phoneNumber = !phoneNumber;
             }else{
                 for(let i=1; i<=7; i++){ $(".lbg-ol-" + openLineCounter).removeClass('d-none'); }
                 openLineCounter++;
             }
+
+            /* Toggle phone numbers */
+            if(phoneNumberCounter % 5 === 0){
+
+            }
+
+            phoneNumberCounter ++;
         }
     }, 1000);
 
@@ -231,7 +255,7 @@ $(document).ready(function () {
                 /* Set default timer value to 5 */
                 questionTimer = 5;
 
-                const jokerMusic = new Audio("/sounds/joker.mp3");
+                const jokerMusic = new Audio("/sounds/joker.wav");
                 jokerMusic.play().then(r => function () {});
 
                 /* Set GUI */
