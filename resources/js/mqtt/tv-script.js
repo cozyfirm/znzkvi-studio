@@ -347,7 +347,7 @@ $(document).ready(function () {
             }
             else if(subCode === '50014'){
                 /* User is created; Show first category */
-                quiz.announceCategory("reveal", data['category']);
+                // quiz.announceCategory("reveal", data['category']);
 
                 /* Set timer counter as inactive */
                 counterActive = false;
