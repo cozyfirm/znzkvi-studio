@@ -1,3 +1,10 @@
 UPDATE `quiz__sets` SET `opened`=0,`answered`=0,`correct`=0, `level_opened`=0,`level_answered`=0,`level_correct`=0, `joker`=0 where quiz_id = 18;
 
 UPDATE `quiz` SET `correct_answers`=0, `joker`=0, `threshold`=1, `total_money`=0, `started`=0, `finished`=0, `current_question`=1, `replacement`=0 where id = 18
+
+
+UPDATE `quiz__sets` SET `opened`=0,`answered`=0,`correct`=0, `level_opened`=0,`level_answered`=0,`level_correct`=0,
+`joker`=0 where 1;
+
+UPDATE `quiz` SET `correct_answers`=0, `joker`=0, `threshold`=1, `total_money`=0, `started`=0, `finished`=0,
+`current_question`=1, `replacement`=0 where 1;

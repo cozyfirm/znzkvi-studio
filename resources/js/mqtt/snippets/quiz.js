@@ -2,7 +2,7 @@ module.exports = {
     primaryColors: ["#77CEF4", "#8AC988", "#fbc111", "#6d6768", "#f8a46c", "#f06b6c", "#d4a75f"],
     secondaryColors: ["#5899B5", "#4C7F49", "#BA912E", "#585658", "#b97b50", "#b15050", "#937542"],
 
-    breakSentence : function(sentence, chunkSize = 59){
+    breakSentence : function(sentence, chunkSize = 55){
         return sentence.match(new RegExp(String.raw`\S.{1,${chunkSize - 2}}\S(?= |$)`, 'g'));
     },
 
@@ -63,7 +63,7 @@ module.exports = {
         d3.select("#loaderBcgWrapper").style("fill", this.secondaryColors[category - 1]);
     },
 
-    displayQuestion : function(ID, question, chunkSize = 59){
+    displayQuestion : function(ID, question, chunkSize = 55){
         let sentence = this.breakSentence(question, chunkSize);
         $(ID).empty();
 
@@ -249,6 +249,12 @@ module.exports = {
 
 
     /******************************************* ANNOUNCE LEVEL QUESTION **********************************************/
+    resetLevelQuestionStars: function (){
+        d3.select(".lqs-first-star").style("fill", "#5899B5");
+        d3.select(".lqs-second-star").style("fill", "#5899B5");
+        d3.select(".lqs-third-star").style("fill", "#5899B5");
+    },
+
     announceLevelQuestion: function (action, level) {
         this.hideAllScreens();
 
@@ -277,6 +283,7 @@ module.exports = {
     },
     totalScore: function (money) {
         this.hideAllScreens();
+        this.totalScoreDefaultValue();
 
         /* Set background as blue */
         d3.select("#InterfaceCategoryPrimaryColor").style("fill", "#77CEF4");
