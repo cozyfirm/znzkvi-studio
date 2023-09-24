@@ -51,8 +51,8 @@
         <div class="lh-e-data">
             <h2>
                 <span id="lf-line-opened">
-                    <i class="fa-regular fa-eye"></i>
-                    <i class="fa-regular fa-eye-slash d-none"></i>
+                    <i class="fa-regular fa-eye @if($firstTime) d-none @endif"></i>
+                    <i class="fa-regular fa-eye-slash @if(!$firstTime) d-none @endif"></i>
                     <i class="fa-solid fa-spinner fa-spin d-none"></i>
 {{--                    <i class="fa-solid fa-ban"></i>--}}
                 </span>

@@ -47,6 +47,9 @@ class QuizPlayController extends Controller{
         /* All users from current session */
         $users = Quiz::where('user_id', '!=', null)->get();
 
+        /* To reveal first category */
+        $firstTime = ($quiz->active and $quiz->started == 0);
+
         return view($this->_path.'live', [
             'quiz' => $quiz,
             'user' => $user,
@@ -56,7 +59,8 @@ class QuizPlayController extends Controller{
             'users' => $users,
             'counter' => $this->_counter,
             'quiz_no' => $users->count(),
-            'total_quizzes' => Quiz::get()->count()
+            'total_quizzes' => Quiz::get()->count(),
+            'firstTime' => $firstTime
         ]);
     }
 
