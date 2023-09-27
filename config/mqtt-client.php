@@ -35,8 +35,11 @@ return [
         'default' => [
 
             // The host and port to which the client shall connect.
-            'host' => "mqtt-v2.alkaris.com",
-            'port' => "8883",
+            // 'host' => "mqtt-v2.alkaris.com",
+            // 'port' => "8883",
+
+            'host' => "192.168.0.76",
+            'port' => "1883",
 
             // The MQTT protocol version used for the connection.
             'protocol' => MqttClient::MQTT_3_1,
@@ -67,9 +70,10 @@ return [
             // All of these settings are entirely optional and have sane defaults.
             'connection_settings' => [
 
+                /* NOTE: For mqtt-v2.alkaris.com change tls to true */
                 // The TLS settings used for the connection. Must match the specified port.
                 'tls' => [
-                    'enabled' => env('MQTT_TLS_ENABLED', true),
+                    'enabled' => env('MQTT_TLS_ENABLED', false),
                     'allow_self_signed_certificate' => env('MQTT_TLS_ALLOW_SELF_SIGNED_CERT', true),
                     'verify_peer' => env('MQTT_TLS_VERIFY_PEER', true),
                     'verify_peer_name' => env('MQTT_TLS_VERIFY_PEER_NAME', true),

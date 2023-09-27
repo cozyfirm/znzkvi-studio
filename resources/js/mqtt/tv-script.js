@@ -115,6 +115,8 @@ $(document).ready(function () {
 
         /* Show SVG element */
         $(".main-svg-file").removeClass('d-none');
+
+        console.log("Connected to " + mqttInit.mainTopic());
     });
 
     client.on('disconnect', () => { console.log('Client disconnected:' + clientID); });

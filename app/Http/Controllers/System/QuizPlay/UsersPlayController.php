@@ -77,6 +77,7 @@ class UsersPlayController extends Controller{
     }
     public function save(Request $request){
         try {
+
             if (!$this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
 
             $user = User::where('email', $request->email)->first();

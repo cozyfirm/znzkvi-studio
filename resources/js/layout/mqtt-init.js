@@ -3,7 +3,8 @@ module.exports = {
         return 'mqtt-js' + Math.random().toString(16).substr(2, 8);
     },
     host : function(){
-        return 'wss://mqtt-v2.alkaris.com:8083';
+        // return 'wss://mqtt-v2.alkaris.com:8083';
+        return 'ws://192.168.0.76:8083';
     },
     mainTopic : function(){
         return "quiz/quiz/live-stream";

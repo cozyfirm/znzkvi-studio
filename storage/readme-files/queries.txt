@@ -8,3 +8,20 @@ UPDATE `quiz__sets` SET `opened`=0,`answered`=0,`correct`=0, `level_opened`=0,`l
 
 UPDATE `quiz` SET `correct_answers`=0, `joker`=0, `threshold`=1, `total_money`=0, `started`=0, `finished`=0,
 `current_question`=1, `replacement`=0 where 1;
+
+
+
+UPDATE `quiz__sets` SET `opened`=0,`answered`=0,`correct`=0, `level_opened`=0,`level_answered`=0,`level_correct`=0, `joker`=0 where 1;
+UPDATE `quiz` SET `correct_answers`=0, `joker`=0, `threshold`=1, `total_money`=0, `active`=0, `started`=0, `finished`=0, `current_question`=1, `replacement`=0 where 1;
+
+UPDATE `quiz` set `user_id` = NULL WHERE 1;
+
+DELETE from users where id > 1;
+
+UPDATE `quiz__sets` SET `opened`=0, `answered`=0,`correct`=0, `level_opened`=0,`level_answered`=0,`level_correct`=0, `joker`=0 where 1;
+UPDATE `quiz` SET `correct_answers`=0, `user_id`=NULL,  `joker`=0, `threshold`=1, `total_money`=0, `active`=0, `started`=0, `finished`=0, `current_question`=1, `replacement`=0 where 1;
+
+
+UPDATE `quiz` set `user_id` = NULL WHERE 1;
+
+DELETE from users where id > 1
