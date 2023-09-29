@@ -57,6 +57,11 @@
                     i{
                         padding-top:10px; font-size:14px; transition: 0.2s all;
                     }
+                    img{
+                        width: 14px; padding-top: 10px;
+                    }
+                    .clipboard-question{ width: 12px; padding-top: 9px; }
+                    .users{ width: 16px; }
                 }
                 a, p{
                     margin-left:15px; font-weight: bold; padding-top:14px; color:#000000; transition: 0.2s all;
@@ -109,6 +114,9 @@
                         position: absolute; right:0px; top:9px; width:16px; height: 16px; background: mediumspringgreen; text-align: center;
                         i{
                             position: absolute; left:3px; top:3px; font-size:10px;
+                        }
+                        img{
+                            position: absolute; left: 3px; top: 3px; width: 10px;
                         }
                     }
                     .ai-grey{

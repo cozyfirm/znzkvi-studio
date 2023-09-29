@@ -84,7 +84,7 @@
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">
-                        <i class="fas fa-home"></i>
+                        <img src="{{ asset('images/font-awesome/house-solid.svg') }}" alt="">
                     </div>
                     <p>{{__('Dashboard')}}</p>
                 </div>
@@ -102,7 +102,7 @@
             <div class="s-lm-wrapper">
                 <div class="s-lm-s-elements">
                     <div class="s-lms-e-img">
-                        <i class="fa-solid fa-heart-pulse fa-beat" style="color: #06f99c;" ></i>
+                        <img src="{{ asset('images/font-awesome/heart-pulse-solid.svg') }}" alt="">
                     </div>
                     <p>{{__('Live feed')}}</p>
                 </div>
@@ -121,7 +121,7 @@
                 <div class="s-lm-wrapper">
                     <div class="s-lm-s-elements">
                         <div class="s-lms-e-img">
-                            <i class="fa-solid fa-clipboard-question"></i>
+                            <img class="clipboard-question" src="{{ asset('images/font-awesome/clipboard-question-solid.svg') }}" alt="">
                         </div>
                         <p>{{__('Kviz')}}</p>
                         <div class="extra-elements">
@@ -167,7 +167,7 @@
                 <div class="s-lm-wrapper">
                     <div class="s-lm-s-elements">
                         <div class="s-lms-e-img">
-                            <i class="fas fa-users"></i>
+                            <img class="users" src="{{ asset('images/font-awesome/users-solid.svg') }}" alt="">
                         </div>
                         <p>{{__('Korisnici')}}</p>
                         <div class="extra-elements">
@@ -199,7 +199,7 @@
                 <div class="s-lm-wrapper">
                     <div class="s-lm-s-elements">
                         <div class="s-lms-e-img">
-                            <i class="fas fa-cogs"></i>
+                            <img class="gears" src="{{ asset('images/font-awesome/gear-solid.svg') }}" alt="">
                         </div>
                         <p>{{__('Postavke')}}</p>
                         <div class="extra-elements">
@@ -212,7 +212,7 @@
                                 <div class="ilm-l"></div><div class="ilm-c"></div>
                                 <p>{{__('Šifarnici')}}</p>
                                 <div class="additional-icon ai-grey">
-                                    <i class="fas fa-key"></i>
+                                    <img class="key" src="{{ asset('images/font-awesome/key-solid.svg') }}" alt="">
                                 </div>
                             </div>
                         </a>
@@ -222,5 +222,5 @@
         @endif
     </div>
 
-    @include('system.templates.menu.bottom-icons')
+{{--    @include('system.templates.menu.bottom-icons')--}}
 </div>

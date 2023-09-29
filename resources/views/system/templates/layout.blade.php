@@ -8,14 +8,16 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo_black.png')}}"/>
 
     <!-- Stylesheet -->
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
+    <link href="{{ asset('external-css/jquery-ui.css') }}" rel="Stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/system/system.css')}}">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/024a995986.js" crossorigin="anonymous"></script>
+    <link href="{{ asset('external-css/google-api-nunito.css') }}" rel="stylesheet">
+    <script src="{{ asset('external-js/fontawesome.js') }}"></script>
+    {{--<script src="https://kit.fontawesome.com/024a995986.js" crossorigin="anonymous"></script>--}}
 
     <!-- Javascript scripts -->
     <script src="{{asset('js/system.js')}}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ asset('external-js/bootstrap.min.js') }}"></script>
+    {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
     {{--<script src="{{asset('js/pusher/base.js')}}"></script>--}}
 </head>
 <body>

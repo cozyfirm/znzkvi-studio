@@ -11,7 +11,7 @@
 
 @section('content')
     <!-- Import script for live quiz handling -->
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+{{--    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>--}}
     <!-- MQTT host and port data -->
     {!! Form::hidden('env_mqtt_host', env('MQTT_HOST'), ['id' => 'env_mqtt_host']) !!}
     {!! Form::hidden('env_mqtt_ws_port', env('MQTT_WS_PORT'), ['id' => 'env_mqtt_ws_port']) !!}

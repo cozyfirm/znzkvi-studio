@@ -9,17 +9,17 @@
 
     <!-- ToDo - Download all external files -->
     <!-- Stylesheet -->
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
+    <link href="{{ asset('external-css/jquery-ui.css') }}" rel="Stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/system/system.css')}}">
     <link rel="stylesheet" href="{{asset('css/public/public.css')}}">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/cdf2a0a58b.js"></script>
+    <link href="{{ asset('external-css/google-api-nunito.css') }}" rel="stylesheet">
+    {{--<script src="{{ asset('external-js/fontawesome.js') }}"></script>--}}
 
     <!-- Javascript scripts -->
-    <script src="external-js/mqtt.min.js"></script>
+    <script src="{{ asset('external-js/mqtt.min.js') }}"></script>
 
     <script src="{{asset('js/system.js')}}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ asset('external-js/bootstrap.min.js') }}"></script>
     <script src="{{asset('js/public.js')}}"></script>
 </head>
 <body>
