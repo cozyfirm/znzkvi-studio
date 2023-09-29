@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-question"></i> @endsection
+@section('ph-icon') <img class="h-img" src="{{ asset('images/font-awesome/question-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Pregled pitanja') }} @endsection
 @section('ph-short') {{__('Pregled sinhronizovanih pitanja sa centralnog sistema, koji se nalaze unutar setova ')}} @endsection
 

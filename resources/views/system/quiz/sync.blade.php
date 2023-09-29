@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-play"></i> @endsection
+@section('ph-icon') <img class="h-img" src="{{ asset('images/font-awesome/play-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Sinhronizacija seta') }} @endsection
 @section('ph-short') {{__('Sinhronizirajte setove pitanja sa centralnim sistemom za željeni datu,')}} @endsection
 

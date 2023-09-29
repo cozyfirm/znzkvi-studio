@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-edit"></i> @endsection
+@section('ph-icon') <img class="h-img" src="{{ asset('images/font-awesome/pen-to-square-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Uredite pitanje') }} @endsection
 @section('ph-short') {{__('Napomena: Ne smijete mijenjati raspored tačnih i netačnih odgovora!')}} @endsection
 

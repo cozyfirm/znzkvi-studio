@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fa-solid fa-clipboard-question"></i> @endsection
+@section('ph-icon') <img class="clipboard-question" src="{{ asset('images/font-awesome/clipboard-question-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Pregled setova') }} @endsection
 @section('ph-short') {{__('Pregled svih kvizova (setova pitanja) na sistemu - Offline & Online mode')}} @endsection
 

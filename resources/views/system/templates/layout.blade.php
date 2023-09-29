@@ -11,7 +11,7 @@
     <link href="{{ asset('external-css/jquery-ui.css') }}" rel="Stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('css/system/system.css')}}">
     <link href="{{ asset('external-css/google-api-nunito.css') }}" rel="stylesheet">
-    <script src="{{ asset('external-js/fontawesome.js') }}"></script>
+    {{--<script src="{{ asset('external-js/fontawesome.js') }}"></script>--}}
     {{--<script src="https://kit.fontawesome.com/024a995986.js" crossorigin="anonymous"></script>--}}
 
     <!-- Javascript scripts -->
@@ -27,6 +27,10 @@
 <!-- Import MENU -->
 @include("system.templates.menu.menu")
 @include('system.templates.snippets.pop-up')
+
+<!-- MQTT host and port data -->
+{!! Form::hidden('env_mqtt_host', env('MQTT_HOST'), ['id' => 'env_mqtt_host']) !!}
+{!! Form::hidden('env_mqtt_ws_port', env('MQTT_WS_PORT'), ['id' => 'env_mqtt_ws_port']) !!}
 
 <div class="main-content">
     <!-- Basic header of every page -->

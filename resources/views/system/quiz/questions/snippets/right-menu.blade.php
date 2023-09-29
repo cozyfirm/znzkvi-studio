@@ -10,7 +10,7 @@
                                 <div class="col-md-12 d-flex justify-content-between">
                                     <h6 class="pt-1"> <b> {{ __('Ostale informacije') }} </b> </h6>
                                     <a href="#" title="{{ __('Ostali statistički podaci vezani za pitanje') }}">
-                                        <small><i class="fas fa-question"></i></small>
+                                        <small> <b>?</b> </small>
                                     </a>
                                 </div>
                             </div>

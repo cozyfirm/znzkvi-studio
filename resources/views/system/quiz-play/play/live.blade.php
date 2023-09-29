@@ -1,6 +1,6 @@
 @extends('system.templates.layout')
 
-@section('ph-icon') <i class="fa-solid fa-heart-pulse fa-beat" style="color: #06f99c;" title="{{ __('Link aktivan sa aplikativnim dijelom') }}"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/heart-pulse-solid.svg') }}" title="{{ __('Link aktivan sa aplikativnim dijelom!') }}"> @endsection
 @section('ph-main')  {{ __('Live feed') }} @endsection
 @section('ph-short') {{__('Live feed kviza. Pregled informacije o kvizu uživo - Kontrolni centar za igranje kviza.')}} @endsection
 
@@ -12,9 +12,6 @@
 @section('content')
     <!-- Import script for live quiz handling -->
 {{--    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>--}}
-    <!-- MQTT host and port data -->
-    {!! Form::hidden('env_mqtt_host', env('MQTT_HOST'), ['id' => 'env_mqtt_host']) !!}
-    {!! Form::hidden('env_mqtt_ws_port', env('MQTT_WS_PORT'), ['id' => 'env_mqtt_ws_port']) !!}
 
     <script src="{{asset('js/live.js')}}"></script>
 
@@ -29,7 +26,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="reveal-the-question">
-                    <i class="fa-regular fa-circle-play" title="{{ __('Započnite kviz. Otvorite prvo pitanje!') }}"></i>
+                    <img src="{{ asset('images/font-awesome/circle-play-regular.svg') }}" alt="" title="{{ __('Započnite kviz. Otvorite prvo pitanje!') }}">
                 </div>
 
                 {!! Form::open(array('route' => 'system.quiz-play.users.save', 'method' => 'post', 'id' => 'js-form')) !!}

@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-key"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/key-black-solid.svg') }}" > @endsection
 @section('ph-main') {{ __('Pregled šifarnika') }} @endsection
 @section('ph-short')
     {{__('Kopije šifarnika koji se nalaze na centralnom sistemu www.znzkvi.ba')}}

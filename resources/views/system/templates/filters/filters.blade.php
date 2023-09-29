@@ -5,14 +5,15 @@
                 <div class="row">
                     <div class="col-md-8 append-filters">
                         <button style="padding: 3px 10px !important;" type="button" class="btn btn-success btn-xs new-filter mb-2">
-                            <i class="fa fa-plus fa-1x"></i> {{__('Novi filter')}}
+                            <img src="{{ asset('images/font-awesome/plus-white-solid.svg') }}" alt="" style="height: 12px; margin-right: 5px; margin-top: -3px;">
+                            {{__('Novi filter')}}
                         </button>
 
                         <div class="btn-group dropright" style="border: 0px;">
-                            <button style="padding: 3px 10px !important;" type="button"
-                                    class="btn btn-secondary btn-xs mb-2 dropdown-toggle show-filter-columns" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-columns"></i> {{__('Kolone')}}
+                            <button style="padding: 3px 10px !important;" type="button" class="btn btn-secondary btn-xs mb-2 dropdown-toggle show-filter-columns" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ asset('images/font-awesome/table-columns-solid.svg') }}" alt="" style="height: 12px; margin-right: 5px; margin-top: -3px;">
+{{--                                <i class="fa fa-columns"></i> --}}
+                                {{__('Kolone')}}
                             </button>
                             <div class="dropdown-menu return-none fill-column-names"
                                  style="height: 250px; overflow-y: scroll;">
@@ -20,26 +21,26 @@
                         </div>
 
                         <button style="padding: 3px 10px !important;" type="submit" class="btn btn-primary btn-xs mb-2">
-                            <i class="fa fa-list fa-1x"></i>
+                            <img src="{{ asset('images/font-awesome/list-white-solid.svg') }}" alt="" style="height: 12px; margin-right: 5px; margin-top: -3px;">
                             {{__('Pregled')}}
                         </button>
 
-                        <div class="btn-group dropright" style="border: 0px;">
-                            <button style="padding: 3px 10px !important;" type="button"
-                                    class="btn btn-secondary btn-xs mb-2 dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"
-                                    onclick="getVisibleColumns('excel')"
-                            >
-                                <i class="fa  fa-file-excel fa-1x"></i> {{__('Excel')}}
-                            </button>
-                        </div>
+{{--                        <div class="btn-group dropright" style="border: 0px;">--}}
+{{--                            <button style="padding: 3px 10px !important;" type="button"--}}
+{{--                                    class="btn btn-secondary btn-xs mb-2 dropdown-toggle" data-toggle="dropdown"--}}
+{{--                                    aria-haspopup="true" aria-expanded="false"--}}
+{{--                                    onclick="getVisibleColumns('excel')"--}}
+{{--                            >--}}
+{{--                                <i class="fa  fa-file-excel fa-1x"></i> {{__('Excel')}}--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
 
                         @foreach( (request('filter') ?? [1 => 1]) as $k => $v )
 
                             <div class="filter-row">
                                 <div class="input-group mb-2 mt-2">
                                     <div class="remove-filter-w" style="width: 30px; background: #ffffff; height: 30px; margin-right: 5px; margin-top: 0px; text-align: center; border: 1px solid rgba(0,0,0,0.2); border-radius:3px; padding-top: 2px;">
-                                        <i class="fa fa-times fa-1x mt-1 mr-3 disable-popup remove-filter" style="color: red; cursor: pointer;"></i>
+                                        <img class="fa-times fa-1x mt-1 mr-3 disable-popup remove-filter" style="height: 16px; margin-top: 0px !important;" src="{{ asset('images/font-awesome/times-red-solid.svg') }}" alt="">
                                     </div>
                                     <div class="input-group-prepend">
                                         <select class="form-control form-control-sm" required="required"  name="filter[]">

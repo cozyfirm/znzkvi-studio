@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fa-solid fa-clipboard-question"></i> @endsection
+@section('ph-icon') <img class="clipboard-question" src="{{ asset('images/font-awesome/clipboard-question-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Pregled seta') }} @endsection
 @section('ph-short')
     {{__('Pregledajte / unesite novi set pitanja na sistemu - Offline & Online mode')}}

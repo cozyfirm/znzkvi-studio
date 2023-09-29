@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-key"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/key-black-solid.svg') }}" > @endsection
 @section('ph-main') {{ __('Instance šifarnika') }} @endsection
 @section('ph-short') {{__('Instance (vrijednosti) šifarnika: ')}} <span class="text-info">{{ $keyword }}</span> @endsection
 

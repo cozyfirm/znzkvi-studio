@@ -1,6 +1,6 @@
 @extends('system.templates.layout')
 
-@section('ph-icon') <i class="fas fa-users"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/users-solid.svg') }}" > @endsection
 @section('ph-main') {{ auth()->user()->name }} @endsection
 @section('ph-short') {{__('Pregledajte / Uredite Vaše osnovne informacije na ZNZKVI')}} @endsection
 

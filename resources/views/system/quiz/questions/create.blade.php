@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-question"></i> @endsection
+@section('ph-icon') <img class="h-img" src="{{ asset('images/font-awesome/question-solid.svg') }}" alt=""> @endsection
 @section('ph-main') @if(isset($create)) {{ __('Unos pitanja') }} @else {{ __('Pregled pitanja') }} @endif @endsection
 @section('ph-short')
     {{__('Unos / pregled pitanja koja se nalaze na sistemu www.znzkvi.ba ')}}

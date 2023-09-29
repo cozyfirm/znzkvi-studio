@@ -38,10 +38,10 @@
                                     </div>
                                     <div class="sr-icons">
                                         <div class="icon-wrapper" title="@if($user->joker) {{ __('Joker iskorišten') }} @else {{ __('Joker nije iskorišten') }} @endif ">
-                                            <i class="fa-regular fa-face-grin-tongue-wink"></i>
+                                            <img src="{{ asset('images/font-awesome/face-grin-tongue-wink-regular.svg') }}" alt="">
                                         </div>
                                         <div class="icon-wrapper" title="{{ __('Ukupno osvojeno BAM ') }} {{ $user->total_money }}">
-                                            <i class="fa-solid fa-sack-dollar"></i>
+                                            <img src="{{ asset('images/font-awesome/sack-dollar-solid.svg') }}" alt="">
                                             <div class="iw-t"> <p> {{ $user->total_money }} </p> </div>
                                         </div>
                                     </div>

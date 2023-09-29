@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-users"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/users-solid.svg') }}" > @endsection
 @section('ph-main') {{ __('Svi korisnici') }} @endsection
 @section('ph-short') {{__('Pregled svih aktivnih korisnika na www.znzkvi.ba sistemu')}} @endsection
 

@@ -2,7 +2,7 @@
 
 <!----------------------------------------------- Define page header -------------------------------------------------->
 
-@section('ph-icon') <i class="fas fa-play"></i> @endsection
+@section('ph-icon') <img class="h-img" src="{{ asset('images/font-awesome/play-solid.svg') }}" alt=""> @endsection
 @section('ph-main') {{ __('Demo version') }} @endsection
 @section('ph-short') {{__('Demo verzija kviza - Test prikaza pitanja')}} @endsection
 

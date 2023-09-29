@@ -1,6 +1,6 @@
 @extends('system.templates.layout')
 
-@section('ph-icon') <i class="fas fa-users"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/users-solid.svg') }}" > @endsection
 @section('ph-main')  {{ __('Unos korisnika') }} @endsection
 @section('ph-short') {{__('Unesite osnovne informacije za novog korisnika prije početka igre')}} @endsection
 

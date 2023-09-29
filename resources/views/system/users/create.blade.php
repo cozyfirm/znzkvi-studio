@@ -1,6 +1,6 @@
 @extends('system.templates.layout')
 
-@section('ph-icon') <i class="fas fa-users"></i> @endsection
+@section('ph-icon') <img src="{{ asset('images/font-awesome/users-solid.svg') }}" > @endsection
 @section('ph-main') @isset($create) {{ __('Unos korisnika') }} @else {{ $user->name ?? '' }} @endif @endsection
 @section('ph-short')
     @isset($create)
