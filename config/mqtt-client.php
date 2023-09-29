@@ -38,8 +38,8 @@ return [
             // 'host' => "mqtt-v2.alkaris.com",
             // 'port' => "8883",
 
-            'host' => "192.168.0.76",
-            'port' => "1883",
+            'host' => env('MQTT_HOST', 'mqtt-v2.alkaris.com'),
+            'port' => env('MQTT_PORT', '1883'),
 
             // The MQTT protocol version used for the connection.
             'protocol' => MqttClient::MQTT_3_1,
