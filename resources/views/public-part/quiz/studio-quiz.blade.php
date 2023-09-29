@@ -23,6 +23,9 @@
     <script src="{{asset('js/public.js')}}"></script>
 </head>
 <body>
+    <!-- MQTT host and port data -->
+    {!! Form::hidden('env_mqtt_host', env('MQTT_HOST'), ['id' => 'env_mqtt_host']) !!}
+    {!! Form::hidden('env_mqtt_ws_port', env('MQTT_WS_PORT'), ['id' => 'env_mqtt_ws_port']) !!}
     <!-- Import script for live quiz handling -->
     <script src="{{asset('js/mqtt/tv-script.js')}}"></script>
 

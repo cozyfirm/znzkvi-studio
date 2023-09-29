@@ -4,7 +4,7 @@ module.exports = {
     },
     host : function(){
         // return 'wss://mqtt-v2.alkaris.com:8083';
-        return 'ws://192.168.150.233:8083';
+        return 'ws://' + $("#env_mqtt_host").val() + ':' + $("#env_mqtt_ws_port").val();
     },
     mainTopic : function(){
         return "quiz/quiz/live-stream";

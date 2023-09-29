@@ -22,6 +22,13 @@ config file (.env) such as (production version will have different IPs):
 ##### Server data
 
     - IP address: IP_ADDR
+    - Local server IP Address: 192.168.1.100
+
+##### ENV data
+
+    - MQTT_HOST="192.168.1.100"
+    - MQTT_PORT="1883"
+    - MQTT_WS_PORT="8083"
 
 ##### MySQL data
 
