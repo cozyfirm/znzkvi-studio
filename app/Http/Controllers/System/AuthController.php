@@ -64,7 +64,7 @@ class AuthController extends Controller{
     public function createProfile(){
         return view($this->_path.'create-profile', [
             'phone_prefixes' => Countries::where('phone_code', '!=', null)->pluck('phone_code', 'id'),
-            'countries' => Countries::pluck('name', 'id')->prepend(__('Odaberite državu'), ''),
+            'countries' => Countries::pluck('name_ba', 'id')->prepend(__('Odaberite državu'), ''),
         ]);
     }
     public function createNewProfile (Request $request){

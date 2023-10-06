@@ -36,6 +36,22 @@ config file (.env) such as (production version will have different IPs):
     - CREATE USER 'webapp'@'localhost' IDENTIFIED WITH authentication_plugin BY 'PASSWORD';
     - mysql -u USER -p 
     - database: use db_name
+    
+##### MQTT Data
+
+###### 1. Alkaris MQTT broker
+
+    MQTT_HOST="mqtt-v2.alkaris.com"
+    MQTT_PORT="8883"
+    MQTT_WS_PORT="8083"
+    MQTT_TLS_ENABLED=true
+    
+###### 2. Local server (LAN / WAN network)
+
+    #MQTT_HOST="192.168.1.100"
+    #MQTT_PORT="1883"
+    #MQTT_WS_PORT="8083"
+    #MQTT_TLS_ENABLED=false
 
 ## PHP 7.4 commands
 

@@ -4,7 +4,10 @@ module.exports = {
     },
     host : function(){
         // return 'wss://mqtt-v2.alkaris.com:8083';
-        return 'ws://' + $("#env_mqtt_host").val() + ':' + $("#env_mqtt_ws_port").val();
+        let tls_enabled = $("#env_mqtt_tls_en").val();
+        let sockedProtocol = (parseInt(tls_enabled) === 1) ? 'wss' : 'ws';
+
+        return  sockedProtocol + '://' + $("#env_mqtt_host").val() + ':' + $("#env_mqtt_ws_port").val();
     },
     mainTopic : function(){
         return "quiz/quiz/live-stream";

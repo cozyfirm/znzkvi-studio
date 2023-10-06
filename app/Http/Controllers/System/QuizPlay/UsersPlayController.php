@@ -50,8 +50,8 @@ class UsersPlayController extends Controller{
     }
     public function getData($action, $username = null){
         return view($this->_path.'create', [
-            'countries' => Countries::pluck('name', 'id')->prepend(__('Odaberite državu'), ''),
-            'codes' => Countries::where('phone_code', '!=', null)->pluck('phone_code', 'phone_code'),
+            'countries' => Countries::pluck('name_ba', 'id')->prepend(__('Odaberite državu'), ''),
+            'codes' => Countries::where('phone_code', '!=', null)->orderBy('phone_code')->get()->pluck('phone_code', 'phone_code'),
             $action => true,
             'user' => isset($username) ? User::where('username', $username)->first() : NULL,
             'totalSets' => $this->getTotalSets(),

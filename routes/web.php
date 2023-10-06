@@ -89,32 +89,40 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
     /*
      *  Play a quiz
      */
-    Route::group(['namespace' => 'QuizPlay', 'prefix' => '/quiz-play', 'middleware' => 'isRoot'], function(){
+    Route::group(['namespace' => 'QuizPlay', 'prefix' => '/quiz-play'], function(){
         /*
-         *  Work with users
-         */
-        Route::group(['prefix' => '/users'], function(){
-            Route::get ('/create-user',                         'UsersPlayController@create')->name('system.quiz-play.users.create-user');
-            Route::post('/save-user',                           'UsersPlayController@save')->name('system.quiz-play.users.save');
+         * Root routes
+         **/
+        Route::group(['middleware' => 'isRoot'], function(){
+            /*
+             *  Work with users
+             */
+            Route::group(['prefix' => '/users'], function(){
+                Route::get ('/create-user',                         'UsersPlayController@create')->name('system.quiz-play.users.create-user');
+                Route::post('/save-user',                           'UsersPlayController@save')->name('system.quiz-play.users.save');
+            });
+
+            /*
+             *  Start with quiz
+             */
+            Route::group(['prefix' => '/live'], function(){
+                Route::get ('/live-stream/{quiz_id}',               'QuizPlayController@live')->name('system.quiz-play.live');
+
+                /* Live stream routes and actions */
+                Route::post('/start-a-quiz',                        'QuizPlayController@startQuiz')->name('system.quiz-play.live.start-quiz');
+                Route::post('/answer-the-question',                 'QuizPlayController@answerTheQuestion')->name('system.quiz-play.live.answer-the-question');
+                Route::post('/finnish-the-quiz',                    'QuizPlayController@finnishQuiz')->name('system.quiz-play.live.finnish-quiz');
+
+                Route::post('/propose-the-answer',                  'QuizPlayController@proposeTheAnswer')->name('system.quiz-play.live.propose-the-answer');
+
+                /* This is used to send message to TV screen and show question to operator */
+                Route::post('/reveal-question',                     'QuizPlayController@revealQuestion')->name('system.quiz-play.live.reveal-question');
+                Route::post('/reveal-screen',                       'QuizPlayController@revealScreen')->name('system.quiz-play.live.reveal-screen');
+            });
         });
 
-        /*
-         *  Start with quiz
-         */
+        /* Open routes */
         Route::group(['prefix' => '/live'], function(){
-            Route::get ('/live-stream/{quiz_id}',               'QuizPlayController@live')->name('system.quiz-play.live');
-
-            /* Live stream routes and actions */
-            Route::post('/start-a-quiz',                        'QuizPlayController@startQuiz')->name('system.quiz-play.live.start-quiz');
-            Route::post('/answer-the-question',                 'QuizPlayController@answerTheQuestion')->name('system.quiz-play.live.answer-the-question');
-            Route::post('/finnish-the-quiz',                    'QuizPlayController@finnishQuiz')->name('system.quiz-play.live.finnish-quiz');
-
-            Route::post('/propose-the-answer',                  'QuizPlayController@proposeTheAnswer')->name('system.quiz-play.live.propose-the-answer');
-
-            /* This is used to send message to TV screen and show question to operator */
-            Route::post('/reveal-question',                     'QuizPlayController@revealQuestion')->name('system.quiz-play.live.reveal-question');
-            Route::post('/reveal-screen',                       'QuizPlayController@revealScreen')->name('system.quiz-play.live.reveal-screen');
-
             /* Open line */
             Route::post('/open-line',                           'QuizPlayController@openLine')->name('system.quiz-play.live.open-line');
         });

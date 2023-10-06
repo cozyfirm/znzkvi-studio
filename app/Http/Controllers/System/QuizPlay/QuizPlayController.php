@@ -492,6 +492,7 @@ class QuizPlayController extends Controller{
             }
 
         }catch (\Exception $e){
+            dd($e);
             return $this->jsonResponse('51050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }

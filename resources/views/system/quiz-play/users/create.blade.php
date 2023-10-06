@@ -51,7 +51,7 @@
                                 <div class="c-bootstrap-field">
                                     <label for="prefix"> <b>{{ __('Broj telefona') }}</b> </label>
                                     <div class="input-elements d-flex">
-                                        {!! Form::select('prefix', $codes, $user->prefix ?? '', ['class' => 'form-control', 'id' => 'prefix', 'aria-describedby' => 'prefixHelp', 'style' => 'width:80px; margin-right:10px;', isset($preview) ? 'disabled => true' : '']) !!}
+                                        {!! Form::select('prefix', $codes, $user->prefix ?? '+387', ['class' => 'form-control', 'id' => 'prefix', 'aria-describedby' => 'prefixHelp', 'style' => 'width:80px; margin-right:10px;', isset($preview) ? 'disabled => true' : '']) !!}
 
                                         {!! Form::number('phone', $user->phone ?? '', ['class' => 'form-control required', 'id' => 'phone', 'aria-describedby' => 'phoneHelp', 'maxlength' => '13', isset($preview) ? 'readonly' : '']) !!}
                                     </div>

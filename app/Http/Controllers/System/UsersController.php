@@ -21,7 +21,7 @@ class UsersController extends Controller{
     public function myProfile(){
         return view($this->_path. 'my-profile', [
             'user' => User::where('id', Auth::user()->id)->first(),
-            'countries' => Countries::pluck('name', 'id')->prepend(__('Odaberite državu'), ''),
+            'countries' => Countries::pluck('name_ba', 'id')->prepend(__('Odaberite državu'), ''),
             'codes' => Countries::where('phone_code', '!=', null)->pluck('phone_code', 'id'),
         ]);
     }
@@ -62,7 +62,7 @@ class UsersController extends Controller{
 
     public function getData($action, $username = null){
         return view($this->_path.'create', [
-            'countries' => Countries::pluck('name', 'id')->prepend(__('Odaberite državu'), ''),
+            'countries' => Countries::pluck('name_ba', 'id')->prepend(__('Odaberite državu'), ''),
             'codes' => Countries::where('phone_code', '!=', null)->pluck('phone_code', 'id'),
             $action => true,
             'user' => isset($username) ? User::where('username', $username)->first() : NULL
