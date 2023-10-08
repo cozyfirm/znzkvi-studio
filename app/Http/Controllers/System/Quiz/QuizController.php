@@ -8,6 +8,7 @@ use App\Models\Quiz\Questions\Answers;
 use App\Models\Quiz\Questions\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -167,19 +168,20 @@ class QuizController extends Controller{
             $sendData = $this::fetchData('POST', 'api/sync/update-quizzes/sync-from-local-app', ['quizzes' => $quizzes]);
             $jsonData = json_decode($sendData->getBody()->getContents());
 
-
             foreach ($jsonData->data->successQuizzes as $qID){
                 $this->deleteSample($qID);
             }
 
-
             if($jsonData->code != '0000'){
-                return back()->with('api-success', [
+                return redirect()->route('system.quiz')->with('api-success', [
                     'message' => __('Došlo je do greške prilikom sinhronizacije, neki od setova nisu sinhronizovani !'),
                     'data' => $jsonData->data
                 ]);
             }else{
-                return back()->with('api-success', [
+                /* Delete all users from local database */
+                User::where('role', '!=', 4)->delete();
+
+                return redirect()->route('system.quiz')->with('api-success', [
                     'message' => __('Svi setovi pitanja su uspješno sinhronizovani prema centralnom sistemu!'),
                     'data' => $jsonData->data
                 ]);

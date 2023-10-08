@@ -43,7 +43,7 @@ class UsersController extends Controller{
      *  Admin role => Preview and edit all users
      */
     public function allUsers (){
-        $users = User::where('banned', 0);
+        $users = User::where('role', '!=', 4);
         $users = Filters::filter($users);
         $filters = [
             'name' => __('Ime i prezime'),
