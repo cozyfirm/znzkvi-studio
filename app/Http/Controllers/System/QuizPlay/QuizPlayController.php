@@ -354,6 +354,21 @@ class QuizPlayController extends Controller{
     public function finnishQuiz(Request $request){
         try{
             $quiz = Quiz::where('id', $request->id)->first();
+            /* Case when operator is trying to finish quiz on 7th quesiton */
+            if($quiz->current_question == 7){
+                /* Find set sample */
+                $set = QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->first();
+
+                /* Check if sample is answered */
+                if($set->answered == 0){
+                    /* Update last question info */
+                    $set->update(['answered' => 1, 'correct' => 0]);
+                    /* Set total money to 0 BAM */
+                    $quiz->update(['threshold' => 4, 'total_money' => $this->_money[1]]);
+                }
+            }
+
+            /* Update no matter of question number */
             $quiz->update(['finished' => 1, 'active' => 0]);
 
             $this->_message = [

@@ -77,9 +77,12 @@ class UsersPlayController extends Controller{
     }
     public function save(Request $request){
         try {
+            /* Check if there are any of unfinished quizzes */
+            $unFinished = Quiz::where('active', 1)->where('started', 1)->where('finished', 0)->count();
 
             if (!$this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
-
+            if($unFinished) return $this->jsonResponse('1209', __('Molimo pričekajte da se završi prethodni set !'));
+            
             $user = User::where('email', $request->email)->first();
             if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
@@ -126,6 +129,7 @@ class UsersPlayController extends Controller{
             /* Return redirect to quiz */
             return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));
         } catch (\Exception $e) {
+            dd($e);
             return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
         }
     }
