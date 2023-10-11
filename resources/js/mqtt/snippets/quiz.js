@@ -63,14 +63,14 @@ module.exports = {
         d3.select("#loaderBcgWrapper").style("fill", this.secondaryColors[category - 1]);
     },
 
-    displayQuestion : function(ID, question, chunkSize = 55){
+    displayQuestion : function(ID, question, chunkSize = 44){
         let sentence = this.breakSentence(question, chunkSize);
         $(ID).empty();
 
         for(let i=0; i<sentence.length; i++){
             d3.select(ID).append("tspan")
                 .attr("x", "0")
-                .attr("y", (i * 30))
+                .attr("y", (i * 36))
                 .text(sentence[i]);
         }
     },

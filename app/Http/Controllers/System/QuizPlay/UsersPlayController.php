@@ -82,7 +82,7 @@ class UsersPlayController extends Controller{
 
             if (!$this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
             if($unFinished) return $this->jsonResponse('1209', __('Molimo pričekajte da se završi prethodni set !'));
-            
+
             $user = User::where('email', $request->email)->first();
             if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
