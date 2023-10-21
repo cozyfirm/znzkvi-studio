@@ -352,7 +352,16 @@ $(document).ready(function () {
         else if(char === "m"){ revealMidScreen(); }
         else if(char === "n"){ revealTheQuestion(); }
         /* Close popup */
-        else if(char === "h"){ answerTheQuestion();  }
+        else if(char === "h"){
+            if(finishTheQuizFlag){
+                finishTheQuizFlag = false;
+                liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
+
+                $(".live-pop-up").fadeOut();
+            }else{
+                answerTheQuestion();
+            }
+        }
         /* Continue => Answer the question */
         else if(char === "f"){ $(".live-pop-up").fadeOut(); }
         /* Not correct additional answer */
