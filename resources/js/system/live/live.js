@@ -366,7 +366,10 @@ $(document).ready(function () {
         }
         else if(char === "r"){ useJoker(); }
         else if(char === "x"){
-            liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
+            finishTheQuizFlag = true;
+
+            $(".live-pop-up-message").html('Da li ste sigurni da želite <b> završiti kviz </b> ?');
+            $(".live-pop-up").fadeIn();
         }
         else if(char === "o"){
             liveHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle"});
