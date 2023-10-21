@@ -43,8 +43,10 @@ $(document).ready(function () {
             quiz.setTime(questionTimer);
 
             if(questionTimer > 0) {
-                const audio = new Audio("/sounds/beep.wav");
-                audio.play().then(r => function () {});
+                if(questionTimer < 5){
+                    const audio = new Audio("/sounds/beep.wav");
+                    audio.play().then(r => function () {});
+                }
 
                 questionTimer -= 1;
             }
