@@ -3,7 +3,8 @@
         <a title="{{__('Homepage')}}">
             <img src="{{ asset('images/logo_black.png') }}" alt="">
         </a>
-        <i class="fas fa-bars t-3 system-m-i-t" title="{{__('Open / Close MENU')}}"></i>
+        <img src="{{ asset('images/font-awesome/bars-solid.svg') }}" class="system-m-i-t" alt="{{__('Open / Close MENU')}}" title="{{__('Open / Close MENU')}}">
+{{--        <i class="fas fa-bars t-3 system-m-i-t" title="{{__('Open / Close MENU')}}"></i>--}}
     </div>
 
     <div class="top-menu-links">

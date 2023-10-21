@@ -101,13 +101,13 @@
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="t-green"> <i class="fas fa-check"></i> </b> </div> </div>
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="t-green"> <img class="button-images" src="{{ asset('images/font-awesome/check-solid.svg') }}" alt=""> </b> </div> </div>
                                         {!! Form::text('correct_answer', 'Tačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'correct_answer', 'readonly', 'correct' => 'Yes']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b> <i class="fas fa-times"></i> </b> </div> </div>
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b> <img class="button-images" src="{{ asset('images/font-awesome/times-red-solid.svg') }}" alt=""> </b> </div> </div>
                                         {!! Form::text('incorrect_answer', 'Netačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'incorrect_answer', 'readonly', 'correct' => 'No']) !!}
                                     </div>
                                 </div>

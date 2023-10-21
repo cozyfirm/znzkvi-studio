@@ -45,7 +45,7 @@ class QuizPlayController extends Controller{
 
         $question = $quiz->currentQuestion();
         /* All users from current session */
-        $users = Quiz::where('user_id', '!=', null)->get();
+        $users = Quiz::where('user_id', '!=', null)->orderBy('id', 'DESC')->get();
 
         /* To reveal first category */
         $firstTime = ($quiz->active and $quiz->started == 0);
@@ -360,11 +360,11 @@ class QuizPlayController extends Controller{
                 $set = QuizSet::where('quiz_id', $quiz->id)->where('question_no', 7)->first();
 
                 /* Check if sample is answered */
-                if($set->answered == 0){
+                if($set->opened == 1 and $set->answered == 0){
                     /* Update last question info */
                     $set->update(['answered' => 1, 'correct' => 0]);
                     /* Set total money to 0 BAM */
-                    $quiz->update(['threshold' => 4, 'total_money' => $this->_money[1]]);
+                    $quiz->update(['threshold' => 4, 'total_money' => ($request->time == 5) ? $this->_money[3] : $this->_money[1]]);
                 }
             }
 

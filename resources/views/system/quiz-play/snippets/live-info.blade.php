@@ -28,25 +28,27 @@
 
                             <hr>
 
-                            <!-- User statistics -->
-                            @foreach($users as $user)
-                                <div class="statistics-row">
-                                    <div class="sr-no"> <p> {{ $counter++ }}. </p> </div>
-                                    <div class="sr-user">
-                                        <h4> {{ $user->userRel->name }} </h4>
-                                        <p> {{ $user->userRel->city }}, {{ $user->userRel->countryRel->name }} </p>
-                                    </div>
-                                    <div class="sr-icons">
-                                        <div class="icon-wrapper" title="@if($user->joker) {{ __('Joker iskorišten') }} @else {{ __('Joker nije iskorišten') }} @endif ">
-                                            <img src="{{ asset('images/font-awesome/face-grin-tongue-wink-regular.svg') }}" alt="">
+                            <div class="live-previous-users">
+                                <!-- User statistics -->
+                                @foreach($users as $user)
+                                    <div class="statistics-row">
+                                        <div class="sr-no"> <p> {{ $counter++ }}. </p> </div>
+                                        <div class="sr-user">
+                                            <h4> {{ $user->userRel->name }} </h4>
+                                            <p> {{ $user->userRel->city }}, {{ $user->userRel->countryRel->name }} </p>
                                         </div>
-                                        <div class="icon-wrapper" title="{{ __('Ukupno osvojeno BAM ') }} {{ $user->total_money }}">
-                                            <img src="{{ asset('images/font-awesome/sack-dollar-solid.svg') }}" alt="">
-                                            <div class="iw-t"> <p> {{ $user->total_money }} </p> </div>
+                                        <div class="sr-icons">
+                                            <div class="icon-wrapper" title="@if($user->joker) {{ __('Joker iskorišten') }} @else {{ __('Joker nije iskorišten') }} @endif ">
+                                                <img src="{{ asset('images/font-awesome/face-grin-tongue-wink-regular.svg') }}" alt="">
+                                            </div>
+                                            <div class="icon-wrapper" title="{{ __('Ukupno osvojeno BAM ') }} {{ $user->total_money }}">
+                                                <img src="{{ asset('images/font-awesome/sack-dollar-solid.svg') }}" alt="">
+                                                <div class="iw-t"> <p> {{ $user->total_money }} </p> </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
 
                             <hr>
 

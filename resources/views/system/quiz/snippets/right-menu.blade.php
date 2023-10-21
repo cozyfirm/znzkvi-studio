@@ -27,12 +27,12 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-check"></i> 18 tačnih odgovora </small> </a>
+                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-check"></i> {{ $quiz->correct_answers }} {{ __('tačnih odgovora') }} </small> </a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('Ažurirajte: Objavljeni naučni radovi') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-wallet"></i> {{ __('Osvojeno') }} 50 BAM </small> </a>
+                                    <a href="#" class="m-0 ml-3"> <small> <i class="fas fa-wallet"></i> {{ __('Osvojeno') }} {{ $quiz->total_money }} BAM </small> </a>
                                 </div>
                             </div>
                         </div>

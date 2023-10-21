@@ -17,6 +17,7 @@ $(document).ready(function () {
     let quizID;
     let jokerAvailable = true, jokerUsed = false;
     let questionClicked = "", correctAnswer = "";
+    let finishTheQuizFlag = false;
     // let questionRevealed = false;
 
     /* Total seconds left */
@@ -149,12 +150,6 @@ $(document).ready(function () {
                     /* If info about total earned money is sent */
                     if(typeof response['data']['total_money'] !== 'undefined' && response['data']['total_money'] !== null){
                         setTotalMoney(response['data']['total_money']);
-                    }
-
-                    if(action === "start-a-quiz"){
-                    }
-                    else if(action === 'answer-the-question'){
-
                     }
 
                     setTimeout(function (){
@@ -303,14 +298,26 @@ $(document).ready(function () {
     $(".joker-wrapper").click(function () { useJoker(); });
     /* Finnish quiz */
     $(".finnish-quiz-btn").click(function () {
-        liveHTTP("answer-the-question", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val() });
+        finishTheQuizFlag = true;
+
+        $(".live-pop-up-message").html('Da li ste sigurni da želite <b> završiti kviz </b> ?');
+        $(".live-pop-up").fadeIn();
     });
 
 
     /* Close live pop-up */
-    $(".live-pop-up-close").click(function () { $(".live-pop-up").fadeOut(); });
+    $(".live-pop-up-close").click(function () { finishTheQuizFlag = false; $(".live-pop-up").fadeOut(); });
     /* Well, if operator is sure that is final answer, then proceed with it */
-    $(".live-pop-up-continue").click(function () { answerTheQuestion(); });
+    $(".live-pop-up-continue").click(function () {
+        if(finishTheQuizFlag){
+            finishTheQuizFlag = false;
+            liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
+
+            $(".live-pop-up").fadeOut();
+        }else{
+            answerTheQuestion();
+        }
+    });
 
 
 

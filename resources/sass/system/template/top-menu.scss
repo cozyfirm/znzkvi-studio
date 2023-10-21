@@ -12,6 +12,8 @@
         i{
             position: absolute; right: 20px; font-size: 20px; top: 30px; display: none;
         }
+        .system-m-i-t{position: absolute; right: 20px; height: 20px; top: 5px; display: none; z-index: 1000 }
+        .system-m-i-t:hover{cursor: pointer;}
         i:hover{ cursor: pointer; color: #000000;}
 
         img{
@@ -83,7 +85,7 @@
 @media only screen and (max-width: 1500px) {
     .s-top-menu{
         .app-name{
-            i{display: block;}
+            i, .system-m-i-t{display: block;}
         }
     }
 }
