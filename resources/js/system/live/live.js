@@ -18,6 +18,7 @@ $(document).ready(function () {
     let jokerAvailable = true, jokerUsed = false;
     let questionClicked = "", correctAnswer = "";
     let finishTheQuizFlag = false;
+    let useJokerFlag = false;
     // let questionRevealed = false;
 
     /* Total seconds left */
@@ -266,14 +267,10 @@ $(document).ready(function () {
     };
 
     let useJoker = function(){
-        jokerUsed = true;
+        useJokerFlag = true;
 
-        /* When Joker is used, send WS message to TV Screen with proposed category */
-        liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
-            'quiz_id' : $("#quiz_id").val(),
-            'question_id' : $("#question_id").val(),
-            'joker' : true
-        });
+        $(".live-pop-up-message").html('Da li ste sigurni da želite <b> iskoristiti Jokera </b> ?');
+        $(".live-pop-up").fadeIn();
     };
 
     /* -------------------------------------------------------------------------------------------------------------- */
@@ -306,12 +303,24 @@ $(document).ready(function () {
 
 
     /* Close live pop-up */
-    $(".live-pop-up-close").click(function () { finishTheQuizFlag = false; $(".live-pop-up").fadeOut(); });
+    $(".live-pop-up-close").click(function () { finishTheQuizFlag = false; useJokerFlag = false; $(".live-pop-up").fadeOut(); });
     /* Well, if operator is sure that is final answer, then proceed with it */
     $(".live-pop-up-continue").click(function () {
         if(finishTheQuizFlag){
             finishTheQuizFlag = false;
             liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
+
+            $(".live-pop-up").fadeOut();
+        }else if(useJokerFlag){
+            useJokerFlag = false;
+            jokerUsed = true;
+
+            /* When Joker is used, send WS message to TV Screen with proposed category */
+            liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+                'quiz_id' : $("#quiz_id").val(),
+                'question_id' : $("#question_id").val(),
+                'joker' : true
+            });
 
             $(".live-pop-up").fadeOut();
         }else{
@@ -358,12 +367,24 @@ $(document).ready(function () {
                 liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
 
                 $(".live-pop-up").fadeOut();
+            }else if(useJokerFlag){
+                useJokerFlag = false;
+                jokerUsed = true;
+
+                /* When Joker is used, send WS message to TV Screen with proposed category */
+                liveHTTP("answer-the-question", '/system/quiz-play/live/answer-the-question', 'POST', {
+                    'quiz_id' : $("#quiz_id").val(),
+                    'question_id' : $("#question_id").val(),
+                    'joker' : true
+                });
+
+                $(".live-pop-up").fadeOut();
             }else{
                 answerTheQuestion();
             }
         }
         /* Continue => Answer the question */
-        else if(char === "f"){ $(".live-pop-up").fadeOut(); }
+        else if(char === "f"){ finishTheQuizFlag = false; useJokerFlag = false; $(".live-pop-up").fadeOut(); }
         /* Not correct additional answer */
         else if(char === "k"){
             showAdditionalAnswerPopUp("No");
