@@ -30,3 +30,7 @@ DELETE from users where id > 1
 
 UPDATE `quiz__sets` SET `opened`=1,`answered`=0,`correct`=0, `level_opened`=1,`level_answered`=0,`level_correct`=0, `joker`=0 where quiz_id = 9 and question_no = 7;
 UPDATE `quiz` SET `correct_answers`=6, `threshold`=3, `total_money`=100, `active`=1, `finished`=0, `current_question`=7 where id = 9;
+
+
+UPDATE `quiz__sets` SET `opened`=0, `answered`=0,`correct`=0, `level_opened`=0,`level_answered`=0,`level_correct`=0, `joker`=0 where 1;
+UPDATE `quiz` SET `correct_answers`=0, `joker`=0, `threshold`=1, `total_money`=0, `active`=0, `started`=0, `finished`=0, `current_question`=1, `replacement`=0 where 1;

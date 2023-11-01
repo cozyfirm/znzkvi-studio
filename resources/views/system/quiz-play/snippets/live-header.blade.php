@@ -10,7 +10,7 @@
     </div>
     <div class="lh-element">
         <div class="lh-e-data">
-            <h2> <span id="lf-current-question"> {{ $quiz->current_question }} </span>. </h2>
+            <h2> <span id="lf-current-question"> {{ $quiz->current_question }} </span> . </h2>
             <p> {{ __('Aktivno pitanje') }} </p>
         </div>
         <div class="lh-e-icon">
@@ -19,7 +19,10 @@
     </div>
     <div class="lh-element question-timer-wrapper">
         <div class="lh-e-data">
-            <h2> <span class="question-timer">5</span>s </h2>
+            <h2>
+                <img class="fa-infinity @if($quiz->current_question != 1) d-none @endif" src="{{ asset('images/font-awesome/infinity-solid.svg') }}" alt="">
+                <span class="question-timer @if($quiz->current_question == 1) d-none @endif">@if($additional) 10 @else 5 @endif</span> <span class="question-timer-seconds @if($quiz->current_question == 1) d-none @endif">s</span>
+            </h2>
             <p> {{ __('Vrijeme') }} </p>
         </div>
         <div class="lh-e-icon">

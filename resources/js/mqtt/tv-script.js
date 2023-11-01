@@ -29,40 +29,40 @@ $(document).ready(function () {
     let openLine = true, openLineCounter = 0, openLineSymbol = false, phoneNumber = 1, phoneNumberCounter = 1;
 
     /* Question timer */
-    let questionTimer = 5, counterActive = false;
+    let questionTimer = 5, counterActive = false, counterNormalTimer = true;
 
     const interval = setInterval(function() {
         /*
          *  Timer: Every user has 5 seconds to answer the question before time is over
          */
-        if(counterActive){
-            client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
-                if (error) { console.log(error); }
-            });
-
-            quiz.setTime(questionTimer);
-
-            if(questionTimer > 0) {
-                if(questionTimer < 5){
-                    const audio = new Audio("/sounds/beep.wav");
-                    audio.play().then(r => function () {});
-                }
-
-                questionTimer -= 1;
-            }
-            else{
-                const audio = new Audio("/sounds/incorrect-answer.wav");
-                audio.play().then(r => function () {});
-
-                /* Done ! We should finnish quiz ! */
-                client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
-                    if (error) { console.log(error); }
-                });
-
-                counterActive = false;
-                questionTimer = 5;
-            }
-        }
+        // if(counterActive){
+        //     client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50101", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
+        //         if (error) { console.log(error); }
+        //     });
+        //
+        //     quiz.setTime(questionTimer);
+        //
+        //     if(questionTimer > 0) {
+        //         if(questionTimer < 5){
+        //             const audio = new Audio("/sounds/beep.wav");
+        //             audio.play().then(r => function () {});
+        //         }
+        //
+        //         questionTimer -= 1;
+        //     }
+        //     else{
+        //         const audio = new Audio("/sounds/incorrect-answer.wav");
+        //         audio.play().then(r => function () {});
+        //
+        //         /* Done ! We should finnish quiz ! */
+        //         client.publish(mqttInit.liveFeedTVScreenTopic(), JSON.stringify({"code" : "0000", "data" : { "sub_code" : "50102", "time" : questionTimer }}), { qos: 0, retain: false }, function (error) {
+        //             if (error) { console.log(error); }
+        //         });
+        //
+        //         counterActive = false;
+        //         questionTimer = 5;
+        //     }
+        // }
 
         /* Open Line GUI animations */
         if(openLine){
@@ -163,7 +163,7 @@ $(document).ready(function () {
                 /* Set timer counter as inactive */
                 counterActive = false;
                 /* Set default timer value to 5 and set GUI */
-                questionTimer = 5; quiz.setTime(questionTimer);
+                // questionTimer = 5; quiz.setTime(questionTimer);
 
                 /* Set colors to default */
                 quiz.cleanAnswerProposal();
@@ -172,6 +172,9 @@ $(document).ready(function () {
 
                 /* Set color by category; Since quiz just started, first category is one so set it as blue */
                 quiz.changeColorByCategory(1);
+
+                /* Set timer value */
+                quiz.resetTimer(data['timer']);
             }
             if(subCode === '50001' || subCode === "50009"){
                 /* Answer is incorrect */
@@ -199,7 +202,8 @@ $(document).ready(function () {
                     currentLevel = 0;
                     quiz.resetLevelQuestionStars();
 
-
+                    /* Set timer value */
+                    quiz.resetTimer(data['timer']);
                     /*
                      *  Since answer is incorrect; next user can use joker and it becomes available; Also hence it will open
                      *  new question, it also becomes disabled
@@ -257,13 +261,13 @@ $(document).ready(function () {
                 /* Set timer counter as inactive */
                 counterActive = false;
                 /* Set default timer value to 5 */
-                questionTimer = 5;
+                // questionTimer = 5;
 
                 const jokerMusic = new Audio("/sounds/joker.wav");
                 jokerMusic.play().then(r => function () {});
 
-                /* Set GUI */
-                quiz.setTime(questionTimer);
+                /* Set timer value */
+                quiz.resetTimer(data['timer']);
             }
             else if(subCode === '50007'){
                 /* Mark answer as correct; User just won 200 BAM! */
@@ -299,10 +303,10 @@ $(document).ready(function () {
                 nextQuestionNo    = data['next_question'];
 
                 /* Reset counter to 5 seconds */
-                questionTimer = 5;
+                // questionTimer = 5;
 
                 /* Set GUI */
-                quiz.setTime(questionTimer);
+                // quiz.setTime(questionTimer);
 
                 /* Hide line open GUI */
                 quiz.openLine("hide");
@@ -320,6 +324,9 @@ $(document).ready(function () {
                     /* Now, we should set normal question  */
                     quiz.revealTheQuestion(subCode, response['data']['question']['question'], currentCategory);
                 }else{
+                    /* Additional (direct) question and last question, timer should last 10 seconds */
+                    // questionTimer = 10;
+
                     /* Set additional (direct) question */
                     if(currentQuestionNo === 7){
                         quiz.announceCategory("reveal", lastCategory);
@@ -339,7 +346,9 @@ $(document).ready(function () {
                 correctAnsLetter = data['question']['question']['correct_answer'];
             }
             else if(subCode === '50011'){
-                /* Reveal mid screen - Category or Level question screen */
+                /* Reveal middle screen - Category or Level question screen */
+
+                console.log("Timer: " + data['timer'] );
 
                 /* Hide line open GUI */
                 quiz.openLine("hide");
@@ -347,6 +356,9 @@ $(document).ready(function () {
                 let currentQuestionNo = parseInt(data['current_question']);
                 let additional = parseInt(data['question']['additional']);
                 currentCategory = data['current_category'];
+
+                /* Set timer value */
+                quiz.resetTimer(data['timer']);
 
                 if(additional){
                     /* If joker is not used; I has to be disabled on this part */
@@ -382,7 +394,7 @@ $(document).ready(function () {
                 // quiz.announceCategory("reveal", data['category']);
 
                 /* Set timer counter as inactive */
-                counterActive = false;
+                // counterActive = false;
             }
             else if(subCode === '50015'){
                 /* Force quiz finnish; Operator action */
@@ -413,10 +425,21 @@ $(document).ready(function () {
                 /* Show open line GUI */
                 // quiz.lineOpen();
             }
+
             /* Frontend messages */
             /* Start time counter; Number of seconds to answer */
             else if(subCode === '50101'){
-                counterActive = true;
+                quiz.setTime(data['questionTimer'], data['timerDuration']);
+                const audio = new Audio("/sounds/beep.wav");
+
+                if(data['timerDuration'] === 10){
+                    if(data['questionTimer'] !== 10) audio.play().then(r => function () {});
+                }
+                else if(data['timerDuration'] === 5){
+                    if(data['questionTimer'] !== 5) audio.play().then(r => function () {});
+                }
+
+
             }else if(subCode === '50102'){
                 counterActive = false;
             }

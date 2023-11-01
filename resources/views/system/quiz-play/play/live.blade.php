@@ -49,28 +49,28 @@
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_a_l @if($question->answerARel->correct) t-green @endif">A</b> </div> </div>
-                                        {!! Form::text('answer_a', $question->answerARel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_a', 'readonly', 'letter' => 'A']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_a_l @if($question->answerARel->correct) t-green @endif">1</b> </div> </div>
+                                        {!! Form::text('answer_a', $question->answerARel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_a', 'readonly', 'letter' => 'A', 'gui_letter' => '1']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_b_l @if($question->answerBRel->correct) t-green @endif">B</b> </div> </div>
-                                        {!! Form::text('answer_b', $question->answerBRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_b', 'readonly', 'letter' => 'B']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_b_l @if($question->answerBRel->correct) t-green @endif">2</b> </div> </div>
+                                        {!! Form::text('answer_b', $question->answerBRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_b', 'readonly', 'letter' => 'B', 'gui_letter' => '2']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_c_l @if($question->answerCRel->correct) t-green @endif">C</b> </div> </div>
-                                        {!! Form::text('answer_c', $question->answerCRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_c', 'readonly', 'letter' => 'C']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_c_l @if($question->answerCRel->correct) t-green @endif">3</b> </div> </div>
+                                        {!! Form::text('answer_c', $question->answerCRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_c', 'readonly', 'letter' => 'C', 'gui_letter' => '3']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
-                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_d_l @if($question->answerDRel->correct) t-green @endif">D</b> </div> </div>
-                                        {!! Form::text('answer_d', $question->answerDRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_d', 'readonly', 'letter' => 'D']) !!}
+                                        <div class="input-group-prepend"> <div class="input-group-text"> <b class="answer_l answer_d_l @if($question->answerDRel->correct) t-green @endif">4</b> </div> </div>
+                                        {!! Form::text('answer_d', $question->answerDRel->answer ?? '', ['class' => 'form-control answer-it o-none c-pointer', 'id' => 'answer_d', 'readonly', 'letter' => 'D', 'gui_letter' => '4']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -102,13 +102,13 @@
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend"> <div class="input-group-text"> <b class="t-green"> <img class="button-images" src="{{ asset('images/font-awesome/check-solid.svg') }}" alt=""> </b> </div> </div>
-                                        {!! Form::text('correct_answer', 'Tačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'correct_answer', 'readonly', 'correct' => 'Yes']) !!}
+                                        {!! Form::text('correct_answer', 'Tačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'correct_answer', 'readonly', 'correct' => 'Yes', 'gui_correct' => 'Da']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend"> <div class="input-group-text"> <b> <img class="button-images" src="{{ asset('images/font-awesome/times-red-solid.svg') }}" alt=""> </b> </div> </div>
-                                        {!! Form::text('incorrect_answer', 'Netačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'incorrect_answer', 'readonly', 'correct' => 'No']) !!}
+                                        {!! Form::text('incorrect_answer', 'Netačan odgovor', ['class' => 'form-control answer-additional o-none c-pointer', 'id' => 'incorrect_answer', 'readonly', 'correct' => 'No', 'gui_correct' => 'Ne']) !!}
                                     </div>
                                 </div>
                             </div>

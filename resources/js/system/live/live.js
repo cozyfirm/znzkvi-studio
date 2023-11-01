@@ -19,12 +19,6 @@ $(document).ready(function () {
     let questionClicked = "", correctAnswer = "";
     let finishTheQuizFlag = false;
     let useJokerFlag = false;
-    // let questionRevealed = false;
-
-    /* Total seconds left */
-    let questionTimer = 5;
-
-    // let screenRevealed = im_screenRevealed;
 
     /* Number of current question */
     let currentQuestionNo = 1;
@@ -71,10 +65,37 @@ $(document).ready(function () {
     };
 
     /* Set current active question in GUI */
-    let setCurrentQuestion = function(question_no){ currentQuestionNo = question_no; $("#lf-current-question").text(question_no); };
+    let setCurrentQuestion = function(question_no){
+        currentQuestionNo = question_no;
+        $("#lf-current-question").text(question_no);
+
+        if(question_no > 1){
+            $(".fa-infinity").addClass('d-none');
+
+            $(".question-timer").removeClass('d-none');
+            $(".question-timer-seconds").removeClass('d-none');
+        }
+    };
+
     /* Set total earned money in quiz - GUI */
     /* Set current active question in GUI */
     let setTotalMoney = function(total){ $("#lf-total-money").text(total); };
+    let setGUITimer = function (time){
+        vars.questionTimer = time; /* Variable timer */
+        vars.timerDuration = time; /* Fixed timer; Flag for TV script */
+        vars.timerStarted = false;
+        /* Remove classes */
+        $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('lh-e-time-started-counting').removeClass('animated').removeClass('shake');
+
+        $(".question-timer").text(vars.questionTimer);
+        console.log("Timer: " + vars.questionTimer + "s");
+    };
+
+    /* Load with init data */
+    let onLoad = function (){
+        let bladeTimerValue = parseInt($(".question-timer").text());
+        setGUITimer(bladeTimerValue);
+    };
 
     let liveHTTP = function (action, uri, method, data = {}) {
         /* ToDo - Full screen loading bar to prevent multiple clicking */
@@ -97,9 +118,18 @@ $(document).ready(function () {
                         /* Quiz is just started, reveal the question */
                         $(".reveal-the-question").fadeOut(0);
 
+                        /* Set timer */
+                        setGUITimer(response['data']['timer']);
+
                         parseQuestion(response['data']['question']);
+                    }else if(subCode === '50001'){
+                        /* Set timer */
+                        setGUITimer(response['data']['timer']);
                     }else if(subCode === '50002' || subCode === '50003'){
                         /* Correct answer */
+
+                        /* Set timer */
+                        setGUITimer(response['data']['timer']);
 
                         if(subCode === '50002'){
                             parseQuestion(response['data']['question']);
@@ -135,12 +165,15 @@ $(document).ready(function () {
                         /* Fade In shade */
                         $(".reveal-the-question").fadeIn(0);
                         vars.questionRevealed = false;
+
+                        /* Set timer */
+                        setGUITimer(response['data']['timer']);
+                    }else if(subCode === '50009'){
+                        /* Set timer */
+                        setGUITimer(response['data']['timer']);
                     }else if(subCode === '50010'){
                         /* Reveal question for operator */
                         $(".reveal-the-question").fadeOut();
-
-                        questionTimer = 5;
-                        $(".question-timer").text(questionTimer);
                     }else if(subCode === '50011'){
                         /* Reveal mid screen */
 
@@ -224,7 +257,7 @@ $(document).ready(function () {
     };
 
     let showAnswerPopUp = function(letter){
-        $(".live-pop-up-message").html('Da li ste sigurni da želite odgovor <b>"' + letter + '"</b> označiti kao konačan odgovor?');
+        $(".live-pop-up-message").html('Da li ste sigurni da želite odgovor <span>"' + letter + '"</span> označiti kao konačan odgovor?');
         $(".live-pop-up").fadeIn();
     };
     let answerTheQuestion = function(){
@@ -251,18 +284,10 @@ $(document).ready(function () {
         }
 
         $(".live-pop-up").fadeOut();
-
-
-        /* Reset question timer */
-        questionTimer = 5;
-        /* Display to user */
-        $(".question-timer").text(questionTimer);
-        /* Remove classes */
-        $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('animated').removeClass('shake');
     };
 
     let showAdditionalAnswerPopUp = function(what){
-        $(".live-pop-up-message").html('Da li ste sigurni da želite kliknuti <b>"' + what + '"</b> kao tačan odgovor na pitanje?');
+        $(".live-pop-up-message").html('Da li ste sigurni da želite kliknuti <span>"' + what + '"</span> kao tačan odgovor na pitanje?');
         $(".live-pop-up").fadeIn();
     };
 
@@ -283,12 +308,12 @@ $(document).ready(function () {
 
     /* Answer a question */
     $(".answer-it").click(function () {
-        showAnswerPopUp($(this).attr('letter'));
+        showAnswerPopUp($(this).attr('gui_letter'));
         questionClicked = $(this).attr('letter');
     });
 
     $(".answer-additional").click(function () {
-        showAdditionalAnswerPopUp($(this).attr('correct'));
+        showAdditionalAnswerPopUp($(this).attr('gui_correct'));
         correctAnswer = $(this).attr('correct');
     });
     /* Use joker */
@@ -306,6 +331,11 @@ $(document).ready(function () {
     $(".live-pop-up-close").click(function () { finishTheQuizFlag = false; useJokerFlag = false; $(".live-pop-up").fadeOut(); });
     /* Well, if operator is sure that is final answer, then proceed with it */
     $(".live-pop-up-continue").click(function () {
+        /* Stop counting down */
+        vars.timerStarted = false;
+        /* Remove classes */
+        $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('lh-e-time-started-counting').removeClass('animated').removeClass('shake');
+
         if(finishTheQuizFlag){
             finishTheQuizFlag = false;
             liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
@@ -346,22 +376,27 @@ $(document).ready(function () {
         let char = String.fromCharCode(event.which);
 
         if(char === "a"){
-            showAnswerPopUp("A");
+            showAnswerPopUp("1");
             questionClicked = "A";
         }else if(char === "b"){
-            showAnswerPopUp("B");
+            showAnswerPopUp("2");
             questionClicked = "B";
         }else if(char === "c"){
-            showAnswerPopUp("C");
+            showAnswerPopUp("3");
             questionClicked = "C";
         }else if(char === "d"){
-            showAnswerPopUp("D");
+            showAnswerPopUp("4");
             questionClicked = "D";
         }
         else if(char === "m"){ revealMidScreen(); }
         else if(char === "n"){ revealTheQuestion(); }
         /* Close popup */
         else if(char === "h"){
+            /* Stop counting down */
+            vars.timerStarted = false;
+            /* Remove classes */
+            $(".question-timer-wrapper").removeClass('lh-e-time-expired').removeClass('lh-e-time-started-counting').removeClass('animated').removeClass('shake');
+
             if(finishTheQuizFlag){
                 finishTheQuizFlag = false;
                 liveHTTP("finnish-the-quiz", '/system/quiz-play/live/finnish-the-quiz', 'POST', {'id' : $("#quiz_id").val(), 'time' : parseInt($(".question-timer").text()) });
@@ -387,11 +422,11 @@ $(document).ready(function () {
         else if(char === "f"){ finishTheQuizFlag = false; useJokerFlag = false; $(".live-pop-up").fadeOut(); }
         /* Not correct additional answer */
         else if(char === "k"){
-            showAdditionalAnswerPopUp("No");
+            showAdditionalAnswerPopUp("Ne");
             correctAnswer = "No";
         }
         else if(char === "g"){
-            showAdditionalAnswerPopUp("Yes");
+            showAdditionalAnswerPopUp("Da");
             correctAnswer = "Yes";
         }
         else if(char === "r"){ useJoker(); }
@@ -405,4 +440,11 @@ $(document).ready(function () {
             liveHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle"});
         }
     });
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /*
+     *  On load functions
+     */
+
+    onLoad();
 });

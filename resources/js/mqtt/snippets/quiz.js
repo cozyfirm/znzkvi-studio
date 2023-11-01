@@ -19,6 +19,10 @@ module.exports = {
         this.screenAction(".questions-group", 'hide');
         /* Hide mid screens */
         this.screenAction(".mid-screen", 'hide');
+
+        /* Hide timers and loaders */
+        this.screenAction(".timer-group", "hide");
+        this.screenAction(".loader-group-first-category", "hide");
     },
     showElement: function(selector){ $(selector).removeClass('d-none'); },
     hideElement: function(selector){ $(selector).addClass('d-none'); },
@@ -48,7 +52,9 @@ module.exports = {
         d3.select(".check-additional-bcg").style("fill", this.secondaryColors[category - 1]);
         d3.select(".times-additional-bcg").style("fill", this.secondaryColors[category - 1]);
         d3.select("#TimerNumber").style("fill", this.secondaryColors[category - 1]);
-        d3.select("#TimerCategoryColor").style("fill", this.secondaryColors[category - 1]);
+        // d3.select("#TimerNumber-2").style("fill", this.secondaryColors[category - 1]);
+        // d3.select("#TimerCategoryColor").style("fill", this.secondaryColors[category - 1]);
+        d3.select("#TimerCategoryColor-2").style("fill", this.secondaryColors[category - 1]);
 
         /* Stars with background */
         d3.select(".stars-bcg-1").style("fill", this.secondaryColors[category - 1]);
@@ -99,6 +105,19 @@ module.exports = {
         $("#AnswerTextB").text(question['answer_b_rel']['answer']);
         $("#AnswerTextC").text(question['answer_c_rel']['answer']);
         $("#AnswerTextD").text(question['answer_d_rel']['answer']);
+
+        /* First, hide all timers and loaders */
+        this.screenAction(".timer-group", "hide");
+        this.screenAction(".loader-group-first-category", "hide");
+
+        if(category === 1){
+            /* Hide timer; Show loading on right side */
+            this.screenAction(".loader-group-first-category", "reveal");
+        }else{
+            this.screenAction(".timer-10", "reveal");
+        }
+
+        console.log("Category: " + category);
     },
     /*
      *  Regular answers:
@@ -180,6 +199,7 @@ module.exports = {
         this.screenAction(".direct-question", "reveal");
         this.screenAction(".mid-screen", "hide");
         this.screenAction(".open-line", "hide");
+        this.screenAction(".timer-10", "reveal");
 
         /* First change GUI design / category */
         this.changeCategory(question['category']);
@@ -293,15 +313,34 @@ module.exports = {
     },
 
     /***************************************************** TIMER ******************************************************/
-    setTime: function (time) {
-        $(".timer-scale").removeClass('d-none');
-
-        for(let i=4; i>=time; i--){ $(".t-sc-" + (i + 1)).addClass('d-none'); }
-        if(time <= 5) {
-
+    setTimeFont: function (time){
+        if(time === 10){
+            d3.select("#TimerNumber").attr("transform", "matrix(1 0 0 1 1168.5962 788.5771)");
+        }else{
+            d3.select("#TimerNumber").attr("transform", "matrix(1 0 0 1 1181.8262 788.5771)");
         }
+    },
+    setTime: function (time, duration) {
+        if(duration === 5){
+            for(let i=10; i>time * 2; i--){ $(".t-sc-" + i).addClass('d-none'); }
+        }else{
+            for(let i=10; i>time; i--){
+                $(".t-sc-" + i).addClass('d-none');
+
+                console.log("Hiding: " + ".t-sc-" + i);
+            }
+        }
+
         /* Set digits */
+        this.setTimeFont(time);
         d3.select("#TimerNumber").text(time);
+    },
+    resetTimer: function (time){
+        for(let i= 10; i>0; i--){ $(".t-sc-" + i).removeClass('d-none'); }
+        this.setTimeFont(time);
+        d3.select("#TimerNumber").text(time);
+
+        console.log("Timer reset! Time left: " + time);
     },
 
     /*********************************************** Open line actions ************************************************/

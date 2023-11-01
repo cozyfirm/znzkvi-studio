@@ -82,7 +82,8 @@ class QuizPlayController extends Controller{
                 'current_category' => $firstQuestion->category,
                 'question' => $firstQuestion,
                 'next_question' => Question::where('id', $secondSet->question_id)->first(),
-                'sub_code' => '50000'
+                'sub_code' => '50000',
+                'timer' => 5
             ];
 
             /* Send WS message; Show first category on screen */
@@ -122,7 +123,8 @@ class QuizPlayController extends Controller{
                 'current_category' => $currentQuestion->category,
                 'question' => $currentQuestion,
                 'sub_code' => '50004',
-                'total_money' => $quiz->total_money
+                'total_money' => $quiz->total_money,
+                'timer' => 5
             ];
 
             /* Send WS message; Show first category on screen */
@@ -201,7 +203,8 @@ class QuizPlayController extends Controller{
                                 'sub_code' => '50007',
                                 'total_money' => $quiz->total_money,
                                 'next_question_type' => "additional",
-                                'answered_question_no' => 7
+                                'answered_question_no' => 7,
+                                'timer' => 5
                             ];
 
                             /* Send WS message; Show first category on screen */
@@ -227,7 +230,8 @@ class QuizPlayController extends Controller{
                                 'total_money' => $quiz->total_money,
                                 'sub_code' => $beforeLastQuestion ? '50003' : '50002',
                                 'next_question_type' => "additional",
-                                'answered_question_no' => ($quiz->current_question - 1) . "+"
+                                'answered_question_no' => ($quiz->current_question - 1) . "+",
+                                'timer' => $beforeLastQuestion ? 10 : 5
                             ];
 
                             /* Send WS message; Show first category on screen */
@@ -251,7 +255,8 @@ class QuizPlayController extends Controller{
                         /* Setup message */
                         $this->_message = [
                             'sub_code' => '50009',
-                            'total_money' => $quiz->total_money
+                            'total_money' => $quiz->total_money,
+                            'timer' => 5
                         ];
 
                         /* Send WS message; Show first category on screen */
@@ -288,7 +293,8 @@ class QuizPlayController extends Controller{
                                 'current_question' => $quiz->current_question,
                                 'current_category' => $question->category,
                                 'next_question_type' => "normal",
-                                'answered_question_no' => $quiz->current_question
+                                'answered_question_no' => $quiz->current_question,
+                                'timer' => 10
                             ];
 
                             /* Send WS message; Show first category on screen */
@@ -308,7 +314,8 @@ class QuizPlayController extends Controller{
                                 'current_question' => $quiz->current_question,
                                 'current_category' => $currentQuestion->category,
                                 'next_question_type' => "normal",
-                                'answered_question_no' => ($quiz->current_question - 1)
+                                'answered_question_no' => ($quiz->current_question - 1),
+                                'timer' => 5
                             ];
 
                             /* Send WS message; Show first category on screen */
@@ -325,7 +332,8 @@ class QuizPlayController extends Controller{
                         $this->_message = [
                             'sub_code' => '50001',
                             'chosen_letter' => $request->letter,
-                            'total_money' => $quiz->total_money
+                            'total_money' => $quiz->total_money,
+                            'timer' => 5
                         ];
 
                         /* Send WS message; Show first category on screen */
@@ -425,7 +433,7 @@ class QuizPlayController extends Controller{
     }
 
     /*
-     *  Reveal mid screen such as question category or level question screen
+     *  Reveal middle screen such as question category or level question screen
      */
     public function revealScreen(Request $request){
         try{
@@ -438,7 +446,8 @@ class QuizPlayController extends Controller{
                 'current_question' => $quiz->current_question,
                 'current_category' => $currentQuestion['category'],
                 'question' => $currentQuestion,
-                'sub_code' => '50011'
+                'sub_code' => '50011',
+                'timer' => ($currentQuestion['additional']) ? 10 : 5
             ];
 
             /* Send WS message; Show first category on screen */
