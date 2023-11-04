@@ -36,9 +36,9 @@
 
 <!-- Require SVG file -->
 <div class="presenter-wrapper">
-{{--    <div class="open-lines">--}}
-{{--        <img src="{{ asset('images/presenter-images/line_open.png') }}" alt="">--}}
-{{--    </div>--}}
+    <div class="open-lines">
+        <img src="{{ asset('images/presenter-images/line_open.png') }}" alt="">
+    </div>
 
     <div class="left-side">
         <div class="user-info">
