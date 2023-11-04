@@ -36,9 +36,9 @@
 
 <!-- Require SVG file -->
 <div class="presenter-wrapper">
-    <div class="open-lines">
-        <img src="{{ asset('images/presenter-images/line_open.png') }}" alt="">
-    </div>
+{{--    <div class="open-lines">--}}
+{{--        <img src="{{ asset('images/presenter-images/line_open.png') }}" alt="">--}}
+{{--    </div>--}}
 
     <div class="left-side">
         <div class="user-info">
@@ -98,13 +98,13 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-A-label"> <b>A</b> </div> </div>
+                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-A-label"> <b>1</b> </div> </div>
                                 {!! Form::text('answer_a', '', ['class' => 'form-control', 'id' => 'answer_a', 'readonly', 'letter' => 'A']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-B-label"> <b>B</b> </div> </div>
+                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-B-label"> <b>2</b> </div> </div>
                                 {!! Form::text('answer_b', '', ['class' => 'form-control', 'id' => 'answer_b', 'readonly', 'letter' => 'B']) !!}
                             </div>
                         </div>
@@ -112,13 +112,13 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-C-label"> <b>C</b> </div> </div>
+                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-C-label"> <b>3</b> </div> </div>
                                 {!! Form::text('answer_c', '', ['class' => 'form-control', 'id' => 'answer_c', 'readonly', 'letter' => 'C']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-D-label"> <b>D</b> </div> </div>
+                                <div class="input-group-prepend"> <div class="input-group-text a-l-l answer-D-label"> <b>4</b> </div> </div>
                                 {!! Form::text('answer_d', '', ['class' => 'form-control', 'id' => 'answer_d', 'readonly', 'letter' => 'D']) !!}
                             </div>
                         </div>
