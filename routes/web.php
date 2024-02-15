@@ -128,6 +128,20 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
         });
     });
 
+    /*
+     *  GUI for sponsors
+     */
+    Route::group(['namespace' => 'Sponsors', 'prefix' => '/sponsors', 'middleware' => 'isRoot'], function(){
+        Route::get ('/',                                        'SponsorsController@index')->name('system.sponsors');
+        Route::get ('/create',                                  'SponsorsController@create')->name('system.sponsors.create');
+
+        Route::post('/save',                                    'SponsorsController@save')->name('system.sponsors.save');
+        Route::get ('/delete/{id}',                             'SponsorsController@delete')->name('system.sponsors.delete');
+
+        /* Change status and send over MQTT */
+        Route::post('/change-element-status',                   'SponsorsController@changeStatus')->name('system.sponsors.change-status');
+    });
+
     Route::group(['namespace' => 'Settings', 'prefix' => '/settings', 'middleware' => 'isRoot'], function(){
         /*
          *  Keywords

@@ -68,7 +68,17 @@ config file (.env) such as (production version will have different IPs):
 ##### Nginx commands
 
     - sudo systemctl start/stop/restart nginx
-    
+
+## Renew SSL Certificates
+
+Now that we have the SSL certificates ready, we need to provide Mosquitto access to them. For this, we need to copy the certificates to a location from where Mosquitto can access them.
+
+    - $ sudo cp /etc/letsencrypt/live/mqtt.example.com/fullchain.pem /etc/mosquitto/certs/server.pem
+    - $ sudo cp /etc/letsencrypt/live/mqtt.example.com/privkey.pem /etc/mosquitto/certs/server.key
+
+Change the ownership of the /etc/mosquitto/certs directory to the mosquitto user created during the installation.
+
+    - $ sudo chown mosquitto: /etc/mosquitto/certs
 
 ## License
 

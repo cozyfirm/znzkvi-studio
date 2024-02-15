@@ -4,6 +4,7 @@ namespace App\Http\Controllers\PublicPart;
 
 use App\Http\Controllers\Controller;
 use App\Models\Quiz\Quiz;
+use App\Models\Sponsors\SponsorsData;
 use Illuminate\Http\Request;
 
 class StudioQuizController extends Controller{
@@ -13,7 +14,9 @@ class StudioQuizController extends Controller{
      *  Quiz - Studio version
      */
     public function studioQuiz(){
-        return view($this->_path.'studio-quiz');
+        return view($this->_path.'studio-quiz', [
+            'sponsorOpenLines' => SponsorsData::where('category', 'open-lines')->get()
+        ]);
     }
 
     /*

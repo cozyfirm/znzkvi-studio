@@ -58,3 +58,6 @@ require('./pages/quiz/demo/send-messages');
 /* Global MQTT channel */
 require('./live/global-channel');
 require('./live/global-user-interactions');
+
+/* Sponsors scripts */
+require('./live/sponsors');

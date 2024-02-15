@@ -348,8 +348,6 @@ $(document).ready(function () {
             else if(subCode === '50011'){
                 /* Reveal middle screen - Category or Level question screen */
 
-                console.log("Timer: " + data['timer'] );
-
                 /* Hide line open GUI */
                 quiz.openLine("hide");
 
@@ -460,7 +458,17 @@ $(document).ready(function () {
                 openLineCounter = 0;
                 for(let i=1; i<=7; i++){ $(".lbg-ol-" + i).addClass('d-none'); }
             }
+
+            /**
+             *  Custom script calls for sponsors
+             */
+            else if(subCode === '51200'){
+                $("#" + data['elem_id']).removeClass('d-none');
+                // console.log();
+            }
+
             else{
+                console.log("Nothing here ...");
 
             }
 

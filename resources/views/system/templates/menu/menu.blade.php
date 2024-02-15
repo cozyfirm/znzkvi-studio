@@ -126,7 +126,7 @@
                         </div>
                         <p>{{__('Kviz')}}</p>
                         <div class="extra-elements">
-                            <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
+                            <div class="rotate-element"><img class="fa-angle-right" src="{{ asset('images/font-awesome/chevron-right-solid.svg') }}" alt=""></div>
                         </div>
                     </div>
                     <div class="inside-links active-links">
@@ -172,7 +172,7 @@
                         </div>
                         <p>{{__('Korisnici')}}</p>
                         <div class="extra-elements">
-                            <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
+                            <div class="rotate-element"><img class="fa-angle-right" src="{{ asset('images/font-awesome/chevron-right-solid.svg') }}" alt=""></div>
                         </div>
                     </div>
                     <div class="inside-links active-links">
@@ -195,6 +195,36 @@
             <div class="subtitle">
                 <h4> {{__('Ostali sadržaj')}} </h4>
             </div>
+
+            <a href="#" class="menu-a-link">
+                <div class="s-lm-wrapper">
+                    <div class="s-lm-s-elements">
+                        <div class="s-lms-e-img">
+                            <img class="gears" src="{{ asset('images/font-awesome/hand-holding-heart-solid.svg') }}" alt="">
+                        </div>
+                        <p>{{__('Sponzori')}}</p>
+                        <div class="extra-elements">
+                            <div class="rotate-element"><img class="fa-angle-right" src="{{ asset('images/font-awesome/chevron-right-solid.svg') }}" alt=""></div>
+                        </div>
+                    </div>
+                    <div class="inside-links active-links">
+                        <a href="{{ route('system.sponsors') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{__('Pregled')}}</p>
+                            </div>
+                        </a>
+                        <a href="{{ route('system.sponsors.create') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{__('Unos novog')}}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </a>
+
+            <hr>
 
             <a href="#" class="menu-a-link">
                 <div class="s-lm-wrapper">
