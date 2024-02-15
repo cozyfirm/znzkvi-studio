@@ -358,8 +358,6 @@ $(document).ready(function () {
         }
     });
 
-
-
     /* Open line; ToDo - Check for status later ... */
     $(".open-line-btn").click(function () {
         liveHTTP("open-line", '/system/quiz-play/live/open-line', 'POST', {

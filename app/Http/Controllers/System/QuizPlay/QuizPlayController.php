@@ -68,10 +68,16 @@ class QuizPlayController extends Controller{
     public function startQuiz(Request $request){
         try{
             $quiz = Quiz::where('id', $request->id)->first();
-            /* Update columnd started */
-            $quiz->update(['started' => 1]);
-            /* Mark first Question as "opened" */
-            $firstQuestion = $quiz->openAndGetNextQuestion();
+
+            if($quiz->started == 1){
+                /* In case of double start */
+                $firstQuestion = $quiz->onlyGetNextQuestion();
+            }else{
+                /* Update columnd started */
+                $quiz->update(['started' => 1]);
+                /* Mark first Question as "opened" */
+                $firstQuestion = $quiz->openAndGetNextQuestion();
+            }
 
             /* Get second question */
             $secondSet = QuizSet::where('quiz_id', $request->id)->where('question_no', ($quiz->current_question + 1))->first();
@@ -362,6 +368,7 @@ class QuizPlayController extends Controller{
     public function finnishQuiz(Request $request){
         try{
             $quiz = Quiz::where('id', $request->id)->first();
+
             /* Case when operator is trying to finish quiz on 7th quesiton */
             if($quiz->current_question == 7){
                 /* Find set sample */
@@ -372,7 +379,7 @@ class QuizPlayController extends Controller{
                     /* Update last question info */
                     $set->update(['answered' => 1, 'correct' => 0]);
                     /* Set total money to 0 BAM */
-                    $quiz->update(['threshold' => 4, 'total_money' => ($request->time == 5) ? $this->_money[3] : $this->_money[1]]);
+                    $quiz->update(['threshold' => 4, 'total_money' => ($request->time == 10) ? $this->_money[3] : $this->_money[1]]);
                 }
             }
 

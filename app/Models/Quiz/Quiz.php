@@ -57,6 +57,19 @@ class Quiz extends Model{
                 ->first();
         }catch (\Exception $e){ return false; }
     }
+    public function onlyGetNextQuestion(){
+        try{
+            $set = QuizSet::where('quiz_id', $this->id)->where('opened', 1)->where('answered', 0)->where('replacement', 0)->orderBy('question_no')->first();
+
+            return Question::where('id', $set->question_id)
+                ->with('answerARel')
+                ->with('answerBRel')
+                ->with('answerCRel')
+                ->with('answerDRel')
+                ->first();
+        }catch (\Exception $e){ return false; }
+    }
+
     public function currentQuestion(){
         try{
             $set = QuizSet::where('quiz_id', $this->id)
