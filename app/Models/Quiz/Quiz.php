@@ -87,6 +87,7 @@ class Quiz extends Model{
             return [
                 'question' => $question,
                 'category' => isset($question) ? $question->category : NULL,
+                'category_image' => isset($question) ? $question->category_image : NULL,
                 'additional' => $set->level_opened,
                 'joker' => $this->joker
             ];

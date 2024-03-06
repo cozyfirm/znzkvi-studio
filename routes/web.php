@@ -70,6 +70,10 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::get ('/sync-quizzes',                    'QuizController@syncQuizzess')->name('system.quiz.sync-quizzes');
             Route::post('/sync-quizzes-from-center',        'QuizController@syncQuizzesFromCenter')->name('system.quiz.sync-quizzes-from-center');
 
+            /* Update quiz-question image */
+            Route::get ('/edit-category-photo/{quiz_id}/{id}',        'QuizController@editCategoryImage')->name('system.quiz.edit-category-image');
+            Route::post('/update-category-photo',                     'QuizController@updateCategoryImage')->name('system.quiz.update-category-image');
+
             /* Demo quiz */
             Route::get ('/demo',                            'QuizController@demo')->name('system.quiz.demo');
             Route::post('/send-demo-message',               'QuizController@sendDemoMsg')->name('system.quiz.send-demo-message');

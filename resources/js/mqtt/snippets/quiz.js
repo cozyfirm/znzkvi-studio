@@ -2,6 +2,10 @@ module.exports = {
     primaryColors: ["#77CEF4", "#8AC988", "#fbc111", "#6d6768", "#f8a46c", "#f06b6c", "#d4a75f"],
     secondaryColors: ["#5899B5", "#4C7F49", "#BA912E", "#585658", "#b97b50", "#b15050", "#937542"],
 
+     isNumeric : function(value) {
+        return /^-?\d+$/.test(value);
+    },
+
     breakSentence : function(sentence, chunkSize = 55){
         return sentence.match(new RegExp(String.raw`\S.{1,${chunkSize - 2}}\S(?= |$)`, 'g'));
     },
@@ -234,7 +238,7 @@ module.exports = {
     },
 
     /********************************************* ANNOUNCE NEW CATEGORY **********************************************/
-    screenCategoryFromQuestion: function(action, category = 1){
+    screenCategoryFromQuestion: function(action, category = 1, categoryImage = null){
         /* Hide all names of categories */
         $(".qfc-general").addClass('d-none');
         /* Hide all categories icons */
@@ -251,9 +255,25 @@ module.exports = {
                 $(".qfc-i-joker").removeClass('d-none');
                 $("#tlg_joker_used").removeClass('d-none');
             }else{
+                /* Hide Joker used title */
+                $("#tlg_joker_used").addClass('d-none');
+
                 $(".qfc-" + category).removeClass('d-none');
-                $(".qfc-i-" + category).removeClass('d-none');
-                $("#tlg_category_heading").removeClass('d-none');
+                if(categoryImage){
+                    if(this.isNumeric(categoryImage)){
+                        $(".qfc-i-" + category).removeClass('d-none');
+                        $("#tlg_category_heading").removeClass('d-none');
+                        $("#tlg_sponsor_category").addClass('d-none');
+                    }else{
+                        $("#" + categoryImage).removeClass('d-none');
+                        $("#tlg_sponsor_category").removeClass('d-none');
+                        $("#tlg_category_heading").addClass('d-none');
+                    }
+                }else{
+                    $(".qfc-i-" + category).removeClass('d-none');
+                }
+                /* ToDo - Header of category */
+
 
                 this.changeColorByCategory(category);
             }
@@ -261,10 +281,10 @@ module.exports = {
             $(".question-from-category").addClass('d-none');
         }
     },
-    announceCategory: function(action, category){
+    announceCategory: function(action, category, categoryImage = null){
         this.hideAllScreens();
         /* Show category */
-        this.screenCategoryFromQuestion(action, category);
+        this.screenCategoryFromQuestion(action, category, categoryImage);
     },
 
 

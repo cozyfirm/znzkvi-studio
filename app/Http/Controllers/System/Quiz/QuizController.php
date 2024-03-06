@@ -8,6 +8,8 @@ use App\Models\Quiz\Questions\Answers;
 use App\Models\Quiz\Questions\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
+use App\Models\Settings\Keyword;
+use App\Models\Sponsors\SponsorsData;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -108,6 +110,7 @@ class QuizController extends Controller{
                             'id' => $set->question_rel->id,
                             'question' => $set->question_rel->question,
                             'category' => $set->question_rel->category,
+                            'category_image' => $set->question_rel->category,
                             'weight' => $set->question_rel->weight,
                             'correct_answer' => $set->question_rel->correct_answer,
                             'additional_questions' => $set->question_rel->additional_questions,
@@ -223,5 +226,29 @@ class QuizController extends Controller{
 
             return $this->jsonSuccess(__('Pitanje uspješno poslano!'));
         }catch (\Exception $e){ dd($e); return $this->jsonResponse('20300', __('Greška prilikom slanja poruke putem MQTT_a!')); }
+    }
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /*
+     *  Edit question category image
+     */
+    public function editCategoryImage ($quiz_id, $id){
+        $sponsorsData = SponsorsData::where('category', 'category')->get()->pluck('title', 'elem_name');
+        $question = Question::where('id', $id)->first();
+        $currentCategory = Keyword::where('type', 'question_category')->where('value', $question->category)->first();
+        $sponsorsData[$currentCategory->value] = $currentCategory->name;
+
+        return view($this->_path . 'edit-category-image', [
+            'quiz' => Quiz::where('id', $quiz_id)->first(),
+            'question' => $question,
+            'images' => $sponsorsData
+        ]);
+    }
+    public function updateCategoryImage (Request $request){
+        Question::where('id', $request->id)->update([
+            'category_image' => $request->image
+        ]);
+
+        return redirect()->route('system.quiz.preview', ['id' => $request->quiz_id ]);
     }
 }

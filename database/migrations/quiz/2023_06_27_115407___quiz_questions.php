@@ -18,6 +18,7 @@ class QuizQuestions extends Migration
 
             $table->string('question');
             $table->integer('category');
+            $table->string('category_image')->default(1);
             $table->integer('weight')->default(0); // Basically how hard the question is
             $table->string('correct_answer', '5')->default("A");
             /* Some questions (for offline mode) can have additional question (third and sixth question) */

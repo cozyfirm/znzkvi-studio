@@ -61,6 +61,7 @@
                                     <th scope="col">{{ __('Pitanje') }}</th>
                                     <th scope="col">{{ __('Kategorija') }}</th>
                                     <th scope="col">{{ __('Tačan odgovor') }}</th>
+                                    <th scope="col">{{ __('Slika') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -74,6 +75,11 @@
                                             <td> {{ $question->questionRel->question ?? '' }} </td>
                                             <td> {{ $question->questionRel->categoryRel->name ?? '' }} </td>
                                             <td> <b> {{ $question->questionRel->correct_answer }} </b> - {{ $question->questionRel->correctAnswer->answer ?? '' }} </td>
+                                            <td>
+                                                <a href="@if($question->replacement) # @else {{ route('system.quiz.edit-category-image', ['quiz_id' => $quiz->id, 'id' => $question->questionRel->id ]) }} @endif">
+                                                    <button class="btn text-white @if($question->replacement) btn-secondary @else bg-green @endif btn-xs">{{ __('Uredi') }}</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endif
                                     @if($question->level_question or $question->questionRel->category == 7)
@@ -88,6 +94,11 @@
                                             <td> {{ $question->questionRel->additional_questions ?? '' }} </td>
                                             <td> {{ $question->questionRel->categoryRel->name ?? '' }} </td>
                                             <td> {{ $question->questionRel->additional_q_answer ?? '' }} </td>
+                                            <td>
+                                                <a href="#">
+                                                    <button class="btn text-white btn-secondary btn-xs">{{ __('Uredi') }}</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @endif
 

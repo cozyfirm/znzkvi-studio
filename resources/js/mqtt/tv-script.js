@@ -17,7 +17,7 @@ $(document).ready(function () {
     /* Letter of correct answer */
     let correctAnsLetter = "", proposedAnswer = "";
     /* Current question category and next question category for category screens */
-    let currentCategory, nextCategory = 1;
+    let currentCategory, currentCategoryImage = null, nextCategory = 1;
     /* Current question and next question */
     let currentQuestionNo = 1, nextQuestionNo = 1;
     /* Is additional (direct) question or just normal question */
@@ -347,6 +347,7 @@ $(document).ready(function () {
             }
             else if(subCode === '50011'){
                 /* Reveal middle screen - Category or Level question screen */
+                console.log("Data", data);
 
                 /* Hide line open GUI */
                 quiz.openLine("hide");
@@ -354,6 +355,7 @@ $(document).ready(function () {
                 let currentQuestionNo = parseInt(data['current_question']);
                 let additional = parseInt(data['question']['additional']);
                 currentCategory = data['current_category'];
+                currentCategoryImage = data['current_category_image'];
 
                 /* Set timer value */
                 quiz.resetTimer(data['timer']);
@@ -371,7 +373,7 @@ $(document).ready(function () {
                     }
                 }else{
                     quiz.jokerEnabled();
-                    quiz.announceCategory("reveal", currentCategory);
+                    quiz.announceCategory("reveal", currentCategory, currentCategoryImage);
                 }
 
 

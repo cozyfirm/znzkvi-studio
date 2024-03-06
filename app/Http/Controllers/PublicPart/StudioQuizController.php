@@ -15,7 +15,8 @@ class StudioQuizController extends Controller{
      */
     public function studioQuiz(){
         return view($this->_path.'studio-quiz', [
-            'sponsorOpenLines' => SponsorsData::where('category', 'open-lines')->get()
+            'sponsorOpenLines' => SponsorsData::where('category', 'open-lines')->get(),
+            'sponsorCategories' => SponsorsData::where('category', 'category')->get(),
         ]);
     }
 

@@ -3409,6 +3409,7 @@
 			c0,7.54,12.21,13.65,27.27,13.65h643.01c15.06,0,27.27-6.11,27.27-13.65v-24.49C1106.34,203.33,1094.13,197.21,1079.07,197.21z"/>
             <text id="tlg_category_heading" transform="matrix(1 0 0 1 579.6238 236.9746)" class="tlg-text st0 st12 st39">pitanje iz kategorije</text>
             <text id="tlg_joker_used" transform="matrix(1 0 0 1 573.4558 236.2432)" class="tlg-text st0 st12 st39">iskoristili ste jokera</text>
+            <text id="tlg_sponsor_category" transform="matrix(1 0 0 1 573.4558 236.2432)" class="tlg-text st0 st12 st39">kategorija sponzora</text>
         </g>
         <g id="CategoryNamesGroup">
             <g>
@@ -3433,6 +3434,10 @@
         </g>
 
         <g id="MediumIcons">
+            @foreach($sponsorCategories as $image)
+                {!! $image->data !!}
+            @endforeach
+
             <g id="PZNIkonaMedium" class="qfc-i qfc-i-7 d-none">
                 <path class="st0" d="M864.88,325.87c-30.23-30.66-72.21-49.71-118.57-49.71c-91.86,0-166.6,74.74-166.6,166.6
 				c0,46.36,19.05,88.34,49.71,118.57c35.55,36.09,71.88,74.83,143.69,74.83c91.86,0,166.6-74.74,166.6-166.6

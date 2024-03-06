@@ -421,6 +421,7 @@ class QuizPlayController extends Controller{
             $this->_message = [
                 'current_question' => $quiz->current_question,
                 'current_category' => $currentQuestion['category'],
+                'current_category_image' => $currentQuestion['category_image'],
                 'question' => $currentQuestion,
                 'next_question' => ($secondSet) ? Question::where('id', $secondSet->question_id)->first() : NULL,
                 'sub_code' => '50010'
@@ -452,6 +453,7 @@ class QuizPlayController extends Controller{
             $this->_message = [
                 'current_question' => $quiz->current_question,
                 'current_category' => $currentQuestion['category'],
+                'current_category_image' => $currentQuestion['category_image'],
                 'question' => $currentQuestion,
                 'sub_code' => '50011',
                 'timer' => ($currentQuestion['additional']) ? 10 : 5
