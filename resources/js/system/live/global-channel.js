@@ -2,7 +2,7 @@
 window.mqttInit = require('../../layout/mqtt-init');
 
 $(document).ready(function () {
-    let data, subCode;
+    let data, subCode, type = 'default', dID;
 
     /* Connect to MQTT */
     const clientID = mqttInit.clientID();
@@ -17,10 +17,20 @@ $(document).ready(function () {
         let response = JSON.parse(message.toString());
 
         if(response['code'] === '0000'){
-            data = response['data']; subCode = data['sub_code'];
+            data = response['data'];
+            subCode = data['sub_code'];
+            type = data['type'];
 
             if(subCode === '51010'){
-                $(".open-line-g-btn").removeClass('bg-red').addClass('bg-green');
+                $(".open-line-g-btn").addClass('bg-red').removeClass('bg-green');
+
+                if(type === 'sponsor-data'){
+                    dID = data['id'];
+
+                    $(".open-line-sd-" + dID).removeClass('bg-red').addClass('bg-green');
+                }else{
+                    $(".open-line-d-btn").removeClass('bg-red').addClass('bg-green');
+                }
             }
             else if(subCode === '51011'){
                 $(".open-line-g-btn").addClass('bg-red').removeClass('bg-green');

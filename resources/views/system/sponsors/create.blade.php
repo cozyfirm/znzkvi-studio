@@ -69,7 +69,7 @@
                         <div class="row mt-3">
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">{{ __('Zvučni efekat') }}</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control" type="file" id="file" name="file">
                             </div>
                         </div>
 

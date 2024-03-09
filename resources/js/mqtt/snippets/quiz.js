@@ -238,7 +238,15 @@ module.exports = {
     },
 
     /********************************************* ANNOUNCE NEW CATEGORY **********************************************/
-    screenCategoryFromQuestion: function(action, category = 1, categoryImage = null){
+    /**
+     *  In V2.0 Added support to sponsor category, which includes:
+     *      1. Title of category
+     *      2. Special image of category
+     *      3. Play sound effect
+     *
+     *  Implemented in screenCategoryFromQuestion() & announceCategory
+     */
+    screenCategoryFromQuestion: function(action, category = 1, categoryTitle = null, categoryImage = null, categorySound = null){
         /* Hide all names of categories */
         $(".qfc-general").addClass('d-none');
         /* Hide all categories icons */
@@ -266,8 +274,13 @@ module.exports = {
                         $("#tlg_sponsor_category").addClass('d-none');
                     }else{
                         $("#" + categoryImage).removeClass('d-none');
-                        $("#tlg_sponsor_category").removeClass('d-none');
+                        /* Show element and change title */
+                        $("#tlg_sponsor_category").removeClass('d-none').text(categoryTitle);
                         $("#tlg_category_heading").addClass('d-none');
+
+                        /* Play sound */
+                        const jokerMusic = new Audio("/sounds/sponsors/" + categorySound);
+                        jokerMusic.play().then(r => function () {});
                     }
                 }else{
                     $(".qfc-i-" + category).removeClass('d-none');
@@ -281,10 +294,10 @@ module.exports = {
             $(".question-from-category").addClass('d-none');
         }
     },
-    announceCategory: function(action, category, categoryImage = null){
+    announceCategory: function(action, category, categoryTitle = null, categoryImage = null, categorySound = null){
         this.hideAllScreens();
         /* Show category */
-        this.screenCategoryFromQuestion(action, category, categoryImage);
+        this.screenCategoryFromQuestion(action, category, categoryTitle, categoryImage, categorySound);
     },
 
 
@@ -364,11 +377,22 @@ module.exports = {
     },
 
     /*********************************************** Open line actions ************************************************/
-    openLine: function (action = "reveal") {
+    openLine: function (action = "reveal", type = "default", id = null) {
         if(action === "reveal"){
             this.showElement("#Interface-StrokeOpenLine");
             this.showElement("#InterfaceCategoryPrimaryColorOpenLine");
             this.showElement("#OpenLineGroup");
+
+            if(type === "default"){
+                this.showElement("#open-lines-default-logo");
+                this.hideElement(".sponsor-open-lines");
+            }else{
+                this.hideElement("#open-lines-default-logo");
+                this.hideElement(".sponsor-open-lines");
+
+                /* Show only specific */
+                this.showElement("#" + id);
+            }
         }else{
             this.hideElement("#Interface-StrokeOpenLine");
             this.hideElement("#InterfaceCategoryPrimaryColorOpenLine");

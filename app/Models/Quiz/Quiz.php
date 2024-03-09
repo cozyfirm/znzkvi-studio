@@ -70,6 +70,9 @@ class Quiz extends Model{
         }catch (\Exception $e){ return false; }
     }
 
+    /**
+     * @return array|false
+     */
     public function currentQuestion(){
         try{
             $set = QuizSet::where('quiz_id', $this->id)
@@ -87,7 +90,7 @@ class Quiz extends Model{
             return [
                 'question' => $question,
                 'category' => isset($question) ? $question->category : NULL,
-                'category_image' => isset($question) ? $question->category_image : NULL,
+                // 'category_image' => isset($question) ? $question->category_image : NULL,
                 'additional' => $set->level_opened,
                 'joker' => $this->joker
             ];

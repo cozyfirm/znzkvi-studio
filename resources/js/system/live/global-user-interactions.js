@@ -22,6 +22,6 @@ $(document).ready(function () {
 
     /* On user click - Global open line button */
     $(".open-line-g-btn").click(function () {
-        createHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle"});
+        createHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle", "type": $(this).attr('type'), "id": $(this).attr('id')});
     });
 });

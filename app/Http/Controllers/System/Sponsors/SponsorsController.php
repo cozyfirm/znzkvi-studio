@@ -33,11 +33,22 @@ class SponsorsController extends Controller{
     }
     public function save(Request $request){
         try{
+            $fileName = null;
+            if(isset($request->file)){
+                $file = $request->file('file');
+                $ext  = $file->getClientOriginalExtension();
+                // if return back()->with('error', __('Format dokumenta nije podržan !'));
+                $fileName = md5($file->getClientOriginalName() . time()) . "." . $ext;
+
+                $file->move(public_path('sounds/sponsors/'), $fileName);
+            } // else return back()->with('error', __('Nije odabrana niti jedna datoteka!'));
+
             $data = SponsorsData::create([
                 'title' => $request->title,
                 'elem_name' => $request->elem_name,
                 'category' => $request->category,
-                'data' => $request->data
+                'data' => $request->data,
+                'sound' => $fileName
             ]);
 
             return redirect()->route('system.sponsors');

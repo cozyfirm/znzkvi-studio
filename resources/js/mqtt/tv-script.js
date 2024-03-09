@@ -17,7 +17,7 @@ $(document).ready(function () {
     /* Letter of correct answer */
     let correctAnsLetter = "", proposedAnswer = "";
     /* Current question category and next question category for category screens */
-    let currentCategory, currentCategoryImage = null, nextCategory = 1;
+    let currentCategory, currentCategoryCustomTitle = "", currentCategoryImage = null, currentCategorySound = null, nextCategory = 1;
     /* Current question and next question */
     let currentQuestionNo = 1, nextQuestionNo = 1;
     /* Is additional (direct) question or just normal question */
@@ -355,7 +355,11 @@ $(document).ready(function () {
                 let currentQuestionNo = parseInt(data['current_question']);
                 let additional = parseInt(data['question']['additional']);
                 currentCategory = data['current_category'];
+
+                /* Added in V2.0 */
                 currentCategoryImage = data['current_category_image'];
+                currentCategorySound = data['current_category_sound'];
+                currentCategoryCustomTitle = data['current_category_custom_title'];
 
                 /* Set timer value */
                 quiz.resetTimer(data['timer']);
@@ -373,7 +377,7 @@ $(document).ready(function () {
                     }
                 }else{
                     quiz.jokerEnabled();
-                    quiz.announceCategory("reveal", currentCategory, currentCategoryImage);
+                    quiz.announceCategory("reveal", currentCategory, currentCategoryCustomTitle, currentCategoryImage, currentCategorySound);
                 }
 
 
@@ -447,13 +451,27 @@ $(document).ready(function () {
             /* Open Lines */
             else if(subCode === '50103'){
                 let status = data['status'];
+                let type   = data['type'];
+                let sdID   = data['id'];
+
+                // console.log("Type: " + type, " ID: " + sdID, " Status: " + status);
 
                 if(status === 'open'){
                     openLine = true;
-                    quiz.openLine("reveal");
+                    quiz.openLine("reveal", type, sdID);
+
+                    if(type === 'sponsor-data'){
+                        /* Play sound */
+                        let sound = data['sound'];
+
+                        if(typeof sound === 'string'){
+                            const jokerMusic = new Audio("/sounds/sponsors/" + sound);
+                            jokerMusic.play().then(r => function () {});
+                        }
+                    }
                 }else{
                     openLine = false;
-                    quiz.openLine("hide");
+                    quiz.openLine("hide", type, sdID);
                 }
 
                 /* Set as default */

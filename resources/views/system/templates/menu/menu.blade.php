@@ -23,11 +23,20 @@
 
             <a href="#">
                 <div class="single-li">
-                    <div class="sl-c-button open-line-g-btn @if($openLines->value) bg-green @else bg-red @endif">
+                    <div class="sl-c-button open-line-g-btn open-line-d-btn @if($openLines->value) bg-green @else bg-red @endif" type="default" id="default">
                         <p> {{__('Otvorene linije')}} </p>
                     </div>
                 </div>
             </a>
+            @foreach($sponsorsData as $sData)
+                <a href="#">
+                    <div class="single-li">
+                        <div class="sl-c-button open-line-g-btn open-line-sd-{{$sData->elem_name}} @if($sData->status == "Hidden") bg-red @else bg-green @endif" type="sponsor-data" id="{{ $sData->elem_name }}">
+                            <p> {{ $sData->title }} </p>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
 
 {{--            <a href="#">--}}
 {{--                <div class="single-li">--}}

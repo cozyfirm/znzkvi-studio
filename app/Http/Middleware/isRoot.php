@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Quiz\Quiz;
 use App\Models\Settings\Config;
+use App\Models\Sponsors\SponsorsData;
 use App\User;
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,8 @@ class isRoot
             \View::share([
                 'loggedUser' => $user,
                 'openLines' => Config::where('key', 'open_lines')->first(),
-                'activeQuiz' => Quiz::where('active', 1)->where('finished', 0)->first()
+                'activeQuiz' => Quiz::where('active', 1)->where('finished', 0)->first(),
+                'sponsorsData' => SponsorsData::where('category', 'open-lines')->get()
             ]);
             return $next($request);
         }else{

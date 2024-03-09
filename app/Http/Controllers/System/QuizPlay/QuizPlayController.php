@@ -7,6 +7,7 @@ use App\Models\Quiz\Questions\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
 use App\Models\Settings\Config;
+use App\Models\Sponsors\SponsorsData;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,6 +21,9 @@ class QuizPlayController extends Controller{
     ];
     protected $_counter = 1;
     protected $_message = "";
+
+    /* V2.0 - Category image with sound */
+    protected $_category_custom_title = null, $_category_image = null, $_category_sound = null;
 
     public function getTodayScore(){
         return Quiz::where('user_id', '!=', null)->with('userRel.countryRel')->orderBy('total_money', 'DESC')->get();
@@ -404,8 +408,11 @@ class QuizPlayController extends Controller{
         }
     }
 
-    /*
+    /**
      *  Reveal question to TV screen & operator screen (operator on-click trigger)
+     *
+     *  In V2.0 Added:
+     *      $this->_message ['current_category_image' => "Integer or real category image name", 'current_category_sound' => "If real category name; check for sound", 'current_category_custom_title' => "Title of category"];
      */
     public function revealQuestion (Request $request){
         try{
@@ -417,11 +424,20 @@ class QuizPlayController extends Controller{
             /* Get the current question */
             $currentQuestion = $quiz->currentQuestion();
 
+            if(isset($currentQuestion['question'])){
+                $catImg = SponsorsData::where('category', 'category')->where('elem_name', $currentQuestion['question']->category_image)->first();
+                $this->_category_sound = isset($catImg) ? $catImg->sound : null;
+                $this->_category_image = $currentQuestion['question']->category_image;
+                $this->_category_custom_title = isset($catImg) ? $catImg->title : null;
+            }
+
             /* Setup message */
             $this->_message = [
                 'current_question' => $quiz->current_question,
                 'current_category' => $currentQuestion['category'],
-                'current_category_image' => $currentQuestion['category_image'],
+                'current_category_image' => $this->_category_image,
+                'current_category_sound' => $this->_category_sound,
+                'current_category_custom_title' => $this->_category_custom_title,
                 'question' => $currentQuestion,
                 'next_question' => ($secondSet) ? Question::where('id', $secondSet->question_id)->first() : NULL,
                 'sub_code' => '50010'
@@ -440,8 +456,11 @@ class QuizPlayController extends Controller{
         }
     }
 
-    /*
+    /**
      *  Reveal middle screen such as question category or level question screen
+     *
+     *  In V2.0 Added:
+     *      $this->_message ['current_category_image' => "Integer or real category image name", 'current_category_sound' => "If real category name; check for sound", 'current_category_custom_title' => "Title of category"];
      */
     public function revealScreen(Request $request){
         try{
@@ -449,11 +468,19 @@ class QuizPlayController extends Controller{
 
             /* Get the current question */
             $currentQuestion = $quiz->currentQuestion();
+            if(isset($currentQuestion['question'])){
+                $catImg = SponsorsData::where('category', 'category')->where('elem_name', $currentQuestion['question']->category_image)->first();
+                $this->_category_sound = isset($catImg) ? $catImg->sound : null;
+                $this->_category_image = $currentQuestion['question']->category_image;
+                $this->_category_custom_title = isset($catImg) ? $catImg->title : null;
+            }
 
             $this->_message = [
                 'current_question' => $quiz->current_question,
                 'current_category' => $currentQuestion['category'],
-                'current_category_image' => $currentQuestion['category_image'],
+                'current_category_image' => $this->_category_image,
+                'current_category_sound' => $this->_category_sound,
+                'current_category_custom_title' => $this->_category_custom_title,
                 'question' => $currentQuestion,
                 'sub_code' => '50011',
                 'timer' => ($currentQuestion['additional']) ? 10 : 5
@@ -468,6 +495,7 @@ class QuizPlayController extends Controller{
 
             return $this->liveResponse('0000', __('Mid screen prikazan na TV-u!'), $this->_message);
         }catch (\Exception $e){
+            dd($e);
             return $this->jsonResponse('50050', __('Došlo je do greške prilkom predlaganja odgovora. Molimo kontaktirajte administratora'));
         }
     }
@@ -482,7 +510,7 @@ class QuizPlayController extends Controller{
                 if($request->action == "init"){
                     /* On load screen on TV */
                     Config::where('key', 'open_lines')->update(['value' => 1]);
-                    $this->_message = [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1];
+                    $this->_message = [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1,  "type" => "default"];
 
                     /* Publish message to all screens (Admin portal) */
                     $this->publishMessage($this->_global_channel, '0000', $this->_message);
@@ -496,31 +524,70 @@ class QuizPlayController extends Controller{
                     return $this->liveResponse('0000', __('Status uspješno ažuriran!'), $this->_message);
                 }
             }else{
-                /* Comand sent by user */
-                $lineOpen = Config::where('key', 'open_lines')->first();
-                if($lineOpen->value == 1){
-                    /* If Open Line GUI is revealed, update status, hide it in TV screen and mark button as red in Admin panel */
+                /* Command sent by user */
+
+                if($request->type == "sponsor-data"){
+                    /*
+                     *  Sponsor data:
+                     *      - Hide default screen (update status to 0 as hidden)
+                     *      - Update sponsor data and show open lines
+                     */
                     Config::where('key', 'open_lines')->update(['value' => 0]);
+                    /* First, hide all */
+                    SponsorsData::where('category', 'open-lines')->where('elem_name', '!=', $request->id)->update(['status' => 'Hidden']);
+                    /* Work with current data */
+                    $currentData = SponsorsData::where('elem_name', $request->id)->first();
 
-                    /* Send message to TV Screen to hide GUI */
-                    $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "closed"]);
+                    if($currentData->status == 'Visible'){
+                        $currentData->update(['status' => 'Hidden']);
 
-                    /* Send message to Admin panel */
-                    $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+                        /* Send message to TV Screen to hide GUI */
+                        $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "closed", "type" => $request->type, "id" => $request->id]);
+                        /* Send message to Admin panel */
+                        $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0, "type" => $request->type, "id" => $request->id]);
+                        /* Publish message to presenter screen */
+                        $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 0, "type" => $request->type, "id" => $request->id]);
+                    }else{
+                        $currentData->update(['status' => 'Visible']);
 
-                    /* Publish message to presenter screen */
-                    $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 0]);
+                        /* Send message to TV Screen to show GUI */
+                        $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "open", "type" => $request->type, "id" => $request->id, "sound" => $currentData->sound]);
+                        /* Send message to Admin panel */
+                        $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1, "type" => $request->type, "id" => $request->id]);
+                        /* Publish message to presenter screen */
+                        $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 1, "type" => $request->type, "id" => $request->id]);
+                    }
                 }else{
-                    Config::where('key', 'open_lines')->update(['value' => 1]);
+                    /*
+                     *  Default data:
+                     *      - Hide all sponsors open lines
+                     *      - Do whatever we should do with default open lines
+                     */
+                    SponsorsData::where('category', 'open-lines')->update(['status' => 'Hidden']);
+                    $lineOpen = Config::where('key', 'open_lines')->first();
 
-                    /* Send message to TV Screen to hide GUI */
-                    $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "open"]);
+                    if($lineOpen->value == 1){
+                        /* If Open Line GUI is revealed, update status, hide it in TV screen and mark button as red in Admin panel */
+                        Config::where('key', 'open_lines')->update(['value' => 0]);
 
-                    /* Send message to Admin panel */
-                    $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1]);
+                        /* Send message to TV Screen to hide GUI */
+                        $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "closed", "type" => $request->type, "id" => $request->id]);
+                        /* Send message to Admin panel */
+                        $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51011', "key" => "open_lines", "value" => 0, "type" => $request->type, "id" => $request->id]);
+                        /* Publish message to presenter screen */
+                        $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 0, "type" => $request->type, "id" => $request->id]);
+                    }else{
+                        Config::where('key', 'open_lines')->update(['value' => 1]);
 
-                    /* Publish message to presenter screen */
-                    $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 1]);
+                        /* Send message to TV Screen to hide GUI */
+                        $this->publishMessage($this->_tv_topic, '0000', ['sub_code' => '50103', "status" => "open", "type" => $request->type, "id" => $request->id]);
+
+                        /* Send message to Admin panel */
+                        $this->publishMessage($this->_global_channel, '0000',  [ 'sub_code' => '51010', "key" => "open_lines", "value" => 1, "type" => $request->type, "id" => $request->id]);
+
+                        /* Publish message to presenter screen */
+                        $this->publishMessage($this->_presenter_topic, '0000', [ 'sub_code' => '55010', "key" => "open_lines", "value" => 1, "type" => $request->type, "id" => $request->id]);
+                    }
                 }
             }
 
