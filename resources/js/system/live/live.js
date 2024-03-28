@@ -435,7 +435,7 @@ $(document).ready(function () {
             $(".live-pop-up").fadeIn();
         }
         else if(char === "o"){
-            liveHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle"});
+            liveHTTP("change-open-line-status", "/system/quiz-play/live/open-line", "POST", {source: "global-screen", action: "toggle", type: "default", id: "default"});
         }
     });
 
