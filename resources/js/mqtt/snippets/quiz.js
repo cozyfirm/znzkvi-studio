@@ -283,6 +283,7 @@ module.exports = {
                         jokerMusic.play().then(r => function () {});
                     }
                 }else{
+                    $("#tlg_category_heading").removeClass('d-none');
                     $(".qfc-i-" + category).removeClass('d-none');
                 }
                 /* ToDo - Header of category */
