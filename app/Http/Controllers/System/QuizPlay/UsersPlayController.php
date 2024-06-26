@@ -98,7 +98,7 @@ class UsersPlayController extends Controller{
             /* Set all quizzes as inactive */
             Quiz::where('id', '>', 0)->update(['active' => 0]);
             /* Select first available quiz */
-            $quiz = Quiz::where('user_id', '=', NULL)->first();
+            $quiz = Quiz::where('user_id', '=', NULL)->orderBy('id')->first();
             /* Update quiz with user */
             $quiz->update(['user_id' => $user->id, 'active' => 1]);
 

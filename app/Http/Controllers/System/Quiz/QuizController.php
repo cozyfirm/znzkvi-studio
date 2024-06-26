@@ -21,7 +21,7 @@ class QuizController extends Controller{
     protected $_totalInserted = 0;
 
     public function index(){
-        $quizzes = Quiz::orderBy('date', 'DESC');
+        $quizzes = Quiz::orderBy('id');
         $quizzes = Filters::filter($quizzes);
         $filters = [
             'date' => __('Datum'),
