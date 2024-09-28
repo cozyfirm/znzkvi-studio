@@ -8,6 +8,7 @@ use App\Models\Core\Countries;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
 use App\Models\Settings\Config;
+use App\Models\Users\HistoryScore;
 use App\Models\Users\UsersHistory;
 use App\User;
 use Carbon\Carbon;
@@ -208,7 +209,42 @@ class UsersPlayController extends Controller{
             $users = User::where('first_name', 'LIKE', '%' . $request->first_name . '%')
                 ->where('last_name', 'LIKE', '%' . $request->last_name . '%')
                 ->with('countryRel')
-                ->get();
+                ->take(5)->get();
+
+            foreach ($users as $user){
+                try{
+                    /* Set by default to false */
+                    $user->hasScore = false;
+
+                    /* Get last score from user */
+                    $score = HistoryScore::where('user_id', '=', $user->id)->orderBy('date', 'DESC')->first();
+                    if($score){
+                        $now = Carbon::now();
+                        $date = Carbon::parse($score->date);
+
+                        $user->hasScore = true;
+                        $user->last = $date->diffInDays($now);
+                        $user->last_date = Carbon::parse($score->date)->format('d.m.Y');
+                        $user->total = HistoryScore::where('user_id', '=', $user->id)->count();
+
+                        if($user->last < 30){
+                            $timeExplanation = ($user->last) . " dana)!";
+                        }else if(($user->last >= 30) and ($user->last <= 60)){
+                            $timeExplanation = "mjesec dana)!";
+                        }else if(($user->last > 60) and ($user->last <= 90)){
+                            $timeExplanation = "dva mjeseca)!";
+                        }else{
+                            $timeExplanation = "više od 3 mjeseca)";
+                        }
+
+                        $user->score_exp = "Zadnji put igrao/la " . $user->last_date . " (prije " . $timeExplanation;
+                    }else{
+                        $user->last = 'Nije poznato!';
+                    }
+                }catch (\Exception $e){
+                    $this->write('UsersPlayController::checkForExistence(args)', $e->getCode(), $e->getMessage(), $request);
+                }
+            }
 
             return $this->jsonResponse('0000', __('Success'), [
                 'users' => $users

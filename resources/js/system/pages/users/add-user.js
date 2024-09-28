@@ -75,6 +75,11 @@ $(document).ready(function (){
                                                     })
                                             })
                                             .append(function (){
+                                                if(users[i]['hasScore'] === true){
+                                                    return $("<small>").text(users[i]['score_exp']);
+                                                }
+                                            })
+                                            .append(function (){
                                                 return $("<div>").attr('class', 'use__it').attr('user-id', users[i]['id'])
                                                     .append(function (){
                                                         return $("<p>").text('Preuzmi podatke')
