@@ -1,6 +1,7 @@
 $(document).ready(function (){
     let uri = '/system/quiz-play/users/check-for-existence';
     let fetchUri = '/system/quiz-play/users/fetch-user-data';
+    let checkUri = '/system/quiz-play/users/check-for-attr';
 
     let changeColor = function (found, value){
         if(found){
@@ -137,5 +138,53 @@ $(document).ready(function (){
                 }
             }
         });
+    });
+
+    /* -------------------------------------------------------------------------------------------------------------- */
+    /*
+     * Live checks such as:
+     *  - email
+     *  - username
+     */
+
+    let checkForAttr = function (object, key, value, sucMsg, errMsg){
+        $.ajax({
+            url: checkUri,
+            method: 'POST',
+            data: {
+                key : key,
+                value : value
+            },
+            success: function success(response) {
+                response = JSON.parse(response);
+                if(response['code'] === '0000'){
+                    console.log(response['data']['exists']);
+                    if(response['data']['exists'] !== 0){
+                        /* Attribute is not unique */
+                        $("#" + key + "Help").removeClass('txt-green').addClass('txt-red').text(errMsg);
+                    }else{
+                        /* Unique attribute */
+                        $("#" + key + "Help").removeClass('txt-red').addClass('txt-green').text(sucMsg);
+                    }
+                }else{
+                    notify.Me([response['message'], "warn"]);
+                }
+            }
+        });
+    };
+
+    $(".email").keyup(function (){
+        if($(this).val().length > 2){
+            if(validator.email($(this).val())){
+                checkForAttr($(this), 'email', $(this).val(), "Email je validan!", "Odabrani email se već koristi!");
+            }else{
+                $("#emailHelp").removeClass('txt-green').addClass('txt-red').text("Email nije validan! ");
+            }
+        }
+    });
+    $(".username").keyup(function (){
+        if($(this).val().length > 2){
+            checkForAttr($(this), 'username', $(this).val(), "Korisničko ime je validno!", "Odabrano korisničko ime se već koristi!");
+        }
     });
 });

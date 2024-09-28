@@ -27,14 +27,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="first_name"> <b>{{ __('Ime') }}</b> </label>
-                                    {!! Form::text('first_name', $user->first_name ?? 'admira', ['class' => 'form-control required first_name', 'id' => 'first_name', 'aria-describedby' => 'first_nameHelp', isset($preview) ? 'readonly' : '']) !!}
+                                    {!! Form::text('first_name', $user->first_name ?? '', ['class' => 'form-control required first_name', 'id' => 'first_name', 'aria-describedby' => 'first_nameHelp', isset($preview) ? 'readonly' : '']) !!}
                                     <small id="first_nameHelp" class="form-text text-muted"> {{ __('Ime korisnika') }} </small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="last_name"> <b>{{ __('Prezimee') }}</b> </label>
-                                    {!! Form::text('last_name', $user->last_name ?? 'ke', ['class' => 'form-control required last_name', 'id' => 'search-by-lastname', 'aria-describedby' => 'last_nameHelp', isset($preview) ? 'readonly' : '']) !!}
+                                    {!! Form::text('last_name', $user->last_name ?? '', ['class' => 'form-control required last_name', 'id' => 'search-by-lastname', 'aria-describedby' => 'last_nameHelp', isset($preview) ? 'readonly' : '']) !!}
                                     <small id="last_nameHelp" class="form-text text-muted"> {{ __('Prezime korisnika') }} </small>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="city"><b>{{ __('Grad') }}</b></label>
-                                    {!! Form::text('city', $user->city ?? '', ['class' => 'form-control required city', 'id' => 'city', 'aria-describedby' => 'cityHelp', 'maxlength' => '10', isset($preview) ? 'readonly' : '']) !!}
+                                    {!! Form::text('city', $user->city ?? '', ['class' => 'form-control required city', 'id' => 'city', 'aria-describedby' => 'cityHelp', 'maxlength' => '50', isset($preview) ? 'readonly' : '']) !!}
                                     <small id="cityHelp" class="form-text text-muted">{{ __('Grad u kojem trenutno živi') }}</small>
                                 </div>
                             </div>

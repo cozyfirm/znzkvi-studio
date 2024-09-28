@@ -142,10 +142,10 @@ class UsersPlayController extends Controller{
                 }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
 
                 $user = User::where('email', $request->email)->first();
-                if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
+                if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi !'));
 
                 $user = User::where('username', $request->username)->first();
-                if ($user) return $this->jsonResponse('1203', __('Željeno korisniko ime je već zauzeto'));
+                if ($user) return $this->jsonResponse('1203', __('Odabrano korisničko ime se već koristi !'));
 
                 $request['password'] = Hash::make($this->generateRandomString(10));
                 $request->request->add(['api_token' => hash('sha256', $request->email . '+' . time())]);
@@ -201,7 +201,7 @@ class UsersPlayController extends Controller{
     /**
      * Check for user existence and offer live check for phone controller
      * @param Request $request
-     * @return false|string|void
+     * @return false|string
      */
     public function checkForExistence(Request $request){
         try{
@@ -213,16 +213,36 @@ class UsersPlayController extends Controller{
             return $this->jsonResponse('0000', __('Success'), [
                 'users' => $users
             ]);
-        }catch (\Exception $e){}
+        }catch (\Exception $e){
+            $this->write('UsersPlayController::checkForExistence(args)', $e->getCode(), $e->getMessage(), $request);
+            return $this->jsonResponse('1202', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
+        }
     }
 
+    /**
+     * Fetch users data by UserID
+     * @param Request $request
+     * @return false|string
+     */
     public function fetchUserData(Request $request){
         try{
             return $this->jsonResponse('0000', __('Success'), [
                 'user' => User::where('id', '=', $request->id)->first()
             ]);
+        }catch (\Exception $e){
+            $this->write('UsersPlayController::fetchUserData(args)', $e->getCode(), $e->getMessage(), $request);
+            return $this->jsonResponse('1202', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
+        }
+    }
 
-            dd($request->all());
-        }catch (\Exception $e){}
+    public function checkForAttr(Request $request){
+        try{
+            return $this->jsonResponse('0000', __('Success'), [
+                'exists' => User::where($request->key, '=', $request->value)->count()
+            ]);
+        }catch (\Exception $e){
+            $this->write('UsersPlayController::checkForAttr(args)', $e->getCode(), $e->getMessage(), $request);
+            return $this->jsonResponse('1202', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
+        }
     }
 }

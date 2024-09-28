@@ -116,6 +116,7 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
                  */
                 Route::post('/check-for-existence',                 'UsersPlayController@checkForExistence')->name('system.quiz-play.users.check-for-existence');
                 Route::post('/fetch-user-data',                     'UsersPlayController@fetchUserData')->name('system.quiz-play.users.fetch-user-data');
+                Route::post('/check-for-attr',                      'UsersPlayController@checkForAttr')->name('system.quiz-play.users.check-for-attr');
             });
 
             /*
