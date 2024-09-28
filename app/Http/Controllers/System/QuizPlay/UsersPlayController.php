@@ -186,8 +186,8 @@ class UsersPlayController extends Controller{
             // Config::where('key', 'open_lines')->update(['value' => 0]);
             // $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51011', "key" => "open_lines", "value" => 0]);
 
-            /* Add users to history */
-            $tempID = $this->usersHistory($request);
+            /* Add users to history:: Deprecated */
+            // $tempID = $this->usersHistory($request);
 
             /* Return redirect to quiz */
             return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));

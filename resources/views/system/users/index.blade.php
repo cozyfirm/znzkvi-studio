@@ -33,6 +33,47 @@
                     <td> {{ $user->address ?? ''}} </td>
                     <td> {{ $user->city ?? ''}} </td>
                     <td> {{ $user->countryRel->name_ba ?? '' }} </td>
+                    <td>
+                        <ul class="m-0 p-0 list-unstyled">
+                            @foreach($user->scoreRel as $score)
+                                <li>{{ $score->date() ?? '' }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="m-0 p-0 list-unstyled">
+                            @foreach($user->scoreRel as $score)
+                                <li>{{ $score->correct_answers ?? '' }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="m-0 p-0 list-unstyled">
+                            @foreach($user->scoreRel as $score)
+                                <li>
+                                    @isset($score->jokerRel->name)
+                                        {{ $score->jokerRel->name ?? '' ?? '' }}
+                                    @else
+                                        {{ "Ne" }}
+                                    @endisset
+                                </li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="m-0 p-0 list-unstyled">
+                            @foreach($user->scoreRel as $score)
+                                <li>{{ $score->threshold ?? '' }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="m-0 p-0 list-unstyled">
+                            @foreach($user->scoreRel as $score)
+                                <li>{{ $score->total_money ?? '' }} KM</li>
+                            @endforeach
+                        </ul>
+                    </td>
 
                     <td class="text-center">
                         <a href="{{ route('system.users.preview-user', ['username' => $user->username ]) }}" title="{{ __('Više informacija') }}">

@@ -60,8 +60,8 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             /**
              *  History of users
              */
-            Route::get ('/users-history',             'UsersController@usersHistory')->name('system.users.users-history');
-            Route::get ('/preview-history/{id}',      'UsersController@previewHistory')->name('system.users.users-history.preview');
+            // Route::get ('/users-history',             'UsersController@usersHistory')->name('system.users.users-history');
+            // Route::get ('/preview-history/{id}',      'UsersController@previewHistory')->name('system.users.users-history.preview');
         });
     });
 

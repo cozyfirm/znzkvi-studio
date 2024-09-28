@@ -52,7 +52,12 @@ class UsersController extends Controller{
             'phone' => __('Telefon'),
             'address' => 'Adresa stanovanja',
             'city' => __('Grad'),
-            'countryRel.name' => 'Država'
+            'countryRel.name' => __('Država'),
+            'scoreRel.date' => __('Datum kviza'),
+            'scoreRel.correct_answers' => __('Tačnih odgovora'),
+            'scoreRel.joker' => __('Joker'),
+            'scoreRel.threshold' => __('Prag'),
+            'scoreRel.total_money' => __('Osvojeno novca')
         ];
 
         return view($this->_path.'index', [
@@ -115,7 +120,7 @@ class UsersController extends Controller{
     }
 
     /**
-     *  History of users
+     *  History of users | Deprecated and won't be used anymore
      */
     public function usersHistory (){
         $users = UsersHistory::where('id', '>', 0);

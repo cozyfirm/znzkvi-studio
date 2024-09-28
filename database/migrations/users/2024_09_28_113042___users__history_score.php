@@ -16,7 +16,7 @@ class UsersHistoryScore extends Migration
         Schema::create('users__history_score', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('history_id');
+            $table->integer('user_id');
             $table->date('date');
 
             $table->integer('correct_answers')->default(0);   // Correct answers

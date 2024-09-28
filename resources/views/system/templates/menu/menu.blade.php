@@ -197,12 +197,12 @@
                                 <p>{{__('Pregled svih')}}</p>
                             </div>
                         </a>
-                        <a href="{{ route('system.users.users-history') }}">
-                            <div class="inside-lm-link">
-                                <div class="ilm-l"></div><div class="ilm-c"></div>
-                                <p>{{__('Historija igrača')}}</p>
-                            </div>
-                        </a>
+                        {{--<a href="{{ route('system.users.users-history') }}">--}}
+                        {{--    <div class="inside-lm-link">--}}
+                        {{--        <div class="ilm-l"></div><div class="ilm-c"></div>--}}
+                        {{--        <p>{{__('Historija igrača')}}</p>--}}
+                        {{--    </div>--}}
+                        {{--</a>--}}
                     </div>
                 </div>
             </a>

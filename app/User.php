@@ -3,7 +3,10 @@
 namespace App;
 
 use App\Models\Core\Countries;
+use App\Models\Users\HistoryScore;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,7 +49,10 @@ class User extends Authenticatable
     /*
      *  User relationships
      */
-    public function countryRel(){
+    public function countryRel(): HasOne{
         return $this->hasOne(Countries::class, 'id', 'country');
+    }
+    public function scoreRel(): HasMany{
+        return $this->hasMany(HistoryScore::class, 'user_id', 'id');
     }
 }

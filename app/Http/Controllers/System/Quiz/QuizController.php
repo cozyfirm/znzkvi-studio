@@ -172,14 +172,12 @@ class QuizController extends Controller{
 
         foreach ($quizzes as $quiz){
             if(isset($quiz->userRel)){
-                $history = UsersHistory::where('first_name', 'LIKE', '%' . $quiz->userRel->first_name . "%")
-                    ->where('last_name', 'LIKE', '%' . $quiz->userRel->last_name . "%")->first();
 
                 /* Check does that sample exists */
-                $score = HistoryScore::where('history_id', '=', $history->id)->where('date', $quiz->date)->first();
+                $score = HistoryScore::where('user_id', '=', $quiz->user_id)->where('date', $quiz->date)->first();
                 if(!$score){
                     HistoryScore::create([
-                        'history_id' => $history->id,
+                        'user_id' => $quiz->user_id,
                         'date' => $quiz->date,
                         'correct_answers' => $quiz->correct_answers,
                         'joker' => $quiz->joker,
@@ -203,7 +201,6 @@ class QuizController extends Controller{
              *  Update later for history
              */
             $this->updateHistorySets();
-
             /**
              *  Create HTTP Request to central system and sync data
              */
@@ -220,11 +217,11 @@ class QuizController extends Controller{
                     'data' => $jsonData->data
                 ]);
             }else{
-                /* Delete all users from local database */
-                // User::where('role', '!=', 4)->delete();
                 /**
                  *  Do not delete previous users on system !!
                  */
+                /* Delete all users from local database */
+                // User::where('role', '!=', 4)->delete();
 
                 return redirect()->route('system.quiz')->with('api-success', [
                     'message' => __('Svi setovi pitanja su uspješno sinhronizovani prema centralnom sistemu!'),
