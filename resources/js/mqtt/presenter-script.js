@@ -107,6 +107,14 @@ $(document).ready(function () {
         /* Reveal level screen */
         $(".announce-level-question").removeClass('d-none');
         $(".level_" + level).removeClass('d-none');
+
+        if(level === 'first'){
+            $(".star-3").find('.yellow-star').removeClass('d-none');
+        }else if(level === 'second'){
+            $(".star-2").find('.yellow-star').removeClass('d-none');
+        }else if(level === 'third'){
+            $(".star-1").find('.yellow-star').removeClass('d-none');
+        }
     };
 
     client.on('message', (topic, message, packet) => {
@@ -117,8 +125,6 @@ $(document).ready(function () {
             let subCode = response['data']['sub_code'];
             let data    = response['data'];
 
-            console.log(data);
-
             if(subCode === '50000'){
                 /* Quiz just started*/
                 setNormalQuestion(data['question']);
@@ -127,6 +133,9 @@ $(document).ready(function () {
                 setHeaderInfo(data['headers']);
                 /* Set total score */
                 setTotalScore(data['score']);
+
+                /* Reset stars */
+                $(".yellow-star").addClass('d-none');
             }
             else if(subCode === '50010'){
                 /* Reveal the question form is called here */
@@ -142,6 +151,8 @@ $(document).ready(function () {
                 if(questionType === "normal"){
                     /* Now, we should set normal question  */
                     setNormalQuestion(response['data']['question']['question']);
+
+                    console.log("Current question: " + currentQuestionNo);
                 }else{
                     /* Set additional (direct) question */
                     if(currentQuestionNo === 7){
@@ -159,7 +170,7 @@ $(document).ready(function () {
                 correctAnsLetter = data['question']['question']['correct_answer'];
             }
             else if(subCode === '50011'){
-                /* Reveal mid screen - Category or Level question screen */
+                /* Reveal middle screen - Category or Level question screen */
 
                 /* Set header info */
                 setHeaderInfo(data['headers']);
@@ -193,6 +204,9 @@ $(document).ready(function () {
                 announceCategory("reveal", data['question']['question']['category']);
 
                 $(".qn_c_text").text(data['current_quiz_no']);
+
+                /* Reset stars */
+                $(".yellow-star").addClass('d-none');
             }
             else if(subCode === '55010'){
                 /* Open lines GUI manipulation */
@@ -206,7 +220,6 @@ $(document).ready(function () {
             /* In every other message; hide open lines */
             if(subCode !== '55010') $(".open-lines").addClass('d-none');
         }else{
-            console.log(response);
             console.log("There has been an error, please do something about that !");
         }
 

@@ -53,7 +53,7 @@
             </div>
             <div class="stars">
                 <div class="stars-w">
-                    <div class="single-star star-1">
+                    <div class="single-star star-3">
                         <img class="just-star" src="{{ asset('images/presenter-images/star.png') }}" alt="">
                         <img class="yellow-star d-none" src="{{ asset('images/presenter-images/yellow-star.png') }}" alt="">
                     </div>
@@ -61,9 +61,9 @@
                         <img class="just-star" src="{{ asset('images/presenter-images/star.png') }}" alt="">
                         <img class="yellow-star d-none" src="{{ asset('images/presenter-images/yellow-star.png') }}" alt="">
                     </div>
-                    <div class="single-star star-3">
+                    <div class="single-star star-1">
                         <img class="just-star" src="{{ asset('images/presenter-images/star.png') }}" alt="">
-                        <img class="yellow-star" src="{{ asset('images/presenter-images/yellow-star.png') }}" alt="">
+                        <img class="yellow-star d-none" src="{{ asset('images/presenter-images/yellow-star.png') }}" alt="">
                     </div>
                 </div>
             </div>
