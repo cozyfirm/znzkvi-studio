@@ -33,11 +33,18 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="name"> <b>{{ __('Ime i prezime') }}</b> </label>
-                                    {!! Form::text('name', $user->name ?? '', ['class' => 'form-control required', 'id' => 'name', 'aria-describedby' => 'nameHelp', isset($preview) ? 'readonly' : '']) !!}
-                                    <small id="nameHelp" class="form-text text-muted"> {{ __('Puno ime i prezime') }} </small>
+                                    <label for="first_name"> <b>{{ __('Ime') }}</b> </label>
+                                    {!! Form::text('first_name', $user->first_name ?? '', ['class' => 'form-control required', 'id' => 'name', 'aria-describedby' => 'first_nameHelp', isset($preview) ? 'readonly' : '']) !!}
+                                    <small id="first_nameHelp" class="form-text text-muted"> {{ __('Ime korisnika') }} </small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="last_name"> <b>{{ __('Prezime') }}</b> </label>
+                                    {!! Form::text('last_name', $user->last_name ?? '', ['class' => 'form-control required', 'id' => 'last_name', 'aria-describedby' => 'last_nameHelp', isset($preview) ? 'readonly' : '']) !!}
+                                    <small id="last_nameHelp" class="form-text text-muted"> {{ __('Prezime korisnika') }} </small>
                                 </div>
                             </div>
                         </div>

@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\System\QuizPlay;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\LogTrait;
 use App\Models\Core\Countries;
 use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
 use App\Models\Settings\Config;
+use App\Models\Users\UsersHistory;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UsersPlayController extends Controller{
+    use LogTrait;
+
     protected $_path = 'system.quiz-play.users.';
     protected $_message = "";
 
@@ -75,8 +80,42 @@ class UsersPlayController extends Controller{
 
         return $this->getData('create');
     }
+    public function usersHistory(Request $request){
+        try{
+            /* If there is user with exact email, return ID */
+            $history = UsersHistory::where('email', '=', $request->email)->first();
+            if($history) return $history->id;
+
+            /* Create new user and return ID */
+            $history = UsersHistory::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'prefix' => $request->prefix,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'country' => $request->country
+            ]);
+
+            return $history->id;
+        }catch (\Exception $e){
+            $this->write('UsersPlayController::usersHistory(args)', $e->getCode(), $e->getMessage(), $request);
+        }
+    }
     public function save(Request $request){
         try {
+            if(isset($request->first_name) and isset($request->last_name)){
+                $request['name'] = $request->first_name . ' ' . $request->last_name;
+            }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
+
+            /* Add users to history */
+            $tempID = $this->usersHistory($request);
+
+            dd($tempID, $request->all());
+
             /* Check if there are any of unfinished quizzes */
             $unFinished = Quiz::where('active', 1)->where('started', 1)->where('finished', 0)->count();
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class UsersHistory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,16 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users__history', function (Blueprint $table) {
             $table->id();
+            /**
+             *  Added in Season 2
+             */
             $table->string('first_name', 100);
             $table->string('last_name', 100);
-            $table->string('name');
+
             $table->string('username');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('api_token', 64)->unique();
-            $table->integer('role')->default(0);
-            $table->integer('banned')->default(0);
 
             /* Other details */
             $table->string('prefix', 10);
@@ -47,6 +45,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users__history');
     }
 }
