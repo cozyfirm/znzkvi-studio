@@ -10,6 +10,8 @@ use App\Models\Quiz\Quiz;
 use App\Models\Quiz\QuizSet;
 use App\Models\Settings\Keyword;
 use App\Models\Sponsors\SponsorsData;
+use App\Models\Users\HistoryScore;
+use App\Models\Users\UsersHistory;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -164,10 +166,47 @@ class QuizController extends Controller{
             return true;
         }catch (\Exception $e){ return false; }
     }
+
+    public function updateHistorySets(){
+        $quizzes = Quiz::with('setRel')->with('userRel')->get();
+
+        foreach ($quizzes as $quiz){
+            if(isset($quiz->userRel)){
+                $history = UsersHistory::where('first_name', 'LIKE', '%' . $quiz->userRel->first_name . "%")
+                    ->where('last_name', 'LIKE', '%' . $quiz->userRel->last_name . "%")->first();
+
+                /* Check does that sample exists */
+                $score = HistoryScore::where('history_id', '=', $history->id)->where('date', $quiz->date)->first();
+                if(!$score){
+                    HistoryScore::create([
+                        'history_id' => $history->id,
+                        'date' => $quiz->date,
+                        'correct_answers' => $quiz->correct_answers,
+                        'joker' => $quiz->joker,
+                        'threshold' => $quiz->threshold,
+                        'total_money' => $quiz->total_money
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Push data to center; After episode is done, sync with central system
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
     public function syncQuizzesToCenter(){
         try{
             $quizzes = Quiz::with('setRel')->with('userRel')->get()->toArray();
 
+            /**
+             *  Update later for history
+             */
+            $this->updateHistorySets();
+
+            /**
+             *  Create HTTP Request to central system and sync data
+             */
             $sendData = $this::fetchData('POST', 'api/sync/update-quizzes/sync-from-local-app', ['quizzes' => $quizzes]);
             $jsonData = json_decode($sendData->getBody()->getContents());
 

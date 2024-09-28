@@ -7,7 +7,9 @@
         {{__('Unesite osnovne informacije za novog korisnika')}}
     @else
         {{__('Pregledajte / Uredite osnovne informacije za ')}} {{ $user->name ?? '' }}
-        | <a href="{{ route('system.users.edit-user', ['username' => $user->username]) }}">{{{ __('Uredite') }}}</a>
+        @if(!isset($history))
+            | <a href="{{ route('system.users.edit-user', ['username' => $user->username]) }}">{{{ __('Uredite') }}}</a>
+        @endif
     @endif
 @endsection
 

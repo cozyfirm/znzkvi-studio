@@ -56,6 +56,12 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::get ('/preview-user/{username}',   'UsersController@previewUser')->name('system.users.preview-user');
             Route::get ('/edit-user/{username}',      'UsersController@editUser')->name('system.users.edit-user');
             Route::put ('/update-user-data',          'UsersController@updateUserData')->name('system.users.update-user-data');
+
+            /**
+             *  History of users
+             */
+            Route::get ('/users-history',             'UsersController@usersHistory')->name('system.users.users-history');
+            Route::get ('/preview-history/{id}',      'UsersController@previewHistory')->name('system.users.users-history.preview');
         });
     });
 

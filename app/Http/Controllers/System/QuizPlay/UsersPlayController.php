@@ -97,6 +97,7 @@ class UsersPlayController extends Controller{
             $history = UsersHistory::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
+                'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
                 'prefix' => $request->prefix,
@@ -123,9 +124,6 @@ class UsersPlayController extends Controller{
             if(isset($request->first_name) and isset($request->last_name)){
                 $request['name'] = $request->first_name . ' ' . $request->last_name;
             }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
-
-            /* Add users to history */
-            $tempID = $this->usersHistory($request);
 
             /* Check if there are any of unfinished quizzes */
             $unFinished = Quiz::where('active', 1)->where('started', 1)->where('finished', 0)->count();
@@ -175,6 +173,9 @@ class UsersPlayController extends Controller{
             /* Also, set open lines as false since first category should open any second */
             // Config::where('key', 'open_lines')->update(['value' => 0]);
             // $this->publishMessage($this->_global_channel, '0000', ['sub_code' => '51011', "key" => "open_lines", "value" => 0]);
+
+            /* Add users to history */
+            $tempID = $this->usersHistory($request);
 
             /* Return redirect to quiz */
             return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));

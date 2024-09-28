@@ -32,7 +32,7 @@
                     <td> {{ $user->prefix ?? ''}}{{ $user->phone ?? ''}} </td>
                     <td> {{ $user->address ?? ''}} </td>
                     <td> {{ $user->city ?? ''}} </td>
-                    <td> {{ $user->countryRel->name ?? '' }} </td>
+                    <td> {{ $user->countryRel->name_ba ?? '' }} </td>
 
                     <td class="text-center">
                         <a href="{{ route('system.users.preview-user', ['username' => $user->username ]) }}" title="{{ __('Više informacija') }}">

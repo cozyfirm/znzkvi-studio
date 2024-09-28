@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\System\Core\Filters;
 use App\Models\Core\Countries;
+use App\Models\Users\UsersHistory;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -111,5 +112,40 @@ class UsersController extends Controller{
         }catch (\Exception $e){
             return $this->jsonResponse('1203', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
         }
+    }
+
+    /**
+     *  History of users
+     */
+    public function usersHistory (){
+        $users = UsersHistory::where('id', '>', 0);
+        $users = Filters::filter($users);
+        $filters = [
+            'name' => __('Ime i prezime'),
+            'email' => __('Email'),
+            'phone' => __('Telefon'),
+            'address' => 'Adresa stanovanja',
+            'city' => __('Grad'),
+            'countryRel.name' => 'Država',
+            'scoreRel.date' => 'Datum kviza',
+            'scoreRel.correct_answers' => 'Tačnih odgovora',
+            'scoreRel.joker' => 'Joker',
+            'scoreRel.threshold' => 'Prag',
+            'scoreRel.total_money' => 'Osvojeno novca'
+        ];
+
+        return view($this->_path.'history', [
+            'users' => $users,
+            'filters' => $filters
+        ]);
+    }
+    public function previewHistory($id){
+        return view($this->_path.'create', [
+            'countries' => Countries::pluck('name_ba', 'id')->prepend(__('Odaberite državu'), ''),
+            'codes' => Countries::where('phone_code', '!=', null)->pluck('phone_code', 'phone_code'),
+            'preview' => true,
+            'history' => true,
+            'user' => UsersHistory::where('id', '=', $id)->first()
+        ]);
     }
 }
