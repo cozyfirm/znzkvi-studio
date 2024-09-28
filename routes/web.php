@@ -110,6 +110,12 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
             Route::group(['prefix' => '/users'], function(){
                 Route::get ('/create-user',                         'UsersPlayController@create')->name('system.quiz-play.users.create-user');
                 Route::post('/save-user',                           'UsersPlayController@save')->name('system.quiz-play.users.save');
+
+                /*
+                 *  Check for users existence in database
+                 */
+                Route::post('/check-for-existence',                 'UsersPlayController@checkForExistence')->name('system.quiz-play.users.check-for-existence');
+                Route::post('/fetch-user-data',                     'UsersPlayController@fetchUserData')->name('system.quiz-play.users.fetch-user-data');
             });
 
             /*

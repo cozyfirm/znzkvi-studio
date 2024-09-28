@@ -61,3 +61,6 @@ require('./live/global-user-interactions');
 
 /* Sponsors scripts */
 require('./live/sponsors');
+
+/* Users live search */
+require('./pages/users/add-user');

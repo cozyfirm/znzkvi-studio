@@ -1,6 +1,43 @@
 <div class="col-md-3 border-left">
     <div class="row">
         <div class="col-md-12">
+            <div class="card users-card d-none mb-3" title=" {{ __('Informacije o potencijalnom podudaranju - korisnicima koji su prije učestvovali na kvizu') }} ">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="all__users__wrapper">
+                                <div class="users__header">
+                                    <h6>{{ __('Potencijalno podudaranje') }}</h6>
+                                    <img src="{{ asset('images/font-awesome/users-solid-white.svg') }}" alt="">
+                                </div>
+
+                                <div class="users__invisible__wrapper">
+                                    {{--<div class="user__wrapper">--}}
+                                    {{--    <div class="user__info">--}}
+                                    {{--        <p>Aladin Kapić</p>--}}
+                                    {{--        <img class="arrow" src="{{ asset('images/font-awesome/chevron-down-solid.svg') }}" alt="">--}}
+                                    {{--    </div>--}}
+
+                                    {{--    <div class="users__rest__data ">--}}
+                                    {{--        <ul>--}}
+                                    {{--            <li> info@email.com </li>--}}
+                                    {{--            <li> +38761683449 </li>--}}
+                                    {{--        </ul>--}}
+
+                                    {{--        <div class="use__it">--}}
+                                    {{--            <p>Preuzmi podatke</p>--}}
+                                    {{--        </div>--}}
+                                    {{--    </div>--}}
+                                    {{--</div>--}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="card" title=" {{ __('Ostale informacije') }} ">
                 <div class="card-body">
                     <div class="row">
@@ -15,12 +52,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> {{ __('Ukupno generisanih') }} <b> {{ $totalSets }} </b> {{ __('setova pitanja!') }} </small> </a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md 12 d-flex justify-content-start mt-2" title="{{ __('') }}">
-                                    <a href="#" class="m-0 ml-3"> <small> {{ $totalUsedSets }} </small> </a>
+                                    <a href="#" class="m-0 ml-3"> <small> {{ $totalUsedSets }} {{ __('od dostupnih') }}  <b>{{ $totalSets }}</b> {{ __('setova!') }} </small> </a>
                                 </div>
                             </div>
 

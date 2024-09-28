@@ -8,6 +8,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static where(string $string, string $string1, int $int)
+ */
 class Quiz extends Model{
     protected $table = 'quiz';
     protected $guarded = [];

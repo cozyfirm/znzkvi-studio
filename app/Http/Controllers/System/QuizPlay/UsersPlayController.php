@@ -42,8 +42,8 @@ class UsersPlayController extends Controller{
             $used = Quiz::whereNotNull('user_id')->count();
             $string = "Do sada su otvorena ";
 
-            if($used == 0) $string = "Do sada nije otvoren niti jedan set!";
-            else if($used == 1) $string = "Do sada je otvoren samo jedan set pitanja!";
+            if($used == 0) $string = "Do sada nije otvoren niti jedan set";
+            else if($used == 1) $string = "Do sada je otvoren samo jedan set pitanja";
             else if($used == 2 or $used == 3 or $used == 4) $string .=  ($used . " seta pitanja");
             else {
                 $string  = "Do sada je otvoreno ";
@@ -121,28 +121,40 @@ class UsersPlayController extends Controller{
      */
     public function save(Request $request){
         try {
-            if(isset($request->first_name) and isset($request->last_name)){
-                $request['name'] = $request->first_name . ' ' . $request->last_name;
-            }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
-
             /* Check if there are any of unfinished quizzes */
-            $unFinished = Quiz::where('active', 1)->where('started', 1)->where('finished', 0)->count();
+            $unFinished = Quiz::where('active', '=',1)->where('started', 1)->where('finished', 0)->count();
 
             if (!$this->getTotalSets()) return $this->jsonResponse('1208', __('Trenutno nema dostupan ni jedan set za igranje !'));
             if($unFinished) return $this->jsonResponse('1209', __('Molimo pričekajte da se završi prethodni set !'));
 
-            $user = User::where('email', $request->email)->first();
-            if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
-            $user = User::where('username', $request->username)->first();
-            if ($user) return $this->jsonResponse('1203', __('Željeno korisniko ime je već zauzeto'));
+            if(isset($request->selected_user)){
+                /**
+                 *  User already exists in database; Join on it
+                 */
+                $user = User::where('id', '=', $request->selected_user)->first();
+            }else{
+                /**
+                 *  Insert new user into database
+                 */
+                if(isset($request->first_name) and isset($request->last_name)){
+                    $request['name'] = $request->first_name . ' ' . $request->last_name;
+                }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
 
-            $request['password'] = Hash::make($this->generateRandomString(10));
-            $request->request->add(['api_token' => hash('sha256', $request->email . '+' . time())]);
-            $request['email_verified_at'] = Carbon::now();
+                $user = User::where('email', $request->email)->first();
+                if ($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
-            /* Create new user */
-            $user = User::create($request->except('_token'));
+                $user = User::where('username', $request->username)->first();
+                if ($user) return $this->jsonResponse('1203', __('Željeno korisniko ime je već zauzeto'));
+
+                $request['password'] = Hash::make($this->generateRandomString(10));
+                $request->request->add(['api_token' => hash('sha256', $request->email . '+' . time())]);
+                $request['email_verified_at'] = Carbon::now();
+
+                /* Create new user */
+                $user = User::create($request->except('_token'));
+            }
+
             /* Set all quizzes as inactive */
             Quiz::where('id', '>', 0)->update(['active' => 0]);
             /* Select first available quiz */
@@ -184,5 +196,33 @@ class UsersPlayController extends Controller{
 
             return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
         }
+    }
+
+    /**
+     * Check for user existence and offer live check for phone controller
+     * @param Request $request
+     * @return false|string|void
+     */
+    public function checkForExistence(Request $request){
+        try{
+            $users = User::where('first_name', 'LIKE', '%' . $request->first_name . '%')
+                ->where('last_name', 'LIKE', '%' . $request->last_name . '%')
+                ->with('countryRel')
+                ->get();
+
+            return $this->jsonResponse('0000', __('Success'), [
+                'users' => $users
+            ]);
+        }catch (\Exception $e){}
+    }
+
+    public function fetchUserData(Request $request){
+        try{
+            return $this->jsonResponse('0000', __('Success'), [
+                'user' => User::where('id', '=', $request->id)->first()
+            ]);
+
+            dd($request->all());
+        }catch (\Exception $e){}
     }
 }
