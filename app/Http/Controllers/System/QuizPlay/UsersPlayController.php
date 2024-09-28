@@ -80,7 +80,14 @@ class UsersPlayController extends Controller{
 
         return $this->getData('create');
     }
-    public function usersHistory(Request $request){
+
+    /**
+     * Create copy of User object for next episodes and quick search for common players!!
+     *
+     * @param Request $request
+     * @return int
+     */
+    public function usersHistory(Request $request): int{
         try{
             /* If there is user with exact email, return ID */
             $history = UsersHistory::where('email', '=', $request->email)->first();
@@ -105,6 +112,12 @@ class UsersPlayController extends Controller{
             $this->write('UsersPlayController::usersHistory(args)', $e->getCode(), $e->getMessage(), $request);
         }
     }
+
+    /**
+     * Save new player to database and start new quiz
+     * @param Request $request
+     * @return false|\Illuminate\Http\JsonResponse|string
+     */
     public function save(Request $request){
         try {
             if(isset($request->first_name) and isset($request->last_name)){
@@ -113,8 +126,6 @@ class UsersPlayController extends Controller{
 
             /* Add users to history */
             $tempID = $this->usersHistory($request);
-
-            dd($tempID, $request->all());
 
             /* Check if there are any of unfinished quizzes */
             $unFinished = Quiz::where('active', 1)->where('started', 1)->where('finished', 0)->count();
@@ -168,7 +179,8 @@ class UsersPlayController extends Controller{
             /* Return redirect to quiz */
             return $this->jsonSuccess(__('Uspješno kreiran korisnički profil'), route('system.users.all-users'));
         } catch (\Exception $e) {
-            dd($e);
+            $this->write('UsersPlayController::save(args)', $e->getCode(), $e->getMessage(), $request);
+
             return $this->jsonResponse('1201', __('Greška prilikom procesiranja podataka. Molimo da nas kontaktirate!'));
         }
     }

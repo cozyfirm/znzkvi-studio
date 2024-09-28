@@ -73,6 +73,10 @@ class UsersController extends Controller{
     }
     public function saveUser(Request $request){
         try{
+            if(isset($request->first_name) and isset($request->last_name)){
+                $request['name'] = $request->first_name . ' ' . $request->last_name;
+            }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
+
             $user = User::where('email', $request->email)->first();
             if($user) return $this->jsonResponse('1202', __('Odabrani email se već koristi'));
 
@@ -97,7 +101,11 @@ class UsersController extends Controller{
     }
     public function updateUserData(Request $request){
         try{
-            User::where('id', $request->id)->update($request->except(['_token', '_method', 'id']));
+            if(isset($request->first_name) and isset($request->last_name)){
+                $request['name'] = $request->first_name . ' ' . $request->last_name;
+            }else return $this->jsonResponse('1210', __('Molimo da unesete ime i prezime korisnika !'));
+
+            User::where('id', '=', $request->id)->update($request->except(['_token', '_method', 'id']));
             return $this->jsonSuccess(__('Uspješno kreiran profil'), route('system.users.preview-user', ['username' => $request->username]));
 
         }catch (\Exception $e){
