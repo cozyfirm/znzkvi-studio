@@ -1,0 +1,83 @@
+@font-face {
+    font-family: "Quirel";
+    src: url("../../fonts/Quirel.otf") format("opentype");
+}
+@font-face {
+    font-family: "InterBlack";
+    src: url("../../fonts/Inter-Black.ttf") format("opentype");
+}
+
+body{
+    position: relative; left: 0px; top: 0px; width: 100%; height: 100%; margin: 0px; padding: 0px;
+    font-family: "Quirel", sans-serif;
+}
+.main__frame{
+    position: relative; left: 0px; top: 0px; width: 100%; height: 100%; background: #F8A46C;
+    display: flex; justify-content: space-between;
+
+    @media only screen and (max-width: 1000px){
+        flex-wrap: wrap; align-items: center; align-content: center; gap: 64px;
+    }
+    .image__part{
+        position: absolute; width: 40%; left: 60%; top: 0px; height: 100%; display: flex; align-items: center; align-content: center;
+        justify-content: center;
+
+        @media only screen and (max-width: 1000px){
+            position: relative; left: 0px; width: 100%; height: auto;
+            img{
+                height: 160px;
+            }
+        }
+    }
+    .text__part{
+        position: relative; width: 60%; height: 100%; display: flex; align-items: center; justify-content: center;
+        @media only screen and (max-width: 1000px){
+            left: 0px; width: 100%; height: auto;
+        }
+        .text__wrapper{
+            width: 60%;
+            @media only screen and (max-width: 1000px){
+                left: 20px; width: calc(100% - 40px); display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;
+            }
+            h1{
+                font-size: 60px;
+                @media only screen and (max-width: 1000px){
+                    margin: 0px;
+                }
+            }
+            h2{
+                font-size: 32px; // font-family: "InterBlack", sans-serif;
+                @media only screen and (max-width: 1000px){
+                    margin: 0px; text-align: center;
+                }
+            }
+
+            .buttons__w{
+                position: relative; width: 100%; display: flex; gap: 16px; min-height: 40px;
+
+                @media only screen and (max-width: 1000px){
+                    flex-wrap: wrap; justify-content: center;
+                }
+                a{
+                    text-decoration: none;
+
+                    button{
+                        border: 3px solid #2F2C2F; border-radius: 8px; display: flex; padding: 8px 24px; background: #F0F0F0; align-items: center;
+                        font-family: "InterBlack", sans-serif; gap: 10px;
+
+                        @media only screen and (max-width: 1000px){
+                            width: 220px; justify-content: center;
+                        }
+                        img{
+                            height: 18px;
+                        }
+                    }
+                    .blue-btn{
+                        background: #77CEF4;
+                    }
+                    button:hover{cursor: pointer; }
+                }
+            }
+        }
+    }
+}
