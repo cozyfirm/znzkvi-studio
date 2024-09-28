@@ -10,7 +10,10 @@ class Keyword extends Model{
         /* Questions keywords */
         'question_category' => 'Pitanja - Kategorija',
         'question_weight' => 'Pitanja - Težina',
-        'question_letters' => 'Pitanja - Slova'
+        'question_letters' => 'Pitanja - Slova',
+        'online' => 'Online / Offline',
+        'da_ne' => 'Da / Ne',
+        'seasons' => 'Sezone kviza'
     ];
 
     protected $table = '__keywords';

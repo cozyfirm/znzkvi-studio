@@ -249,7 +249,7 @@
                         </div>
                         <p>{{__('Postavke')}}</p>
                         <div class="extra-elements">
-                            <div class="rotate-element"><i class="fas fa-angle-right"></i></div>
+                            <div class="rotate-element"><img class="fa-angle-right" src="{{ asset('images/font-awesome/chevron-right-solid.svg') }}" alt=""></div>
                         </div>
                     </div>
                     <div class="inside-links active-links">
@@ -259,6 +259,15 @@
                                 <p>{{__('Šifarnici')}}</p>
                                 <div class="additional-icon ai-grey">
                                     <img class="key" src="{{ asset('images/font-awesome/key-solid.svg') }}" alt="">
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{ route('system.settings.seasons') }}">
+                            <div class="inside-lm-link">
+                                <div class="ilm-l"></div><div class="ilm-c"></div>
+                                <p>{{__('Sezone')}}</p>
+                                <div class="additional-icon ai-grey">
+                                    <img class="key" src="{{ asset('images/font-awesome/calendar-regular-white.svg') }}" alt="">
                                 </div>
                             </div>
                         </a>

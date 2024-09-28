@@ -165,5 +165,15 @@ Route::group(['namespace' => 'System', 'prefix' => '/system'], function(){
              */
             Route::get ('/sync-keywords',                       'KeywordsController@syncKeywords')->name('system.settings.keywords.sync');
         });
+
+        /*
+         *  Seasons; Sync seasons with users
+         */
+        Route::group(['prefix' => '/seasons'], function(){
+            Route::get ('/',                                    'SeasonsController@index')->name('system.settings.seasons');
+            Route::get ('/preview/{id}',                        'SeasonsController@preview')->name('system.settings.seasons.preview');
+
+            Route::get ('/sync',                                'SeasonsController@sync')->name('system.settings.seasons.sync');
+        });
     });
 });

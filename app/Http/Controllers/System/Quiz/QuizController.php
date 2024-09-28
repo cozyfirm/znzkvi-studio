@@ -221,7 +221,10 @@ class QuizController extends Controller{
                 ]);
             }else{
                 /* Delete all users from local database */
-                User::where('role', '!=', 4)->delete();
+                // User::where('role', '!=', 4)->delete();
+                /**
+                 *  Do not delete previous users on system !!
+                 */
 
                 return redirect()->route('system.quiz')->with('api-success', [
                     'message' => __('Svi setovi pitanja su uspješno sinhronizovani prema centralnom sistemu!'),
