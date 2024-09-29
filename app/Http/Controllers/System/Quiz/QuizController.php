@@ -136,7 +136,7 @@ class QuizController extends Controller{
                     $this->_totalInserted ++;
                 }
 
-                return $this->jsonResponse('0000', __('Sinhronizacija uspješno izvršena. Ukupno sinhronizovano ') . $this->_totalInserted . __(' setova.'));
+                return $this->jsonSuccess(__('Sinhronizacija uspješno izvršena. Ukupno sinhronizovano ') . $this->_totalInserted . __(' setova!'), route('system.quiz'));
             }else{
                 /* ToDo -- Log error into local database */
                 return $this->jsonResponse('20351', __('Problem u komunikaciji sa centralnim sistemom. Molimo pokušajte ponovo!'));
