@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 
 class UsersPlayController extends Controller{
     use LogTrait;
+    protected $_limit_days = 30;
 
     protected $_path = 'system.quiz-play.users.';
     protected $_message = "";
@@ -215,6 +216,18 @@ class UsersPlayController extends Controller{
                 try{
                     /* Set by default to false */
                     $user->hasScore = false;
+                    $beginningDate = Carbon::now()->subMonth()->format('Y-m-d');
+
+                    $user->quizzes_in_last_month = HistoryScore::where('user_id', '=', $user->id)->where('date', '>=', $beginningDate)->orderBy('date', 'DESC')->count();
+                    $user->allowed_to_play = $user->quizzes_in_last_month < 2;
+
+                    if($user->quizzes_in_last_month == 0){
+                        $user->additional_info = __('Korisnik/ca nije igrala u zadnjih mjesec dana!');
+                    }else if($user->quizzes_in_last_month == 1){
+                        $user->additional_info = __('Korisnik/ca je igrala jednom u zadnjih mjesec dana!');
+                    }else{
+                        $user->additional_info = __('Korisnik/ca je igrao/la ' . $user->quizzes_in_last_month .' puta u zadnjih mjesec dana!');
+                    }
 
                     /* Get last score from user */
                     $score = HistoryScore::where('user_id', '=', $user->id)->orderBy('date', 'DESC')->first();

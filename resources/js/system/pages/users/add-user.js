@@ -44,8 +44,9 @@ $(document).ready(function (){
                         $(".users__invisible__wrapper").empty();
 
                         for(let i=0; i<users.length; i++){
+                            let wrapperClas = (users[i]['allowed_to_play'] === true) ? "user__wrapper" : "user__wrapper not_allowed";
                             $(".users__invisible__wrapper").append(function (){
-                                return $("<div>").attr('class', 'user__wrapper')
+                                return $("<div>").attr('class', wrapperClas)
                                     .append(function (){
                                         return $("<div>").attr('class', 'user__info')
                                             .append(function (){
@@ -78,6 +79,9 @@ $(document).ready(function (){
                                                 if(users[i]['hasScore'] === true){
                                                     return $("<small>").text(users[i]['score_exp']);
                                                 }
+                                            })
+                                            .append(function (){
+                                                return $("<small>").text(users[i]['additional_info']);
                                             })
                                             .append(function (){
                                                 return $("<div>").attr('class', 'use__it').attr('user-id', users[i]['id'])
