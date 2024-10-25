@@ -1,6 +1,6 @@
 html{
     body{
-        margin: 0px; padding: 0px;
+        margin: 0px; padding: 0px; font-family: 'Inter-Light', sans-serif;
     }
 }
 
@@ -70,9 +70,14 @@ html{
                         position: absolute; left: 0px; top:0px; right: 0px; bottom: 0px; max-height: 80%; max-width: 80%; margin: auto;
                     }
                 }
-
+                .input-group-text{
+                    font-family: 'Inter-Light', sans-serif;
+                }
                 textarea{
-                    font-size: 18px; outline: none !important; resize: none;
+                    font-size: 18px; outline: none !important; resize: none; font-family: 'Inter-Light', sans-serif;
+                }
+                input{
+                    font-family: 'Inter-Light', sans-serif;
                 }
             }
         }
