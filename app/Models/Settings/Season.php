@@ -15,7 +15,7 @@ class Season extends Model{
     protected $guarded = ['id'];
 
     public function seasonRel(): HasOne{
-        return $this->hasOne(Keyword::class, 'id', 'season_id')->where('type', 'seasons');
+        return $this->hasOne(Keyword::class, 'value', 'season_id')->where('type', 'seasons');
     }
     public function date(): string{
         return isset($this->date) ? Carbon::parse($this->date)->format('d.m.Y') : '';

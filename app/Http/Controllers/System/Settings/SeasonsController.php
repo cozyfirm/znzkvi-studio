@@ -20,7 +20,7 @@ class SeasonsController extends Controller{
         $episodes = Season::where('id', '>', 0)->orderBy('id');
         $episodes = Filters::filter($episodes);
         $filters = [
-            'season' => __('Sezona'),
+            'seasonRel.name' => __('Sezona'),
             'episode' => __('Epizoda'),
             'date' => __('Datum')
         ];
